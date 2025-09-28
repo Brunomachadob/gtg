@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Bed, Plus } from 'lucide-react';
+import { Bed, Plus, Target, Clock } from 'lucide-react';
 import { Config, Exercise } from '../../types';
 import { useSession } from '../../hooks/useSession';
-import { CountdownTimer } from '../CountdownTimer/CountdownTimer';
 import './Today.css';
 
 interface CountdownData {
@@ -31,7 +30,6 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
 
   // Calculate completed sets
   const completedSets = setsDone.filter((reps: number) => reps > 0).length;
-  const progressPercentage = Math.min((completedSets / config.sets) * 100, 100); // Cap at 100%
   const hasReachedMinimum = completedSets >= config.sets;
 
   // If today is a rest day, show rest message
@@ -68,46 +66,54 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
 
   return (
     <div className="today-page">
-      {/* Fixed Header with Progress Counter */}
+      {/* Fixed Header with Progress Cards */}
       <div className="today-header">
-        {/* Modern Progress Counter with Exercise and Countdown */}
-        <div className="progress-counter">
-          <div
-            key={`progress-${completedSets}-${config.sets}`}
-            className={`progress-bubble ${countdown?.reminder ? 'reminder-active' : ''} ${countdown?.timeRemaining ? 'countdown-active' : ''}`}
-            style={{
-              '--progress': `${progressPercentage}%`,
-              '--countdown-progress': countdown ? `${countdown.countdownProgress}%` : '0%'
-            } as React.CSSProperties}
-          >
-            {/* Animated countdown border */}
-            {countdown && countdown.timeRemaining > 0 && (
-              <div className="countdown-border"></div>
-            )}
+        {/* Progress Cards Grid */}
+        <div className="progress-cards">
+          {/* Set Counter Card */}
+          <div className="progress-card set-progress">
+            <div className="progress-icon">
+              <Target className="text-green-600" size={24} />
+            </div>
+            <div className="exercise-name">{todayExercise}</div>
+            <div className="progress-value">
+              {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
+            </div>
+            <div className="progress-label">sets completed</div>
+          </div>
 
-            {/* Progress content */}
-            <div className="progress-content">
-              <div className="exercise-name">{todayExercise}</div>
-              <div className="progress-text">
-                {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''} sets
+          {/* Countdown Card */}
+          {countdown && (
+            <div className={`progress-card countdown-progress ${countdown.reminder ? 'reminder-active' : ''}`}>
+              <div className="progress-icon">
+                <Clock className="text-blue-600" size={24} />
               </div>
-
-              {/* Use CountdownTimer component in integrated mode */}
-              {countdown && (
-                <CountdownTimer
-                  timeRemaining={countdown.timeRemaining}
-                  progressPercentage={countdown.countdownProgress}
-                  formatTime={countdown.formatTime}
-                  integrated={true}
-                  reminder={countdown.reminder}
-                  onDismissReminder={countdown.dismissReminder}
-                />
+              {countdown.reminder ? (
+                <div className="card-reminder-content">
+                  <div className="reminder-title">Time's Up!</div>
+                  <div className="reminder-message">Ready for your next set</div>
+                  <button className="dismiss-btn-card" onClick={countdown.dismissReminder}>
+                    Dismiss
+                  </button>
+                </div>
+              ) : countdown.timeRemaining > 0 ? (
+                <div className="card-countdown-content">
+                  <div className="countdown-title">Reminder</div>
+                  <div className="countdown-value">{countdown.formatTime(countdown.timeRemaining)}</div>
+                  <div className="countdown-label">until next set</div>
+                </div>
+              ) : (
+                <div className="card-countdown-content">
+                  <div className="countdown-title">Complete</div>
+                  <div className="countdown-value">--:--</div>
+                  <div className="countdown-label">all sets done</div>
+                </div>
               )}
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Completion message right below the counter */}
+        {/* Completion message below the cards */}
         {hasReachedMinimum && (
           <p className="completion-message">
             {completedSets === config.sets

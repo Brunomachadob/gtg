@@ -27,6 +27,15 @@ export function useSession(sets: number, reminderIntervalMinutes: number) {
     }
   }, [setsDone, reminder, nextReminderTime]);
 
+  // Reset timer when interval configuration changes
+  useEffect(() => {
+    if (nextReminderTime && !reminder) {
+      // If there's an active timer and no current reminder, reset it with the new interval
+      const reminderTime = Date.now() + REMINDER_INTERVAL;
+      setNextReminderTime(reminderTime);
+    }
+  }, [REMINDER_INTERVAL]); // Reset when the interval changes
+
   // Request notification permission on component mount
   useEffect(() => {
     if ('Notification' in window && Notification.permission === 'default') {

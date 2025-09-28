@@ -18,6 +18,14 @@
   z-index: 10;
 }
 
+/* Progress Cards Grid */
+.progress-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
 /* Scrollable Sets Container */
 .sets-container {
   flex: 1;
@@ -32,32 +40,6 @@
   grid-template-columns: repeat(auto-fit, minmax(160px, 200px));
   gap: 16px;
   justify-content: start;
-}
-
-.reminder-section {
-  margin-top: 20px;
-}
-
-.reminder-box {
-  border: 1px solid #ccc;
-  padding: 16px;
-  border-radius: 8px;
-  background: #fff3cd;
-  border-color: #ffeaa7;
-}
-
-.reminder-box button {
-  background: #f39c12;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 8px;
-}
-
-.reminder-box button:hover {
-  background: #e67e22;
 }
 
 .completion-message {
@@ -90,105 +72,41 @@
   line-height: 1.6;
 }
 
-.progress-counter {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.progress-bubble {
-  position: relative;
-  padding: 32px 24px;
-  background: linear-gradient(135deg, #f8f9fa, #ffffff);
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  overflow: visible;
-  width: 160px;
-  height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+/* Progress Card - matching statistics style exactly */
+.progress-card {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-/* Remove the old progress ring elements that might interfere */
-.progress-bubble::before,
-.progress-bubble::after {
-  display: none;
-}
-
-/* Progress content container */
-.progress-content {
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  position: relative;
-  z-index: 2;
 }
 
-/* Exercise name styling */
-.exercise-name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #1f2937;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 2px;
+.progress-card:hover {
+  transform: translateY(-2px);
 }
 
-/* Updated progress text styling */
-.progress-text {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #374151;
-  line-height: 1.2;
+/* Set Progress Card */
+.progress-card.set-progress {
+  background: linear-gradient(135deg, #f1f8e9, #ffffff);
 }
 
-.reminder-alert {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  animation: reminder-bounce 1s ease-in-out infinite;
+.progress-card.set-progress.completed {
+  background: linear-gradient(135deg, #e8f5e8, #dcfce7);
 }
 
-.reminder-text {
-  color: #ef4444;
-  font-weight: 700;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+/* Countdown Progress Card */
+.progress-card.countdown-progress {
+  background: linear-gradient(135deg, #f0f7ff, #ffffff);
 }
 
-.dismiss-btn {
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dismiss-btn:hover {
-  background: #dc2626;
-  transform: scale(1.05);
-}
-
-@keyframes reminder-bounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-/* Reminder active state */
-.progress-bubble.reminder-active {
+.progress-card.countdown-progress.reminder-active {
   background: linear-gradient(135deg, #fef2f2, #fee2e2);
-  border-color: rgba(239, 68, 68, 0.3);
   animation: reminder-glow 1.5s ease-in-out infinite;
 }
 
@@ -197,28 +115,110 @@
   50% { box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3); }
 }
 
-/* Celebration effect when all sets are done */
-.progress-bubble[style*="100%"] {
-  background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
-  border-color: rgba(56, 142, 60, 0.2);
+/* Progress Card Elements */
+.progress-icon {
+  margin-bottom: 4px;
+  flex-shrink: 0;
 }
 
-.progress-bubble[style*="100%"]::after {
-  background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
+.exercise-name {
+  margin: 0 0 6px 0;
+  font-size: 0.95em;
+  font-weight: 700;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-.progress-bubble[style*="100%"]::before {
-  background: conic-gradient(
-    from 0deg,
-    #388e3c 0deg,
-    #388e3c calc(var(--progress) * 3.6deg),
-    #4caf50 calc(var(--progress) * 3.6deg),
-    #4caf50 360deg
-  );
-}
-
-.progress-bubble[style*="100%"] .progress-text {
+.progress-value {
+  font-size: 2em;
+  font-weight: bold;
   color: #388e3c;
+  margin: 4px 0;
+  line-height: 1;
+}
+
+.progress-label {
+  font-size: 0.8em;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Countdown Card Elements */
+.card-countdown-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.countdown-title {
+  margin: 0 0 6px 0;
+  font-size: 0.95em;
+  font-weight: 700;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.countdown-value {
+  font-size: 2em;
+  font-weight: bold;
+  color: #3b82f6;
+  margin: 4px 0;
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 0.8em;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Reminder Content */
+.card-reminder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.reminder-title {
+  margin: 0 0 6px 0;
+  font-size: 0.95em;
+  font-weight: 700;
+  color: #ef4444;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.reminder-message {
+  font-size: 0.8em;
+  color: #6b7280;
+  margin: 2px 0 8px 0;
+}
+
+.dismiss-btn-card {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dismiss-btn-card:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
 }
 
 /* Completed set card styling - match statistics style */

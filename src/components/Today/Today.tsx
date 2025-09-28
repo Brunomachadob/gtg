@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Bed, Plus, Target, Clock } from 'lucide-react';
+import { Bed, Plus, Target, Clock, Trophy, Edit3 } from 'lucide-react';
 import { Config, Exercise } from '../../types';
 import { useSession } from '../../hooks/useSession';
+import { useMaxReps } from '../../hooks/useMaxReps';
 import './Today.css';
 
 interface CountdownData {
@@ -21,12 +22,20 @@ interface TodayProps {
 export function Today({ config, todayExercise, countdown }: TodayProps) {
   const [showRepsInput, setShowRepsInput] = useState(false);
   const [newSetReps, setNewSetReps] = useState(0);
+  const [showMaxRepsInput, setShowMaxRepsInput] = useState<string | null>(null);
+  const [newMaxReps, setNewMaxReps] = useState(0);
+  const [newGoalReps, setNewGoalReps] = useState(0);
+  const [showReminderInput, setShowReminderInput] = useState(false);
+  const [newReminderInterval, setNewReminderInterval] = useState(0);
 
   // Get session data for set cards
   const {
     setsDone,
     addSetWithReps
   } = useSession(config.sets, config.reminderIntervalMinutes);
+
+  // Get max reps data
+  const { getExerciseData, setCurrentMax, canUpdateMax } = useMaxReps();
 
   // Calculate completed sets
   const completedSets = setsDone.filter((reps: number) => reps > 0).length;
@@ -97,6 +106,68 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
     setNewSetReps(0);
   };
 
+  const handleUpdateMaxReps = (exercise: string) => {
+    const exerciseKey = exercise === 'Pull Ups' ? 'pullUps' : 'dips';
+    const currentData = getExerciseData(exercise);
+    setNewMaxReps(currentData.currentMax);
+    setNewGoalReps(config.goals[exerciseKey]);
+    setShowMaxRepsInput(exercise);
+  };
+
+  const handleSubmitMaxReps = () => {
+    if (showMaxRepsInput && newMaxReps >= 0 && newGoalReps > 0) {
+      // Update current max
+      setCurrentMax(showMaxRepsInput, newMaxReps);
+
+      // Update goal in config
+      const exerciseKey = showMaxRepsInput === 'Pull Ups' ? 'pullUps' : 'dips';
+      const updatedConfig = {
+        ...config,
+        goals: {
+          ...config.goals,
+          [exerciseKey]: newGoalReps
+        }
+      };
+      // We need to get setConfig from props, but it's not currently passed
+      // For now, we'll update it via the same pattern used in Config component
+      localStorage.setItem('gtg_config', JSON.stringify(updatedConfig));
+      window.location.reload(); // Force reload to update config
+    }
+    setShowMaxRepsInput(null);
+    setNewMaxReps(0);
+    setNewGoalReps(0);
+  };
+
+  const handleCancelMaxReps = () => {
+    setShowMaxRepsInput(null);
+    setNewMaxReps(0);
+    setNewGoalReps(0);
+  };
+
+  const handleUpdateReminder = () => {
+    setNewReminderInterval(config.reminderIntervalMinutes);
+    setShowReminderInput(true);
+  };
+
+  const handleSubmitReminder = () => {
+    if (newReminderInterval >= 0) {
+      // Update reminder interval in config
+      const updatedConfig = {
+        ...config,
+        reminderIntervalMinutes: newReminderInterval
+      };
+      localStorage.setItem('gtg_config', JSON.stringify(updatedConfig));
+      window.location.reload(); // Force reload to update config
+    }
+    setShowReminderInput(false);
+    setNewReminderInterval(0);
+  };
+
+  const handleCancelReminder = () => {
+    setShowReminderInput(false);
+    setNewReminderInterval(0);
+  };
+
   return (
     <div className="today-page">
       {/* Fixed Header with Progress Cards */}
@@ -115,8 +186,8 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
             <div className="progress-label">sets completed</div>
           </div>
 
-          {/* Countdown Card - always show to maintain discoverability */}
-          <div className={`progress-card countdown-progress ${countdown?.reminder ? 'reminder-active' : ''}`}>
+          {/* Countdown Card - clickable to configure reminder */}
+          <div className={`progress-card countdown-progress reminder-card ${countdown?.reminder ? 'reminder-active' : ''}`} onClick={handleUpdateReminder}>
             <div className="progress-icon">
               <Clock className="text-blue-600" size={24} />
             </div>
@@ -124,13 +195,16 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
               <div className="card-countdown-content">
                 <div className="countdown-title">Reminder</div>
                 <div className="countdown-value">OFF</div>
-                <div className="countdown-label">enable in config</div>
+                <div className="countdown-label">tap to configure</div>
               </div>
             ) : countdown?.reminder ? (
               <div className="card-reminder-content">
                 <div className="reminder-title">Time's Up!</div>
                 <div className="reminder-message">Ready for your next set</div>
-                <button className="dismiss-btn-card" onClick={countdown.dismissReminder}>
+                <button className="dismiss-btn-card" onClick={(e) => {
+                  e.stopPropagation();
+                  countdown.dismissReminder();
+                }}>
                   Dismiss
                 </button>
               </div>
@@ -138,15 +212,52 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
               <div className="card-countdown-content">
                 <div className="countdown-title">Reminder</div>
                 <div className="countdown-value">{countdown.formatTime(countdown.timeRemaining)}</div>
-                <div className="countdown-label">until next set</div>
+                <div className="countdown-label">tap to configure</div>
               </div>
             ) : (
               <div className="card-countdown-content">
                 <div className="countdown-title">Complete</div>
                 <div className="countdown-value">--:--</div>
-                <div className="countdown-label">all sets done</div>
+                <div className="countdown-label">tap to configure</div>
               </div>
             )}
+            <div className="update-indicator reminder-indicator">
+              <Edit3 size={16} />
+            </div>
+          </div>
+
+          {/* Pull Ups Max Reps Card */}
+          <div className="progress-card max-reps-card pull-ups" onClick={() => handleUpdateMaxReps('Pull Ups')}>
+            <div className="progress-icon">
+              <Trophy className="text-purple-600" size={24} />
+            </div>
+            <div className="exercise-name">Pull Ups Max</div>
+            <div className="progress-value">
+              {getExerciseData('Pull Ups').currentMax} / {config.goals.pullUps}
+            </div>
+            <div className="progress-label">
+              tap to configure
+            </div>
+            <div className="update-indicator">
+              <Edit3 size={16} />
+            </div>
+          </div>
+
+          {/* Dips Max Reps Card */}
+          <div className="progress-card max-reps-card dips" onClick={() => handleUpdateMaxReps('Dips')}>
+            <div className="progress-icon">
+              <Trophy className="text-amber-600" size={24} />
+            </div>
+            <div className="exercise-name">Dips Max</div>
+            <div className="progress-value">
+              {getExerciseData('Dips').currentMax} / {config.goals.dips}
+            </div>
+            <div className="progress-label">
+              tap to configure
+            </div>
+            <div className="update-indicator">
+              <Edit3 size={16} />
+            </div>
           </div>
         </div>
 
@@ -187,6 +298,74 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
                 Add Set
               </button>
               <button onClick={handleCancelSet}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal overlay for max reps input - shown on top when needed */}
+      {showMaxRepsInput && (
+        <div className="max-reps-input-modal">
+          <div className="max-reps-input-content">
+            <div className="max-reps-input-label">Configure {showMaxRepsInput}</div>
+
+            <div className="input-group">
+              <div className="max-reps-input-label">Current Max Reps:</div>
+              <input
+                type="number"
+                min={0}
+                value={newMaxReps}
+                onChange={e => setNewMaxReps(Number(e.target.value))}
+                className="max-reps-input"
+                placeholder="0"
+              />
+            </div>
+
+            <div className="input-group">
+              <div className="max-reps-input-label">Goal Reps:</div>
+              <input
+                type="number"
+                min={1}
+                value={newGoalReps}
+                onChange={e => setNewGoalReps(Number(e.target.value))}
+                className="max-reps-input"
+                placeholder="20"
+              />
+            </div>
+
+            <div className="max-reps-input-buttons">
+              <button onClick={handleSubmitMaxReps} disabled={newGoalReps <= 0}>
+                Save Settings
+              </button>
+              <button onClick={handleCancelMaxReps}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal overlay for reminder input - shown on top when needed */}
+      {showReminderInput && (
+        <div className="reminder-input-modal">
+          <div className="reminder-input-content">
+            <div className="reminder-input-label">Set Reminder Interval</div>
+
+            <div className="input-group">
+              <div className="reminder-input-label">Interval (minutes):</div>
+              <input
+                type="number"
+                min={0}
+                value={newReminderInterval}
+                onChange={e => setNewReminderInterval(Number(e.target.value))}
+                className="reminder-input"
+                placeholder="0"
+              />
+            </div>
+
+            <div className="reminder-input-buttons">
+              <button onClick={handleSubmitReminder} disabled={newReminderInterval < 0}>
+                Save Reminder
+              </button>
+              <button onClick={handleCancelReminder}>Cancel</button>
             </div>
           </div>
         </div>

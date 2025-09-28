@@ -20,6 +20,16 @@ export function Config({ config, setConfig }: ConfigProps) {
     setConfig({ ...config, sets });
   };
 
+  const updateGoal = (exercise: 'pullUps' | 'dips', goal: number) => {
+    setConfig({
+      ...config,
+      goals: {
+        ...config.goals,
+        [exercise]: goal
+      }
+    });
+  };
+
   const resetTodaysSets = () => {
     const todayKey = new Date().toISOString().slice(0, 10);
     localStorage.removeItem(`gtg_sessions_${todayKey}`);
@@ -60,7 +70,7 @@ export function Config({ config, setConfig }: ConfigProps) {
       <div className="config-section">
         <div className="flex items-center gap-2 mb-4">
           <Hash className="text-green-600" size={20} />
-          <h3 className="mb-0">Configurations</h3>
+          <h3 className="mb-0">Daily Settings</h3>
         </div>
         <div className="sets-reminder-config">
           <div className="config-item">
@@ -79,22 +89,45 @@ export function Config({ config, setConfig }: ConfigProps) {
               This is your daily minimum. You can always do more bonus sets!
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="config-section">
+        <div className="flex items-center gap-2 mb-4">
+          <Hash className="text-purple-600" size={20} />
+          <h3 className="mb-0">Max Reps Goals</h3>
+        </div>
+        <div className="sets-reminder-config">
           <div className="config-item">
             <div className="config-item-row">
-              <label>Reminder Interval (minutes)</label>
+              <label htmlFor="pullups-goal-input">Pull Ups Goal: </label>
               <input
+                id="pullups-goal-input"
                 type="number"
-                min={0}
-                max={240}
-                value={config.reminderIntervalMinutes}
-                onChange={e => setConfig({ ...config, reminderIntervalMinutes: Number(e.target.value) })}
+                min={1}
+                max={100}
+                value={config.goals.pullUps}
+                onChange={e => updateGoal('pullUps', Number(e.target.value))}
               />
             </div>
             <div className="config-help-text">
-              {config.reminderIntervalMinutes === 0
-                ? "Reminders are disabled. Set to a positive number to enable."
-                : `You'll get a reminder every ${config.reminderIntervalMinutes} minute${config.reminderIntervalMinutes > 1 ? 's' : ''}.`
-              }
+              Your target maximum reps for pull ups in a single set
+            </div>
+          </div>
+          <div className="config-item">
+            <div className="config-item-row">
+              <label htmlFor="dips-goal-input">Dips Goal: </label>
+              <input
+                id="dips-goal-input"
+                type="number"
+                min={1}
+                max={100}
+                value={config.goals.dips}
+                onChange={e => updateGoal('dips', Number(e.target.value))}
+              />
+            </div>
+            <div className="config-help-text">
+              Your target maximum reps for dips in a single set
             </div>
           </div>
         </div>

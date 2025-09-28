@@ -8,6 +8,11 @@ export interface Config {
   days: Exercise[];
   sets: number;
   reminderIntervalMinutes: number;
+  // Max reps goals for each exercise
+  goals: {
+    pullUps: number;
+    dips: number;
+  };
 }
 
 export interface SessionData {
@@ -39,6 +44,17 @@ export interface Statistics {
       bonusDays: number;
       averageBonusSets: number;
     };
+  };
+}
+
+export interface MaxRepsData {
+  [exercise: string]: {
+    currentMax: number;
+    lastUpdated: string; // ISO date string
+    history: {
+      date: string;
+      maxReps: number;
+    }[];
   };
 }
 

@@ -1,6 +1,5 @@
 .config-page {
-  max-width: 1200px; /* Increased from 600px to use more screen space */
-  margin: 0 auto;
+  margin: 0;
   padding: 20px; /* Add padding to prevent content from hiding behind header */
   padding-top: 40px; /* Extra top padding for the fixed header */
 }

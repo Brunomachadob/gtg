@@ -12,18 +12,18 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   return (
     <nav className="navigation">
       <button
-        className={currentPage === 'today' ? 'active' : ''}
-        onClick={() => onPageChange('today')}
-      >
-        <Calendar size={20} />
-        <span>Today</span>
-      </button>
-      <button
         className={currentPage === 'config' ? 'active' : ''}
         onClick={() => onPageChange('config')}
       >
         <Settings size={20} />
         <span>Configure</span>
+      </button>
+      <button
+        className={`main-button ${currentPage === 'today' ? 'active' : ''}`}
+        onClick={() => onPageChange('today')}
+      >
+        <Calendar size={28} />
+        <span>Today</span>
       </button>
       <button
         className={currentPage === 'stats' ? 'active' : ''}

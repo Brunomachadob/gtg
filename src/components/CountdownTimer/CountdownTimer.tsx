@@ -7,9 +7,54 @@ interface CountdownTimerProps {
   progressPercentage: number;
   formatTime: (ms: number) => string;
   compact?: boolean;
+  // New props for integrated mode
+  integrated?: boolean;
+  reminder?: boolean;
+  onDismissReminder?: () => void;
 }
 
-export function CountdownTimer({ timeRemaining, progressPercentage, formatTime, compact = false }: CountdownTimerProps) {
+export function CountdownTimer({
+  timeRemaining,
+  progressPercentage,
+  formatTime,
+  compact = false,
+  integrated = false,
+  reminder = false,
+  onDismissReminder
+}: CountdownTimerProps) {
+  // If integrated mode, render the countdown display for progress counter
+  if (integrated) {
+    return (
+      <>
+        {/* Animated countdown border */}
+        {timeRemaining > 0 && (
+          <div className="countdown-border"></div>
+        )}
+
+        {/* Countdown display */}
+        <div className="countdown-display">
+          {reminder ? (
+            <div className="reminder-alert">
+              <span className="reminder-text">Time for your set!</span>
+              <button className="dismiss-btn" onClick={onDismissReminder}>
+                Dismiss
+              </button>
+            </div>
+          ) : timeRemaining > 0 ? (
+            <div className="countdown-info">
+              <div className="next-set-label">Next set</div>
+              <div className="countdown-time">
+                <Clock size={14} />
+                <span>{formatTime(timeRemaining)}</span>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </>
+    );
+  }
+
+  // Original standalone countdown timer
   const size = compact ? 60 : 120;
   const radius = compact ? 22 : 45;
   const strokeWidth = compact ? 4 : 8;

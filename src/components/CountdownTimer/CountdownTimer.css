@@ -47,13 +47,6 @@
   margin-bottom: 4px;
 }
 
-.countdown-time {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #1f2937;
-  margin-bottom: 2px;
-}
-
 .countdown-label {
   font-size: 0.75rem;
   color: #6b7280;
@@ -76,4 +69,76 @@
 
 .countdown-circle.urgent .countdown-icon {
   color: #ef4444;
+}
+
+/* Integrated countdown styles for progress counter */
+/* Animated countdown border */
+.countdown-border {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #3b82f6 0deg,
+    #3b82f6 calc(var(--countdown-progress) * 3.6deg),
+    rgba(59, 130, 246, 0.2) calc(var(--countdown-progress) * 3.6deg),
+    rgba(59, 130, 246, 0.2) 360deg
+  );
+  animation: countdown-pulse 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes countdown-pulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+    filter: blur(1px);
+  }
+}
+
+/* Countdown display inside progress counter */
+.countdown-display {
+  margin-top: 12px;
+  font-size: 0.75rem;
+  color: #181818;
+}
+
+.countdown-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.next-set-label {
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Override the main countdown-time for integrated display */
+.countdown-display .countdown-time {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 300;
+}
+
+.countdown-display .countdown-time span {
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: #6b7280;
+}
+
+/* Countdown active state for progress bubble */
+.progress-bubble.countdown-active {
+  border-color: rgba(59, 130, 246, 0.2);
 }

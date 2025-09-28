@@ -197,3 +197,62 @@
 .reset-button:active {
   transform: translateY(0);
 }
+
+/* Sets and Reminder Configuration - Side by side layout */
+.sets-reminder-config {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.config-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 250px;
+}
+
+.config-item label {
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+.config-item input {
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 100px;
+  text-align: center;
+  font-size: 1em;
+}
+
+.config-item input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .sets-reminder-config {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .config-item {
+    min-width: auto;
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .config-item input {
+    width: 80px;
+  }
+}

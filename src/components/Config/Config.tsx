@@ -34,7 +34,7 @@ export function Config({ config, setConfig }: ConfigProps) {
       <div className="config-section">
         <div className="flex items-center gap-2 mb-4">
           <Calendar className="text-blue-600" size={20} />
-          <h3 className="mb-0">Exercise Schedule</h3>
+          <h3 className="mb-0">Schedule</h3>
         </div>
         <div className="days-grid">
           {DAYS.map((day: string, i: number) => (
@@ -60,36 +60,31 @@ export function Config({ config, setConfig }: ConfigProps) {
       <div className="config-section">
         <div className="flex items-center gap-2 mb-4">
           <Hash className="text-green-600" size={20} />
-          <h3 className="mb-0">Sets Configuration</h3>
+          <h3 className="mb-0">Configurations</h3>
         </div>
-        <div className="sets-config">
-          <label htmlFor="sets-input">Sets per day: </label>
-          <input
-            id="sets-input"
-            type="number"
-            min={1}
-            max={20}
-            value={config.sets}
-            onChange={e => updateSets(Number(e.target.value))}
-          />
-        </div>
-      </div>
-
-      <div className="config-section">
-        <div className="flex items-center gap-2 mb-4">
-          <Clock className="text-purple-600" size={20} />
-          <h3 className="mb-0">Reminder Settings</h3>
-        </div>
-        <div className="sets-config">
-          <label htmlFor="reminder-input">Reminder interval (minutes): </label>
-          <input
-            id="reminder-input"
-            type="number"
-            min={1}
-            max={240}
-            value={config.reminderIntervalMinutes}
-            onChange={e => setConfig({ ...config, reminderIntervalMinutes: Number(e.target.value) })}
-          />
+        <div className="sets-reminder-config">
+          <div className="config-item">
+            <label htmlFor="sets-input">Sets per day: </label>
+            <input
+              id="sets-input"
+              type="number"
+              min={1}
+              max={20}
+              value={config.sets}
+              onChange={e => updateSets(Number(e.target.value))}
+            />
+          </div>
+          <div className="config-item">
+            <label htmlFor="reminder-input">Reminder interval (minutes): </label>
+            <input
+              id="reminder-input"
+              type="number"
+              min={1}
+              max={240}
+              value={config.reminderIntervalMinutes}
+              onChange={e => setConfig({ ...config, reminderIntervalMinutes: Number(e.target.value) })}
+            />
+          </div>
         </div>
       </div>
 

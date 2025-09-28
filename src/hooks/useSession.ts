@@ -4,6 +4,7 @@ import { StorageService } from '../services/StorageService';
 export function useSession(sets: number, reminderIntervalMinutes: number) {
   const todayKey = new Date().toISOString().slice(0, 10);
   const REMINDER_INTERVAL = reminderIntervalMinutes * 60 * 1000; // Convert minutes to milliseconds
+  const isReminderDisabled = reminderIntervalMinutes === 0;
 
   const [setsDone, setSetsDone] = useState<number[]>(() => {
     const saved = StorageService.getSessionData(todayKey);
@@ -21,20 +22,25 @@ export function useSession(sets: number, reminderIntervalMinutes: number) {
   }, [setsDone, todayKey]);
 
   useEffect(() => {
-    if (setsDone.some(r => r === 0) && !reminder && !nextReminderTime) {
+    if (!isReminderDisabled && setsDone.some(r => r === 0) && !reminder && !nextReminderTime) {
       const reminderTime = Date.now() + REMINDER_INTERVAL;
       setNextReminderTime(reminderTime);
     }
-  }, [setsDone, reminder, nextReminderTime]);
+  }, [setsDone, reminder, nextReminderTime, isReminderDisabled, REMINDER_INTERVAL]);
 
   // Reset timer when interval configuration changes
   useEffect(() => {
-    if (nextReminderTime && !reminder) {
+    if (isReminderDisabled) {
+      // Disable reminders completely
+      setReminder(false);
+      setNextReminderTime(null);
+      setTimeRemaining(0);
+    } else if (nextReminderTime && !reminder) {
       // If there's an active timer and no current reminder, reset it with the new interval
       const reminderTime = Date.now() + REMINDER_INTERVAL;
       setNextReminderTime(reminderTime);
     }
-  }, [REMINDER_INTERVAL]); // Reset when the interval changes
+  }, [REMINDER_INTERVAL, isReminderDisabled]); // Reset when the interval changes
 
   // Request notification permission on component mount
   useEffect(() => {
@@ -123,8 +129,8 @@ export function useSession(sets: number, reminderIntervalMinutes: number) {
 
   const dismissReminder = () => {
     setReminder(false);
-    // Set next reminder
-    if (setsDone.some(r => r === 0)) {
+    // Set next reminder only if not disabled
+    if (!isReminderDisabled && setsDone.some(r => r === 0)) {
       const reminderTime = Date.now() + REMINDER_INTERVAL;
       setNextReminderTime(reminderTime);
     }

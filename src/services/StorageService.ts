@@ -11,13 +11,13 @@ export class StorageService {
       // Add default reminderIntervalMinutes if it doesn't exist (for backward compatibility)
       return {
         ...config,
-        reminderIntervalMinutes: config.reminderIntervalMinutes || 60
+        reminderIntervalMinutes: config.reminderIntervalMinutes ?? 0
       };
     }
     return {
       days: DAYS.map(() => 'Pull Ups'),
       sets: 5,
-      reminderIntervalMinutes: 60,
+      reminderIntervalMinutes: 0,
     };
   }
 

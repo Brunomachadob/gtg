@@ -1,8 +1,7 @@
 import React from 'react';
-import { Calendar, Moon, Clock, Code, RotateCcw, Hash } from 'lucide-react';
-import { Config, DAYS, EXERCISES } from '../../types';
+import { Calendar, Moon, Code, RotateCcw, Hash } from 'lucide-react';
+import { type Config, DAYS, EXERCISES } from '../../types';
 import { isDevelopment } from '../../utils/environment';
-import { StorageService } from '../../services/StorageService';
 import './Config.css';
 
 interface ConfigProps {
@@ -64,26 +63,35 @@ export function Config({ config, setConfig }: ConfigProps) {
         </div>
         <div className="sets-reminder-config">
           <div className="config-item">
-            <label htmlFor="sets-input">Sets per day: </label>
-            <input
-              id="sets-input"
-              type="number"
-              min={1}
-              max={20}
-              value={config.sets}
-              onChange={e => updateSets(Number(e.target.value))}
-            />
+            <div className="config-item-row">
+              <label htmlFor="sets-input">Sets per day: </label>
+              <input
+                id="sets-input"
+                type="number"
+                min={1}
+                max={20}
+                value={config.sets}
+                onChange={e => updateSets(Number(e.target.value))}
+              />
+            </div>
           </div>
           <div className="config-item">
-            <label htmlFor="reminder-input">Reminder interval (minutes): </label>
-            <input
-              id="reminder-input"
-              type="number"
-              min={1}
-              max={240}
-              value={config.reminderIntervalMinutes}
-              onChange={e => setConfig({ ...config, reminderIntervalMinutes: Number(e.target.value) })}
-            />
+            <div className="config-item-row">
+              <label>Reminder Interval (minutes)</label>
+              <input
+                type="number"
+                min={0}
+                max={240}
+                value={config.reminderIntervalMinutes}
+                onChange={e => setConfig({ ...config, reminderIntervalMinutes: Number(e.target.value) })}
+              />
+            </div>
+            <div className="config-help-text">
+              {config.reminderIntervalMinutes === 0
+                ? "Reminders are disabled. Set to a positive number to enable."
+                : `You'll get a reminder every ${config.reminderIntervalMinutes} minute${config.reminderIntervalMinutes > 1 ? 's' : ''}.`
+              }
+            </div>
           </div>
         </div>
       </div>

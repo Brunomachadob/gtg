@@ -82,35 +82,39 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
             <div className="progress-label">sets completed</div>
           </div>
 
-          {/* Countdown Card */}
-          {countdown && (
-            <div className={`progress-card countdown-progress ${countdown.reminder ? 'reminder-active' : ''}`}>
-              <div className="progress-icon">
-                <Clock className="text-blue-600" size={24} />
-              </div>
-              {countdown.reminder ? (
-                <div className="card-reminder-content">
-                  <div className="reminder-title">Time's Up!</div>
-                  <div className="reminder-message">Ready for your next set</div>
-                  <button className="dismiss-btn-card" onClick={countdown.dismissReminder}>
-                    Dismiss
-                  </button>
-                </div>
-              ) : countdown.timeRemaining > 0 ? (
-                <div className="card-countdown-content">
-                  <div className="countdown-title">Reminder</div>
-                  <div className="countdown-value">{countdown.formatTime(countdown.timeRemaining)}</div>
-                  <div className="countdown-label">until next set</div>
-                </div>
-              ) : (
-                <div className="card-countdown-content">
-                  <div className="countdown-title">Complete</div>
-                  <div className="countdown-value">--:--</div>
-                  <div className="countdown-label">all sets done</div>
-                </div>
-              )}
+          {/* Countdown Card - always show to maintain discoverability */}
+          <div className={`progress-card countdown-progress ${countdown?.reminder ? 'reminder-active' : ''}`}>
+            <div className="progress-icon">
+              <Clock className="text-blue-600" size={24} />
             </div>
-          )}
+            {config.reminderIntervalMinutes === 0 ? (
+              <div className="card-countdown-content">
+                <div className="countdown-title">Reminder</div>
+                <div className="countdown-value">OFF</div>
+                <div className="countdown-label">enable in config</div>
+              </div>
+            ) : countdown?.reminder ? (
+              <div className="card-reminder-content">
+                <div className="reminder-title">Time's Up!</div>
+                <div className="reminder-message">Ready for your next set</div>
+                <button className="dismiss-btn-card" onClick={countdown.dismissReminder}>
+                  Dismiss
+                </button>
+              </div>
+            ) : countdown && countdown.timeRemaining > 0 ? (
+              <div className="card-countdown-content">
+                <div className="countdown-title">Reminder</div>
+                <div className="countdown-value">{countdown.formatTime(countdown.timeRemaining)}</div>
+                <div className="countdown-label">until next set</div>
+              </div>
+            ) : (
+              <div className="card-countdown-content">
+                <div className="countdown-title">Complete</div>
+                <div className="countdown-value">--:--</div>
+                <div className="countdown-label">all sets done</div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Completion message below the cards */}

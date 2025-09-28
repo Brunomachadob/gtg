@@ -162,34 +162,35 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
 
         {/* Add Set Button - Always Visible */}
         <div className="add-set-fixed">
-          {showRepsInput ? (
-            <div className="reps-input-modal">
-              <div className="reps-input-content">
-                <div className="reps-input-label">How many reps?</div>
-                <input
-                  type="number"
-                  min={1}
-                  value={newSetReps}
-                  onChange={e => setNewSetReps(Number(e.target.value))}
-                  className="reps-input"
-                  autoFocus
-                />
-                <div className="reps-input-buttons">
-                  <button onClick={handleSubmitSet} disabled={newSetReps <= 0}>
-                    Add Set
-                  </button>
-                  <button onClick={handleCancelSet}>Cancel</button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <button className="add-set-pill" onClick={handleAddSet}>
-              <Plus size={18} />
-              <span>{hasReachedMinimum ? 'Add Bonus Set' : 'Add Set'}</span>
-            </button>
-          )}
+          <button className="add-set-pill" onClick={handleAddSet}>
+            <Plus size={18} />
+            <span>{hasReachedMinimum ? 'Add Bonus Set' : 'Add Set'}</span>
+          </button>
         </div>
       </div>
+
+      {/* Modal overlay for reps input - shown on top when needed */}
+      {showRepsInput && (
+        <div className="reps-input-modal">
+          <div className="reps-input-content">
+            <div className="reps-input-label">How many reps?</div>
+            <input
+              type="number"
+              min={1}
+              value={newSetReps}
+              onChange={e => setNewSetReps(Number(e.target.value))}
+              className="reps-input"
+              autoFocus
+            />
+            <div className="reps-input-buttons">
+              <button onClick={handleSubmitSet} disabled={newSetReps <= 0}>
+                Add Set
+              </button>
+              <button onClick={handleCancelSet}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Scrollable Sets Container */}
       <div className="sets-container">

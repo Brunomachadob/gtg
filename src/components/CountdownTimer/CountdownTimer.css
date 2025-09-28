@@ -1,0 +1,79 @@
+.countdown-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.countdown-timer.compact {
+  margin: 0;
+}
+
+.countdown-timer.compact .countdown-time {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.countdown-timer.compact .countdown-icon {
+  margin-bottom: 2px;
+}
+
+.countdown-circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countdown-svg {
+  transform: rotate(-90deg);
+}
+
+.progress-ring {
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+.countdown-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.countdown-icon {
+  color: #3b82f6;
+  margin-bottom: 4px;
+}
+
+.countdown-time {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 2px;
+}
+
+.countdown-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Animation for when countdown is nearly finished */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.countdown-circle.urgent {
+  animation: pulse 1s infinite;
+}
+
+.countdown-circle.urgent .progress-ring {
+  stroke: #ef4444;
+}
+
+.countdown-circle.urgent .countdown-icon {
+  color: #ef4444;
+}

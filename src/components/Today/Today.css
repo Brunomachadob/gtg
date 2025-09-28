@@ -1,0 +1,349 @@
+.today-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: 40px; /* Extra top padding for the fixed header */
+}
+
+.sets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 200px));
+  gap: 16px;
+  margin: 24px 0;
+  justify-content: start;
+}
+
+.reminder-section {
+  margin-top: 20px;
+}
+
+.reminder-box {
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  background: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+.reminder-box button {
+  background: #f39c12;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.reminder-box button:hover {
+  background: #e67e22;
+}
+
+.completion-message {
+  text-align: center;
+  font-size: 1.2em;
+  color: #27ae60;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.rest-day-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border-radius: 16px;
+  border: 2px solid #bae6fd;
+  margin: 20px 0;
+}
+
+.rest-day-message h2 {
+  margin: 0 0 12px 0;
+}
+
+.rest-day-message p {
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.countdown-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+  padding: 20px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.progress-counter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  margin-top: 30px; /* Add space from top to avoid header overlap */
+}
+
+.progress-bubble {
+  position: relative;
+  padding: 24px;
+  background: #f8f8f8;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.progress-bubble::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(0, 0, 0, 0.15) 0deg,
+    rgba(0, 0, 0, 0.15) calc(var(--progress) * 3.6deg),
+    rgba(0, 0, 0, 0.08) calc(var(--progress) * 3.6deg),
+    rgba(0, 0, 0, 0.08) 360deg
+  );
+  border-radius: 50%;
+  z-index: 0;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bubble::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
+  background: #f8f8f8;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.progress-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  position: relative;
+  z-index: 2;
+}
+
+/* Animation when progress changes */
+.progress-bubble {
+  animation: progressPulse 0.3s ease-out;
+}
+
+@keyframes progressPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Celebration effect when all sets are done */
+.progress-bubble[style*="100%"] {
+  background: #c8e6c9;
+  border-color: #4caf50;
+}
+
+.progress-bubble[style*="100%"]::after {
+  background: #c8e6c9;
+}
+
+.progress-bubble[style*="100%"]::before {
+  background: conic-gradient(
+    from 0deg,
+    #388e3c 0deg,
+    #388e3c calc(var(--progress) * 3.6deg),
+    #4caf50 calc(var(--progress) * 3.6deg),
+    #4caf50 360deg
+  );
+}
+
+.progress-bubble[style*="100%"] .progress-text {
+  color: #388e3c;
+}
+
+/* Completed set card styling - match SetCard design */
+.completed-set-card {
+  background: #c8e6c9;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  color: #388e3c;
+  opacity: 0.7;
+}
+
+.completed-set-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.set-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.set-number {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: rgba(22, 101, 52, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.set-checkmark {
+  font-size: 1em;
+  color: #22c55e;
+  opacity: 0.8;
+}
+
+.set-reps {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: #166534;
+  margin-bottom: 6px;
+}
+
+/* Add set card styling - match SetCard design */
+.add-set-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-set-button {
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #3b82f6;
+  font-weight: 600;
+  width: 100%;
+  height: 120px;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.add-set-button:hover {
+  background: #e0f7fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Reps input container - match SetCard design */
+.reps-input-container {
+  background: #e0f7fa;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.reps-input-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.8em;
+}
+
+.reps-input {
+  width: 60px;
+  padding: 8px;
+  border: 1px solid rgba(209, 213, 219, 0.5);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  transition: all 0.2s ease;
+}
+
+.reps-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.reps-input-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.reps-input-buttons button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.8em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.reps-input-buttons button:first-child {
+  background: rgba(59, 130, 246, 0.9);
+  color: white;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.reps-input-buttons button:first-child:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.reps-input-buttons button:first-child:disabled {
+  background: rgba(156, 163, 175, 0.6);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.reps-input-buttons button:last-child {
+  background: rgba(243, 244, 246, 0.8);
+  color: #374151;
+  border: 1px solid rgba(209, 213, 219, 0.5);
+}
+
+.reps-input-buttons button:last-child:hover {
+  background: rgba(229, 231, 235, 0.9);
+  transform: translateY(-1px);
+}

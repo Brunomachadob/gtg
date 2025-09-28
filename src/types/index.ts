@@ -21,6 +21,25 @@ export interface Statistics {
   streak: number;
   bonusDays: number;
   averageBonusSets: number;
+  // Exercise-specific statistics
+  exerciseStats: {
+    pullUps: {
+      daily: { [date: string]: number };
+      weekly: number;
+      monthly: number;
+      streak: number;
+      bonusDays: number;
+      averageBonusSets: number;
+    };
+    dips: {
+      daily: { [date: string]: number };
+      weekly: number;
+      monthly: number;
+      streak: number;
+      bonusDays: number;
+      averageBonusSets: number;
+    };
+  };
 }
 
 export type PageType = 'today' | 'config' | 'stats';

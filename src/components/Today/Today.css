@@ -88,7 +88,7 @@
 .progress-bubble {
   position: relative;
   padding: 24px;
-  background: #f8f8f8;
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -98,7 +98,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bubble::before {
@@ -153,12 +153,12 @@
 
 /* Celebration effect when all sets are done */
 .progress-bubble[style*="100%"] {
-  background: #c8e6c9;
-  border-color: #4caf50;
+  background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
+  border-color: rgba(56, 142, 60, 0.2);
 }
 
 .progress-bubble[style*="100%"]::after {
-  background: #c8e6c9;
+  background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
 }
 
 .progress-bubble[style*="100%"]::before {
@@ -175,10 +175,10 @@
   color: #388e3c;
 }
 
-/* Completed set card styling - match SetCard design */
+/* Completed set card styling - match statistics style */
 .completed-set-card {
-  background: #c8e6c9;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #f1f8e9, #ffffff);
+  border-radius: 12px;
   padding: 20px;
   text-align: center;
   position: relative;
@@ -187,15 +187,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   color: #388e3c;
-  opacity: 0.7;
+  opacity: 0.9;
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .completed-set-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .set-header {
@@ -227,7 +228,7 @@
   margin-bottom: 6px;
 }
 
-/* Add set card styling - match SetCard design */
+/* Add set card styling - match statistics style */
 .add-set-card {
   display: flex;
   align-items: center;
@@ -235,8 +236,8 @@
 }
 
 .add-set-button {
-  background: #f8f8f8;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #f0f7ff, #ffffff);
+  border-radius: 12px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
@@ -250,20 +251,20 @@
   width: 100%;
   height: 120px;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .add-set-button:hover {
-  background: #e0f7fa;
+  background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Reps input container - match SetCard design */
+/* Reps input container - match statistics style */
 .reps-input-container {
-  background: #e0f7fa;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #e0f2fe, #ffffff);
+  border-radius: 12px;
   padding: 16px;
   text-align: center;
   width: 100%;
@@ -273,7 +274,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
@@ -346,4 +347,88 @@
 .reps-input-buttons button:last-child:hover {
   background: rgba(229, 231, 235, 0.9);
   transform: translateY(-1px);
+}
+
+/* Daily History Section */
+.daily-history {
+  margin-top: 40px;
+}
+
+.daily-history .flex.items-center.gap-2.mb-4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.daily-history h3.mb-0 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.daily-history .flex {
+  display: flex;
+}
+
+.daily-history .items-center {
+  align-items: center;
+}
+
+.daily-history .gap-2 {
+  gap: 8px;
+}
+
+.daily-history .mb-4 {
+  margin-bottom: 16px;
+}
+
+.daily-history h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.history-list {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-item:hover {
+  background: #f8f9fa;
+}
+
+.history-date {
+  font-weight: 500;
+  color: #333;
+}
+
+.history-reps {
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.no-data {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  padding: 40px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
 }

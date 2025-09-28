@@ -2,11 +2,11 @@
   "name": "grease-the-groove",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://brunobrandao.github.io/grease-the-groove",
+  "homepage": "https://brunobrandao.github.io/gtg",
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build --public-url /grease-the-groove/",
+    "build": "parcel build --public-url /gtg/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

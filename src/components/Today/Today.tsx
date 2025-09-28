@@ -77,6 +77,10 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
   }
 
   const handleAddSet = () => {
+    // Get the reps from the last completed set to pre-populate the input
+    const completedSetsReps = setsDone.filter(reps => reps > 0);
+    const lastSetReps = completedSetsReps.length > 0 ? completedSetsReps[completedSetsReps.length - 1] : 0;
+    setNewSetReps(lastSetReps);
     setShowRepsInput(true);
   };
 
@@ -155,15 +159,12 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
             }
           </p>
         )}
-      </div>
 
-      {/* Scrollable Sets Container */}
-      <div className="sets-container">
-        <div className="sets-grid">
-          {/* Always show + Set button first */}
-          <div className="add-set-card">
-            {showRepsInput ? (
-              <div className="reps-input-container">
+        {/* Add Set Button - Always Visible */}
+        <div className="add-set-fixed">
+          {showRepsInput ? (
+            <div className="reps-input-modal">
+              <div className="reps-input-content">
                 <div className="reps-input-label">How many reps?</div>
                 <input
                   type="number"
@@ -180,15 +181,20 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
                   <button onClick={handleCancelSet}>Cancel</button>
                 </div>
               </div>
-            ) : (
-              <div className="add-set-button" onClick={handleAddSet}>
-                <Plus size={24} />
-                <span>{hasReachedMinimum ? 'Add Bonus Set' : 'Add Set'}</span>
-              </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <button className="add-set-pill" onClick={handleAddSet}>
+              <Plus size={18} />
+              <span>{hasReachedMinimum ? 'Add Bonus Set' : 'Add Set'}</span>
+            </button>
+          )}
+        </div>
+      </div>
 
-          {/* Show completed sets after the add button */}
+      {/* Scrollable Sets Container */}
+      <div className="sets-container">
+        <div className="sets-grid">
+          {/* Show completed sets */}
           {setsDone.map((reps: number, i: number) => {
             if (reps > 0) {
               return (

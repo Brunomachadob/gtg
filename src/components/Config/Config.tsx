@@ -75,6 +75,9 @@ export function Config({ config, setConfig }: ConfigProps) {
                 onChange={e => updateSets(Number(e.target.value))}
               />
             </div>
+            <div className="config-help-text">
+              This is your daily minimum. You can always do more bonus sets!
+            </div>
           </div>
           <div className="config-item">
             <div className="config-item-row">

@@ -45,8 +45,9 @@ export function Config({ config, setConfig }: ConfigProps) {
               <select
                 value={config.days[i]}
                 onChange={e => updateDay(i, e.target.value)}
-                className="exercise-select"
+                className={`exercise-select ${config.days[i] === '' ? 'unconfigured' : ''}`}
               >
+                <option value="" disabled>Select exercise...</option>
                 {EXERCISES.map((ex: string) => (
                   <option key={ex} value={ex}>{ex}</option>
                 ))}

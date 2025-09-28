@@ -478,3 +478,49 @@
   background: #f8f9fa;
   border-radius: 8px;
 }
+
+/* Setup Prompt Message - when schedule is not configured */
+.setup-prompt-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(135deg, #fff7ed, #fed7aa);
+  border-radius: 16px;
+  border: 2px solid #fb923c;
+  margin: 20px 0;
+}
+
+.setup-prompt-message h2 {
+  margin: 0 0 12px 0;
+}
+
+.setup-prompt-message p {
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.setup-button {
+  background: #ea580c;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+}
+
+.setup-button:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
+}
+
+.setup-button:active {
+  transform: translateY(0);
+}

@@ -15,7 +15,7 @@ export class StorageService {
       };
     }
     return {
-      days: DAYS.map(() => 'Pull Ups'),
+      days: DAYS.map(() => ''), // Empty schedule initially
       sets: 5,
       reminderIntervalMinutes: 0,
     };

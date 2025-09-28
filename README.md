@@ -4,7 +4,7 @@ A simple workout tracking app for the "Grease the Groove" training method.
 
 ## Live Demo
 
-🚀 **[View Live App](https://brunobrandao.github.io/grease-the-groove/)**
+🚀 **[View Live App](https://brunomb.com/gtg/)**
 
 ## Features
 

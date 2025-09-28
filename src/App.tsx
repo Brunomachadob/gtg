@@ -3,7 +3,7 @@ import React from 'react';
 import { useConfig } from './hooks/useConfig';
 import { useSession } from './hooks/useSession';
 import { useRouter } from './hooks/useRouter';
-import { Navigation, Today, Config, Statistics } from './components';
+import { Navigation, Today, Config, Statistics, About } from './components';
 
 export function App() {
   const { currentPage, navigateTo } = useRouter();
@@ -43,6 +43,7 @@ export function App() {
         )}
         {currentPage === 'config' && <Config config={config} setConfig={setConfig} />}
         {currentPage === 'stats' && <Statistics />}
+        {currentPage === 'about' && <About />}
       </main>
 
       <Navigation currentPage={currentPage} onPageChange={navigateTo} />

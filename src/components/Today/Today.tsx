@@ -55,14 +55,22 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
           <Target className="mx-auto mb-4 text-orange-500" size={48} />
           <h2 className="text-2xl font-bold text-gray-700 mb-2">Setup Required</h2>
           <p className="text-gray-600 text-center mb-4">
-            Your workout schedule isn't configured yet. Set up your weekly exercise routine to get started!
+            Your workout schedule isn't configured yet. Set up your weekly exercise routine to get started, or learn more about the Grease the Groove method first.
           </p>
-          <button
-            className="setup-button"
-            onClick={() => window.location.hash = '#config'}
-          >
-            Configure Schedule
-          </button>
+          <div className="setup-buttons">
+            <button
+              className="setup-button primary"
+              onClick={() => window.location.hash = '#config'}
+            >
+              Configure Schedule
+            </button>
+            <button
+              className="setup-button secondary"
+              onClick={() => window.location.hash = '#about'}
+            >
+              Learn More
+            </button>
+          </div>
         </div>
       </div>
     );

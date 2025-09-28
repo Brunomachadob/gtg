@@ -42,4 +42,4 @@ export interface Statistics {
   };
 }
 
-export type PageType = 'today' | 'config' | 'stats';
+export type PageType = 'today' | 'config' | 'stats' | 'about';

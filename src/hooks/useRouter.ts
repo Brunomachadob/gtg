@@ -6,6 +6,7 @@ const hashToPage: Record<string, PageType> = {
   '#today': 'today',
   '#config': 'config',
   '#stats': 'stats',
+  '#about': 'about',
   '': 'today', // Default to today when no hash
 };
 
@@ -13,6 +14,7 @@ const pageToHash: Record<PageType, string> = {
   'today': '#today',
   'config': '#config',
   'stats': '#stats',
+  'about': '#about',
 };
 
 export function useRouter() {

@@ -498,13 +498,17 @@
 }
 
 .setup-prompt-message p {
-  max-width: 400px;
+  max-width: 500px;
   line-height: 1.6;
 }
 
+.setup-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
 .setup-button {
-  background: #ea580c;
-  color: white;
   border: none;
   padding: 12px 24px;
   border-radius: 12px;
@@ -512,15 +516,49 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-width: 140px;
+}
+
+.setup-button.primary {
+  background: #ea580c;
+  color: white;
   box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
 }
 
-.setup-button:hover {
+.setup-button.primary:hover {
   background: #dc2626;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
 }
 
+.setup-button.secondary {
+  background: white;
+  color: #ea580c;
+  border: 2px solid #ea580c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.setup-button.secondary:hover {
+  background: #ea580c;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.3);
+}
+
 .setup-button:active {
   transform: translateY(0);
+}
+
+/* Mobile responsiveness for setup buttons */
+@media (max-width: 768px) {
+  .setup-buttons {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .setup-button {
+    width: 100%;
+    min-width: auto;
+  }
 }

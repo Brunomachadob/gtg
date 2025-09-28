@@ -1,12 +1,12 @@
 import './App.css';
-import React, { useState } from 'react';
-import { PageType } from './types';
+import React from 'react';
 import { useConfig } from './hooks/useConfig';
 import { useSession } from './hooks/useSession';
+import { useRouter } from './hooks/useRouter';
 import { Navigation, Today, Config, Statistics } from './components';
 
 export function App() {
-  const [page, setPage] = useState<PageType>('today');
+  const { currentPage, navigateTo } = useRouter();
   const { config, setConfig } = useConfig();
 
   // Get session data for countdown integration
@@ -28,7 +28,7 @@ export function App() {
   return (
     <div className="app">
       <main className="app-content">
-        {page === 'today' && (
+        {currentPage === 'today' && (
           <Today
             config={config}
             todayExercise={todayExercise}
@@ -41,11 +41,11 @@ export function App() {
             } : undefined}
           />
         )}
-        {page === 'config' && <Config config={config} setConfig={setConfig} />}
-        {page === 'stats' && <Statistics />}
+        {currentPage === 'config' && <Config config={config} setConfig={setConfig} />}
+        {currentPage === 'stats' && <Statistics />}
       </main>
 
-      <Navigation currentPage={page} onPageChange={setPage} />
+      <Navigation currentPage={currentPage} onPageChange={navigateTo} />
     </div>
   );
 }

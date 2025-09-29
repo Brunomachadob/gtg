@@ -305,21 +305,134 @@
   display: none;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .sets-reminder-config {
-    flex-direction: column;
-    gap: 16px;
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .config-page {
+    background: #111827;
+    color: #f9fafb;
   }
 
+  /* Config Header */
+  .config-header {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .config-header h2 {
+    color: #f9fafb;
+  }
+
+  .config-description {
+    color: #d1d5db;
+  }
+
+  /* Config Sections */
+  .config-section {
+    color: #f9fafb;
+  }
+
+  .config-section .flex {
+    border-bottom-color: #374151;
+  }
+
+  .config-section h3 {
+    color: #f9fafb;
+  }
+
+  /* Day Cards */
+  .day-card {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .day-card.rest-day {
+    background: linear-gradient(135deg, #374151, #1f2937);
+    border-color: #6b7280;
+  }
+
+  .day-card.rest-day .day-name {
+    color: #d1d5db;
+    border-bottom-color: #6b7280;
+  }
+
+  .day-card.rest-day .exercise-select {
+    background: #111827;
+    color: #d1d5db;
+  }
+
+  .day-card.rest-day:hover {
+    background: linear-gradient(135deg, #6b7280, #374151);
+  }
+
+  .day-name {
+    color: #f9fafb;
+    border-bottom-color: #6b7280;
+  }
+
+  .exercise-select {
+    background: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .exercise-select:hover {
+    border-color: #3b82f6;
+  }
+
+  .exercise-select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .exercise-select.unconfigured {
+    background: #92400e;
+    border-color: #f59e0b;
+    color: #fbbf24;
+  }
+
+  .exercise-select.unconfigured:hover {
+    border-color: #f59e0b;
+    background: #b45309;
+  }
+
+  .exercise-select.unconfigured:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+  }
+
+  /* Sets and Config Items */
+  .sets-config,
   .config-item {
-    min-width: auto;
-    flex-direction: column;
-    text-align: center;
-    gap: 8px;
+    background: #1f2937;
+    border-color: #374151;
   }
 
+  .sets-config label,
+  .config-item label {
+    color: #f9fafb;
+  }
+
+  .sets-config input,
   .config-item input {
-    width: 80px;
+    background: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .sets-config input:focus,
+  .config-item input:focus {
+    border-color: #3b82f6;
+    background: #1f2937;
+  }
+
+  .config-help-text {
+    color: #9ca3af;
+  }
+
+  /* Developer Section */
+  .developer-section {
+    background: linear-gradient(135deg, #7f1d1d, #991b1b);
+    border-color: #ef4444;
   }
 }

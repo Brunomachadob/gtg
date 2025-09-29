@@ -421,3 +421,101 @@
     gap: 12px;
   }
 }
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .statistics-page {
+    background: #111827;
+    color: #f9fafb;
+  }
+
+  /* Stats Header */
+  .stats-header h2 {
+    color: #f9fafb;
+  }
+
+  /* Stat Cards */
+  .stat-card {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .stat-card.streak {
+    background: linear-gradient(135deg, #7f1d1d, #1f2937);
+  }
+
+  .stat-card.weekly {
+    background: linear-gradient(135deg, #1e3a8a, #1f2937);
+  }
+
+  .stat-card.monthly {
+    background: linear-gradient(135deg, #065f46, #1f2937);
+  }
+
+  .stat-card.bonus {
+    background: linear-gradient(135deg, #581c87, #1f2937);
+  }
+
+  .stat-card h3,
+  .stat-value,
+  .stat-unit,
+  .bonus-average {
+    color: #f9fafb;
+  }
+
+  .exercise-name {
+    color: #d1d5db;
+  }
+
+  .exercise-value {
+    color: #f9fafb;
+  }
+
+  /* Daily Progress Graph */
+  .daily-progress-graph {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .graph-header h3 {
+    color: #f9fafb;
+  }
+
+  /* Chart Legend */
+  .legend-item {
+    color: #d1d5db;
+  }
+
+  /* History List */
+  .history-list {
+    background: #1f2937;
+  }
+
+  .history-item {
+    border-bottom-color: #374151;
+  }
+
+  .history-item:hover {
+    background: #111827;
+  }
+
+  .history-date {
+    color: #f9fafb;
+  }
+
+  .history-reps {
+    color: #60a5fa;
+  }
+
+  .no-data {
+    background: #111827;
+    color: #d1d5db;
+  }
+
+  /* Icons */
+  .stats-header svg,
+  .graph-header svg {
+    color: #f9fafb !important;
+  }
+}

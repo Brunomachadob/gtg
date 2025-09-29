@@ -18,7 +18,6 @@
 .today-header {
   flex-shrink: 0;
   padding: 0 0 20px 0; /* Remove side padding since parent has it */
-  background: #f5f7fa;
   position: relative;
   z-index: 10;
 }
@@ -35,7 +34,6 @@
 .sets-container {
   flex: 1;
   padding: 0; /* Remove padding since parent has it */
-  background: #f5f7fa;
 }
 
 .sets-grid {
@@ -609,7 +607,6 @@
 /* Responsive positioning for smaller screens */
 @media (max-width: 640px) {
   .today-page {
-    padding: 16px;
     padding-top: 32px;
   }
 
@@ -623,7 +620,6 @@
 
 @media (max-width: 480px) {
   .today-page {
-    padding: 12px;
     padding-top: 28px;
   }
 
@@ -1160,4 +1156,117 @@
 .sets-input-buttons button:last-child:hover {
   background: #e5e7eb;
   transform: translateY(-1px);
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .today-page {
+    background: #111827;
+    color: #f9fafb;
+  }
+
+  /* Progress Cards */
+  .progress-card {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .progress-card.set-progress {
+    background: linear-gradient(135deg, #1f2937, #374151);
+  }
+
+  .progress-card.set-progress.completed {
+    background: linear-gradient(135deg, #065f46, #047857);
+  }
+
+  .progress-card.countdown-progress {
+    background: linear-gradient(135deg, #1e3a8a, #1f2937);
+  }
+
+  .progress-card.countdown-progress.reminder-active {
+    background: linear-gradient(135deg, #7f1d1d, #991b1b);
+  }
+
+  .progress-card.max-reps-card.pull-ups {
+    background: linear-gradient(135deg, #581c87, #1f2937);
+  }
+
+  .progress-card.max-reps-card.dips {
+    background: linear-gradient(135deg, #92400e, #1f2937);
+  }
+
+  /* Text colors */
+  .exercise-name,
+  .progress-value,
+  .countdown-title,
+  .countdown-value,
+  .countdown-label,
+  .progress-label {
+    color: #f9fafb;
+  }
+
+  /* Set cards */
+  .completed-set-card {
+    background: linear-gradient(135deg, #065f46, #047857);
+    border-color: #059669;
+    color: #f0fdf4;
+  }
+
+  .completed-set-card .set-number,
+  .completed-set-card .set-reps {
+    color: #f0fdf4 !important;
+  }
+
+  .completed-set-card .set-checkmark {
+    color: #86efac !important;
+  }
+
+  /* Rest and setup messages */
+  .rest-day-message {
+    background: linear-gradient(135deg, #1e3a8a, #1e40af);
+    border-color: #3b82f6;
+    color: #f9fafb;
+  }
+
+  .setup-prompt-message {
+    background: linear-gradient(135deg, #92400e, #c2410c);
+    border-color: #ea580c;
+    color: #f9fafb;
+  }
+
+  /* Floating Action Button - already has good contrast */
+
+  /* Modal backgrounds */
+  .reps-input-content,
+  .max-reps-input-content,
+  .reminder-input-content,
+  .sets-input-content {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+
+  /* Input fields */
+  .reps-input-content .reps-input,
+  .max-reps-input,
+  .reminder-input,
+  .sets-input {
+    background: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .reps-input-content .reps-input:focus,
+  .max-reps-input:focus,
+  .reminder-input:focus,
+  .sets-input:focus {
+    background: #1f2937;
+    border-color: #3b82f6;
+  }
+
+  /* Icons */
+  .progress-card svg,
+  .today-header svg {
+    color: #f9fafb !important;
+  }
 }

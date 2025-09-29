@@ -22,3 +22,11 @@ html, body {
   flex: 1;
   /* Remove overflow: hidden to allow scrolling */
 }
+
+/* Dark mode base styles */
+@media (prefers-color-scheme: dark) {
+  .app {
+    background: #111827;
+    color: #f9fafb;
+  }
+}

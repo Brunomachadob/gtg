@@ -74,3 +74,34 @@
     font-size: 0.7rem;
   }
 }
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .navigation {
+    background: rgba(31, 41, 55, 0.95);
+    border-color: rgba(75, 85, 99, 0.2);
+  }
+
+  .navigation button {
+    color: #d1d5db;
+  }
+
+  .navigation button:hover {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+  }
+
+  .navigation button.active {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .navigation button.active:hover {
+    background: #2563eb;
+  }
+
+  /* Fix icon visibility */
+  .navigation svg {
+    color: inherit !important;
+  }
+}

@@ -308,6 +308,90 @@
   box-shadow: none;
 }
 
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  .developer-page {
+    background: #111827;
+    color: #f9fafb;
+  }
+
+  .developer-header {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .developer-header h2 {
+    color: #f9fafb;
+  }
+
+  .developer-description {
+    color: #d1d5db;
+  }
+
+  .developer-section {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .developer-section h3 {
+    color: #f9fafb;
+    border-bottom-color: #374151;
+  }
+
+  .env-item {
+    background: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .env-item strong {
+    color: #f9fafb;
+  }
+
+  .current-date-info {
+    background: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .date-info-item {
+    color: #f9fafb;
+  }
+
+  .date-label {
+    color: #f9fafb;
+  }
+
+  .date-input {
+    background: #111827;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .date-input:focus {
+    border-color: #3b82f6;
+    background: #1f2937;
+  }
+
+  /* Fix icon visibility in dark mode */
+  .developer-header svg,
+  .date-info-item svg,
+  .dev-button svg {
+    color: #f9fafb !important;
+  }
+
+  /* Ensure button text and icons are visible */
+  .dev-button {
+    color: white !important;
+  }
+
+  .dev-button svg {
+    color: white !important;
+  }
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .developer-controls {

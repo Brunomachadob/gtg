@@ -335,7 +335,6 @@
   justify-content: center;
   text-align: center;
   padding: 60px 20px;
-  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
   border-radius: 20px;
   border: 2px dashed #cbd5e1;
   margin: 20px 0;
@@ -1454,23 +1453,6 @@
   font-size: 0.9rem;
 }
 
-.exercise-input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  background: #1f2937;
-  color: #f9fafb;
-  transition: all 0.2s ease;
-}
-
-.exercise-input:focus {
-  border-color: #f87171;
-  background: #111827;
-  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.1);
-}
-
 /* Dark mode styles */
 @media (prefers-color-scheme: dark) {
   .today-page {
@@ -1652,6 +1634,12 @@
   .schedule-day {
     color: #f9fafb;
   }
+
+  /* Headers - make them brighter in dark mode following Statistics component colors */
+  .sets-header h3,
+  .section-header h3 {
+    color: #f9fafb;
+  }
 }
 
 .schedule-setup-button {
@@ -1754,4 +1742,3 @@
     gap: 10px;
   }
 }
-

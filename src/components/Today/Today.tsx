@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bed, Plus, Target, Clock, Trophy, Edit3, Calendar, Info, X } from 'lucide-react';
+import { Bed, Plus, Target, Clock, ChevronUp, ChevronDown, Edit3, Calendar, Info, X } from 'lucide-react';
 import {Config, Exercise, PageType} from '../../types';
 import { useSession } from '../../hooks/useSession';
 import { useMaxReps } from '../../hooks/useMaxReps';
@@ -381,7 +381,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
           {/* Pull Ups Max */}
           <div className="progress-card max-reps-card pull-ups secondary-card" onClick={() => handleUpdateMaxReps('Pull Ups')}>
             <div className="progress-icon">
-              <Trophy className="text-purple-600" size={20} />
+              <ChevronUp className="text-purple-600" size={20} />
             </div>
             <div className="card-content">
               <div className="exercise-name">Pull Ups Max</div>
@@ -397,7 +397,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
           {/* Dips Max */}
           <div className="progress-card max-reps-card dips secondary-card" onClick={() => handleUpdateMaxReps('Dips')}>
             <div className="progress-icon">
-              <Trophy className="text-amber-600" size={20} />
+              <ChevronDown className="text-amber-600" size={20} />
             </div>
             <div className="card-content">
               <div className="exercise-name">Dips Max</div>

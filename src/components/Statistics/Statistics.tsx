@@ -27,21 +27,18 @@ export function Statistics() {
   // Handle mouse events for tooltip
   const handleBarMouseEnter = (event: React.MouseEvent, point: any, exercise: 'Pull Ups' | 'Dips', reps: number) => {
     const rect = (event.currentTarget as SVGElement).getBoundingClientRect();
-    const containerRect = (event.currentTarget as SVGElement).closest('.custom-chart-wrapper')?.getBoundingClientRect();
 
-    if (containerRect) {
-      setTooltip({
-        show: true,
-        x: rect.left - containerRect.left + rect.width / 2,
-        y: rect.top - containerRect.top - 10,
-        content: {
-          date: point.date,
-          dayMonth: point.dayMonth,
-          exercise,
-          reps
-        }
-      });
-    }
+    setTooltip({
+      show: true,
+      x: rect.left + rect.width / 2,
+      y: rect.top - 10,
+      content: {
+        date: point.date,
+        dayMonth: point.dayMonth,
+        exercise,
+        reps
+      }
+    });
   };
 
   const handleBarMouseLeave = () => {
@@ -93,10 +90,10 @@ export function Statistics() {
 
   const graphData = getGraphData();
 
-  // Chart dimensions and calculations
+  // Chart dimensions and calculations - use proper pixel-based approach
   const chartWidth = 800;
-  const chartHeight = 250;
-  const padding = { top: 20, right: 30, bottom: 60, left: 50 };
+  const chartHeight = 300;
+  const padding = { top: 20, right: 40, bottom: 60, left: 50 };
   const innerWidth = chartWidth - padding.left - padding.right;
   const innerHeight = chartHeight - padding.top - padding.bottom;
 
@@ -214,24 +211,13 @@ export function Statistics() {
               className="custom-bar-chart"
               style={{ width: '100%', height: '300px' }}
             >
-              {/* Gradient Definitions */}
+              {/* Gradient definitions for card-like styling */}
               <defs>
-                {/* Pull Ups Gradients */}
-                <linearGradient id="pullUpsGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#93c5fd" />
-                  <stop offset="100%" stopColor="#60a5fa" />
-                </linearGradient>
-                <linearGradient id="pullUpsGradientHover" x1="0%" y1="0%" x2="0%" y2="100%">
+                <linearGradient id="pullups-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="#60a5fa" />
                   <stop offset="100%" stopColor="#3b82f6" />
                 </linearGradient>
-
-                {/* Dips Gradients */}
-                <linearGradient id="dipsGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#fca5a5" />
-                  <stop offset="100%" stopColor="#f87171" />
-                </linearGradient>
-                <linearGradient id="dipsGradientHover" x1="0%" y1="0%" x2="0%" y2="100%">
+                <linearGradient id="dips-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stopColor="#f87171" />
                   <stop offset="100%" stopColor="#ef4444" />
                 </linearGradient>
@@ -252,7 +238,7 @@ export function Statistics() {
                       strokeWidth="1"
                     />
                     <text
-                      x={padding.left - 10}
+                      x={padding.left - 5}
                       y={y + 4}
                       textAnchor="end"
                       fontSize="12"
@@ -271,7 +257,7 @@ export function Statistics() {
                 x2={padding.left + innerWidth}
                 y2={padding.top + innerHeight}
                 stroke="#d1d5db"
-                strokeWidth="1"
+                strokeWidth="2"
               />
 
               {/* Y-axis */}
@@ -281,7 +267,7 @@ export function Statistics() {
                 x2={padding.left}
                 y2={padding.top + innerHeight}
                 stroke="#d1d5db"
-                strokeWidth="1"
+                strokeWidth="2"
               />
 
               {/* Bars and labels */}
@@ -301,28 +287,32 @@ export function Statistics() {
                 return (
                   <g key={point.date}>
                     {/* Pull Ups bar */}
-                    <rect
-                      x={pullUpsBarX}
-                      y={pullUpsBarY}
-                      width={barWidth}
-                      height={pullUpsBarHeight}
-                      rx="2"
-                      className="chart-bar pullups-bar"
-                      onMouseEnter={(e) => handleBarMouseEnter(e, point, 'Pull Ups', point.pullUps)}
-                      onMouseLeave={handleBarMouseLeave}
-                    />
+                    {point.pullUps > 0 && (
+                      <rect
+                        x={pullUpsBarX}
+                        y={pullUpsBarY}
+                        width={barWidth}
+                        height={pullUpsBarHeight}
+                        rx="2"
+                        className="chart-bar pullups-bar"
+                        onMouseEnter={(e) => handleBarMouseEnter(e, point, 'Pull Ups', point.pullUps)}
+                        onMouseLeave={handleBarMouseLeave}
+                      />
+                    )}
 
                     {/* Dips bar */}
-                    <rect
-                      x={dipsBarX}
-                      y={dipsBarY}
-                      width={barWidth}
-                      height={dipsBarHeight}
-                      rx="2"
-                      className="chart-bar dips-bar"
-                      onMouseEnter={(e) => handleBarMouseEnter(e, point, 'Dips', point.dips)}
-                      onMouseLeave={handleBarMouseLeave}
-                    />
+                    {point.dips > 0 && (
+                      <rect
+                        x={dipsBarX}
+                        y={dipsBarY}
+                        width={barWidth}
+                        height={dipsBarHeight}
+                        rx="2"
+                        className="chart-bar dips-bar"
+                        onMouseEnter={(e) => handleBarMouseEnter(e, point, 'Dips', point.dips)}
+                        onMouseLeave={handleBarMouseLeave}
+                      />
+                    )}
 
                     {/* Pull Ups value label */}
                     {point.pullUps > 0 && (
@@ -330,7 +320,7 @@ export function Statistics() {
                         x={pullUpsBarX + barWidth / 2}
                         y={pullUpsBarY - 5}
                         textAnchor="middle"
-                        fontSize="9"
+                        fontSize="10"
                         fill="#2563eb"
                         fontWeight="600"
                       >
@@ -344,7 +334,7 @@ export function Statistics() {
                         x={dipsBarX + barWidth / 2}
                         y={dipsBarY - 5}
                         textAnchor="middle"
-                        fontSize="9"
+                        fontSize="10"
                         fill="#dc2626"
                         fontWeight="600"
                       >
@@ -419,13 +409,6 @@ export function Statistics() {
                 style={{
                   left: tooltip.x,
                   top: tooltip.y,
-                  position: 'absolute',
-                  pointerEvents: 'none',
-                  backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                  color: '#fff',
-                  padding: '8px',
-                  borderRadius: '4px',
-                  fontSize: '12px',
                   transform: 'translate(-50%, -100%)'
                 }}
               >

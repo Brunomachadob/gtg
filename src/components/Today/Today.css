@@ -306,6 +306,22 @@
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
+.add-set-pill.disabled,
+.add-set-pill:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: none;
+}
+
+.add-set-pill.disabled:hover,
+.add-set-pill:disabled:hover {
+  background: #e5e7eb;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .add-set-pill span {
   font-weight: 600;
   letter-spacing: 0.025em;
@@ -1738,3 +1754,4 @@
     gap: 10px;
   }
 }
+

@@ -57,4 +57,4 @@ export interface MaxRepsData {
   };
 }
 
-export type PageType = 'today' | 'config' | 'stats' | 'about' | 'developer';
+export type PageType = 'today' | 'stats' | 'about' | 'developer';

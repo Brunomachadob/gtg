@@ -131,15 +131,6 @@
   line-height: 1;
 }
 
-.progress-label {
-  font-size: 0.8em;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 500;
-  margin: 0;
-}
-
 /* Countdown Card Elements */
 .card-countdown-content {
   display: flex;
@@ -473,29 +464,6 @@
   padding: 40px 20px;
   background: #f8f9fa;
   border-radius: 8px;
-}
-
-/* Setup Prompt Message - when schedule is not configured */
-.setup-prompt-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(135deg, #fff7ed, #fed7aa);
-  border-radius: 16px;
-  border: 2px solid #fb923c;
-  margin: 20px 0;
-}
-
-.setup-prompt-message h2 {
-  margin: 0 0 12px 0;
-}
-
-.setup-prompt-message p {
-  max-width: 500px;
-  line-height: 1.6;
 }
 
 .setup-buttons {
@@ -1392,8 +1360,7 @@
   .progress-value,
   .countdown-title,
   .countdown-value,
-  .countdown-label,
-  .progress-label {
+  .countdown-label {
     color: #f9fafb;
   }
 
@@ -1417,12 +1384,6 @@
   .rest-day-message {
     background: linear-gradient(135deg, #1e3a8a, #1e40af);
     border-color: #3b82f6;
-    color: #f9fafb;
-  }
-
-  .setup-prompt-message {
-    background: linear-gradient(135deg, #92400e, #c2410c);
-    border-color: #ea580c;
     color: #f9fafb;
   }
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { useConfig } from './hooks/useConfig';
 import { useSession } from './hooks/useSession';
 import { useRouter } from './hooks/useRouter';
-import { Navigation, Today, Config, Statistics, About, Developer } from './components';
+import { Navigation, Today, Statistics, About, Developer } from './components';
 import { DateService } from './services/DateService';
 
 export function App() {
@@ -42,7 +42,6 @@ export function App() {
             } : undefined}
           />
         )}
-        {currentPage === 'config' && <Config config={config} setConfig={setConfig} />}
         {currentPage === 'stats' && <Statistics />}
         {currentPage === 'about' && <About />}
         {currentPage === 'developer' && <Developer />}

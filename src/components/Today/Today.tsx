@@ -60,35 +60,6 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
     );
   }
 
-  // If today's exercise is not configured (empty), show setup prompt
-  if (!todayExercise || todayExercise.trim() === '') {
-    return (
-      <div className="today-page">
-        <div className="setup-prompt-message">
-          <Target className="mx-auto mb-4 text-orange-500" size={48} />
-          <h2 className="text-2xl font-bold text-gray-700 mb-2">Setup Required</h2>
-          <p className="text-gray-600 text-center mb-4">
-            Your workout schedule isn't configured yet. Set up your weekly exercise routine to get started, or learn more about the Grease the Groove method first.
-          </p>
-          <div className="setup-buttons">
-            <button
-              className="setup-button primary"
-              onClick={() => window.location.hash = '#config'}
-            >
-              Configure Schedule
-            </button>
-            <button
-              className="setup-button secondary"
-              onClick={() => window.location.hash = '#about'}
-            >
-              Learn More
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const handleAddSet = () => {
     // Get the reps from the last completed set to pre-populate the input
     const completedSetsReps = setsDone.filter(reps => reps > 0);
@@ -236,16 +207,29 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
       <div className="today-header">
         {/* Progress Cards Grid */}
         <div className="progress-cards">
+            {/* Schedule Configuration Card - clickable to configure schedule */}
+            <div className="progress-card schedule-card" onClick={handleUpdateSchedule}>
+                <div className="progress-icon">
+                    <Calendar className="text-red-600" size={24} />
+                </div>
+                <div className="exercise-name">Weekly Schedule</div>
+                <div className="progress-value">
+                    {scheduleConfig.length} days
+                </div>
+                <div className="update-indicator">
+                    <Edit3 size={16} />
+                </div>
+            </div>
+
           {/* Set Counter Card - clickable to configure daily sets */}
           <div className="progress-card set-progress sets-card" onClick={handleUpdateSets}>
             <div className="progress-icon">
               <Target className="text-green-600" size={24} />
             </div>
-            <div className="exercise-name">{todayExercise}</div>
+            <div className="exercise-name">Daily sets</div>
             <div className="progress-value">
               {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
             </div>
-            <div className="progress-label">tap to configure</div>
             <div className="update-indicator sets-indicator">
               <Edit3 size={16} />
             </div>
@@ -258,9 +242,8 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
             </div>
             {config.reminderIntervalMinutes === 0 ? (
               <div className="card-countdown-content">
-                <div className="countdown-title">Reminder</div>
+                <div className="exercise-name">Reminder</div>
                 <div className="countdown-value">OFF</div>
-                <div className="countdown-label">tap to configure</div>
               </div>
             ) : countdown?.reminder ? (
               <div className="card-reminder-content">
@@ -277,13 +260,11 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
               <div className="card-countdown-content">
                 <div className="countdown-title">Reminder</div>
                 <div className="countdown-value">{countdown.formatTime(countdown.timeRemaining)}</div>
-                <div className="countdown-label">tap to configure</div>
               </div>
             ) : (
               <div className="card-countdown-content">
                 <div className="countdown-title">Complete</div>
                 <div className="countdown-value">--:--</div>
-                <div className="countdown-label">tap to configure</div>
               </div>
             )}
             <div className="update-indicator reminder-indicator">
@@ -300,9 +281,6 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
             <div className="progress-value">
               {getExerciseData('Pull Ups').currentMax} / {config.goals.pullUps}
             </div>
-            <div className="progress-label">
-              tap to configure
-            </div>
             <div className="update-indicator">
               <Edit3 size={16} />
             </div>
@@ -317,24 +295,6 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
             <div className="progress-value">
               {getExerciseData('Dips').currentMax} / {config.goals.dips}
             </div>
-            <div className="progress-label">
-              tap to configure
-            </div>
-            <div className="update-indicator">
-              <Edit3 size={16} />
-            </div>
-          </div>
-
-          {/* Schedule Configuration Card - clickable to configure schedule */}
-          <div className="progress-card schedule-card" onClick={handleUpdateSchedule}>
-            <div className="progress-icon">
-              <Calendar className="text-red-600" size={24} />
-            </div>
-            <div className="exercise-name">Weekly Schedule</div>
-            <div className="progress-value">
-              {scheduleConfig.length} days
-            </div>
-            <div className="progress-label">tap to configure</div>
             <div className="update-indicator">
               <Edit3 size={16} />
             </div>

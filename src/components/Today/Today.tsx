@@ -245,47 +245,108 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
 
   return (
     <div className="today-page">
-      {/* Fixed Header with Progress Cards */}
+      {/* Primary Header with Most Important Cards */}
       <div className="today-header">
-        {/* Progress Cards Grid */}
-        <div className="progress-cards">
-            {/* Schedule Configuration Card - clickable to configure schedule */}
-            <div className="progress-card schedule-card" onClick={handleUpdateSchedule}>
-                <div className="progress-icon">
-                    <Calendar className="text-red-600" size={24} />
-                </div>
-                <div className="exercise-name">Schedule</div>
-                <div className="progress-value">
-                    {todayExercise} / {getDayNames()[DateService.getCurrentDate().getDay()]}
-                </div>
-                <div className="update-indicator schedule-indicator">
-                    <Edit3 size={16} />
-                </div>
+        <div className="progress-cards primary">
+          {/* Today's Exercise - Most Important */}
+          <div className="progress-card schedule-card primary-card" onClick={handleUpdateSchedule}>
+            <div className="progress-icon">
+              <Calendar className="text-red-600" size={24} />
             </div>
+            <div className="card-content">
+              <div className="exercise-name">Today</div>
+              <div className="progress-value">{todayExercise}</div>
+            </div>
+            <div className="update-indicator schedule-indicator">
+              <Edit3 size={16} />
+            </div>
+          </div>
 
-          {/* Set Counter Card - clickable to configure daily sets */}
-          <div className="progress-card set-progress sets-card" onClick={handleUpdateSets}>
+          {/* Daily Progress - Second Most Important */}
+          <div className="progress-card set-progress sets-card primary-card" onClick={handleUpdateSets}>
             <div className="progress-icon">
               <Target className="text-green-600" size={24} />
             </div>
-            <div className="exercise-name">Daily sets</div>
-            <div className="progress-value">
-              {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
+            <div className="card-content">
+              <div className="exercise-name">Progress</div>
+              <div className="progress-value">
+                {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
+              </div>
             </div>
             <div className="update-indicator sets-indicator">
               <Edit3 size={16} />
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Countdown Card - clickable to configure reminder */}
-          <div className={`progress-card countdown-progress reminder-card ${countdown?.reminder ? 'reminder-active' : ''}`} onClick={handleUpdateReminder}>
+      {/* Sets Container - Main content area */}
+      <div className="sets-container">
+        <div className="sets-header">
+          <h3>Today's Sets</h3>
+        </div>
+
+        {/* Add Set Button - now a pill below the header */}
+        <button className="add-set-pill" onClick={handleAddSet}>
+          <Plus size={20} />
+          <span>Add Set</span>
+        </button>
+
+        <div className="sets-grid">
+          {/* Show completed sets */}
+          {setsDone.map((reps: number, i: number) => {
+            if (reps > 0) {
+              return (
+                <div key={i} className="completed-set-card">
+                  <div className="set-header">
+                    <div className="set-checkmark">✓</div>
+                    <div className="set-content">
+                      <div className="set-number">Set {i + 1}</div>
+                      <div className="set-reps">{reps} reps</div>
+                    </div>
+                  </div>
+                  <div className="set-remove-container">
+                    <button
+                      className="set-remove-button"
+                      onClick={() => removeSet(i)}
+                      title="Remove Set"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })}
+
+          {/* Empty state when no sets */}
+          {setsDone.filter(reps => reps > 0).length === 0 && (
+            <div className="empty-sets-message">
+              <Target className="empty-icon" size={32} />
+              <p>No sets completed yet today</p>
+              <p className="empty-subtitle">Tap the "Add Set" button above to get started</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Secondary Controls - Below Main Content */}
+      <div className="secondary-controls">
+        <div className="section-header">
+          <h3>Settings</h3>
+        </div>
+
+        <div className="progress-cards secondary">
+          {/* Reminder Card */}
+          <div className={`progress-card countdown-progress reminder-card secondary-card ${countdown?.reminder ? 'reminder-active' : ''}`} onClick={handleUpdateReminder}>
             <div className="progress-icon">
-              <Clock className="text-blue-600" size={24} />
+              <Clock className="text-blue-600" size={20} />
             </div>
             {config.reminderIntervalMinutes === 0 ? (
-              <div className="card-countdown-content">
+              <div className="card-content">
                 <div className="exercise-name">Reminder</div>
-                <div className="countdown-value">OFF</div>
+                <div className="progress-value">OFF</div>
               </div>
             ) : countdown?.reminder ? (
               <div className="card-reminder-content">
@@ -299,14 +360,14 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
                 </button>
               </div>
             ) : countdown && countdown.timeRemaining > 0 ? (
-              <div className="card-countdown-content">
-                <div className="countdown-title">Reminder</div>
-                <div className="countdown-value">{countdown.formatTime(countdown.timeRemaining)}</div>
+              <div className="card-content">
+                <div className="exercise-name">Reminder</div>
+                <div className="progress-value">{countdown.formatTime(countdown.timeRemaining)}</div>
               </div>
             ) : (
-              <div className="card-countdown-content">
-                <div className="countdown-title">Complete</div>
-                <div className="countdown-value">--:--</div>
+              <div className="card-content">
+                <div className="exercise-name">Reminder</div>
+                <div className="progress-value">Ready</div>
               </div>
             )}
             <div className="update-indicator reminder-indicator">
@@ -314,28 +375,32 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             </div>
           </div>
 
-          {/* Pull Ups Max Reps Card */}
-          <div className="progress-card max-reps-card pull-ups" onClick={() => handleUpdateMaxReps('Pull Ups')}>
+          {/* Pull Ups Max */}
+          <div className="progress-card max-reps-card pull-ups secondary-card" onClick={() => handleUpdateMaxReps('Pull Ups')}>
             <div className="progress-icon">
-              <Trophy className="text-purple-600" size={24} />
+              <Trophy className="text-purple-600" size={20} />
             </div>
-            <div className="exercise-name">Pull Ups Max</div>
-            <div className="progress-value">
-              {getExerciseData('Pull Ups').currentMax} / {config.goals.pullUps}
+            <div className="card-content">
+              <div className="exercise-name">Pull Ups Max</div>
+              <div className="progress-value">
+                {getExerciseData('Pull Ups').currentMax} / {config.goals.pullUps}
+              </div>
             </div>
             <div className="update-indicator pull-ups-indicator">
               <Edit3 size={16} />
             </div>
           </div>
 
-          {/* Dips Max Reps Card */}
-          <div className="progress-card max-reps-card dips" onClick={() => handleUpdateMaxReps('Dips')}>
+          {/* Dips Max */}
+          <div className="progress-card max-reps-card dips secondary-card" onClick={() => handleUpdateMaxReps('Dips')}>
             <div className="progress-icon">
-              <Trophy className="text-amber-600" size={24} />
+              <Trophy className="text-amber-600" size={20} />
             </div>
-            <div className="exercise-name">Dips Max</div>
-            <div className="progress-value">
-              {getExerciseData('Dips').currentMax} / {config.goals.dips}
+            <div className="card-content">
+              <div className="exercise-name">Dips Max</div>
+              <div className="progress-value">
+                {getExerciseData('Dips').currentMax} / {config.goals.dips}
+              </div>
             </div>
             <div className="update-indicator dips-indicator">
               <Edit3 size={16} />
@@ -343,11 +408,6 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
           </div>
         </div>
       </div>
-
-      {/* Floating Action Button - Add Set */}
-      <button className="fab-add-set" onClick={handleAddSet}>
-        <Plus size={24} />
-      </button>
 
       {/* Modal overlay for reps input - shown on top when needed */}
       {showRepsInput && (
@@ -511,38 +571,6 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
           </div>
         </div>
       )}
-
-      {/* Scrollable Sets Container */}
-      <div className="sets-container">
-        <div className="sets-grid">
-          {/* Show completed sets */}
-          {setsDone.map((reps: number, i: number) => {
-            if (reps > 0) {
-              return (
-                <div key={i} className="completed-set-card">
-                  <div className="set-header">
-                    <div className="set-checkmark">✓</div>
-                    <div className="set-content">
-                      <div className="set-number">Set {i + 1}</div>
-                      <div className="set-reps">{reps} reps</div>
-                    </div>
-                  </div>
-                  <div className="set-remove-container">
-                    <button
-                      className="set-remove-button"
-                      onClick={() => removeSet(i)}
-                      title="Remove Set"
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-                </div>
-              );
-            }
-            return null;
-          })}
-        </div>
-      </div>
     </div>
   );
 }

@@ -289,15 +289,12 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
             </div>
           </div>
         </div>
-
-        {/* Add Set Button - Always Visible */}
-        <div className="add-set-fixed">
-          <button className="add-set-pill" onClick={handleAddSet}>
-            <Plus size={18} />
-            <span>{hasReachedMinimum ? 'Add Bonus Set' : 'Add Set'}</span>
-          </button>
-        </div>
       </div>
+
+      {/* Floating Action Button - Add Set */}
+      <button className="fab-add-set" onClick={handleAddSet}>
+        <Plus size={24} />
+      </button>
 
       {/* Modal overlay for reps input - shown on top when needed */}
       {showRepsInput && (

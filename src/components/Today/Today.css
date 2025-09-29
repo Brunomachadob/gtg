@@ -1,11 +1,11 @@
 .today-page {
-  height: 100vh;
+  min-height: 100vh; /* Changed from height to min-height to allow content to extend beyond viewport */
   display: flex;
   flex-direction: column;
   padding: 20px;
   margin: 0 auto;
   padding-top: 40px; /* Extra top padding for the fixed header */
-  padding-bottom: 90px; /* Space for navigation */
+  padding-bottom: 160px; /* Significantly increased padding for navigation + FAB + extra space */
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -14,11 +14,10 @@
   scrollbar-color: #c1c1c1 #f1f1f1;
 }
 
-/* Fixed Header containing progress counter */
+/* Fixed Header containing progress counter - remove fixed positioning */
 .today-header {
   flex-shrink: 0;
-  padding: 20px 20px 0 20px;
-  padding-top: 40px; /* Extra top padding for the fixed header */
+  padding: 0 0 20px 0; /* Remove side padding since parent has it */
   background: #f5f7fa;
   position: relative;
   z-index: 10;
@@ -32,12 +31,10 @@
   margin-bottom: 24px;
 }
 
-/* Scrollable Sets Container */
+/* Sets Container - remove separate scroll, just flow with page */
 .sets-container {
   flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  padding-bottom: 100px; /* Space for navigation */
+  padding: 0; /* Remove padding since parent has it */
   background: #f5f7fa;
 }
 
@@ -550,42 +547,95 @@
   transform: translateY(0);
 }
 
-/* Fixed Add Set Button - Now positioned below progress cards */
-.add-set-fixed {
-  display: flex;
-  justify-content: center;
-  padding: 16px 20px 0 20px;
-  background: #f5f7fa;
-  position: relative;
-  z-index: 10;
-}
-
-.add-set-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* Floating Action Button - New styles */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
   background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   border: none;
-  padding: 12px 20px;
-  border-radius: 25px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
-  transition: all 0.2s ease;
-  min-width: 120px;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 100;
 }
 
-.add-set-pill:hover {
+.fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5);
+}
+
+.fab:active {
+  transform: translateY(0);
+}
+
+/* Floating Action Button - Add Set */
+.fab-add-set {
+  position: fixed;
+  bottom: 80px; /* Position above navigation - navigation is at bottom: 12px with ~60px height */
+  right: 20px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 999; /* Below modals but above content */
+}
+
+.fab-add-set:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5);
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
 }
 
-.add-set-pill:active {
+.fab-add-set:active {
   transform: translateY(0);
+}
+
+/* Responsive positioning for smaller screens */
+@media (max-width: 640px) {
+  .today-page {
+    padding: 16px;
+    padding-top: 32px;
+  }
+
+  .fab-add-set {
+    bottom: 90px; /* Extra space on small screens to avoid navigation */
+    right: 16px;
+    width: 52px;
+    height: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  .today-page {
+    padding: 12px;
+    padding-top: 28px;
+  }
+
+  .fab-add-set {
+    bottom: 95px; /* Even more space for very small screens */
+    right: 12px;
+  }
+
+  .progress-cards {
+    grid-template-columns: 1fr; /* Single column on very small screens */
+    gap: 16px;
+  }
 }
 
 /* Modal-style reps input popup */

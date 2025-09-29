@@ -6,13 +6,13 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden; /* Only hide horizontal overflow */
   color-scheme: light dark;
   font-family: system-ui;
 }
 
 .app {
-  height: 100vh;
+  min-height: 100vh; /* Changed from height to min-height */
   display: flex;
   flex-direction: column;
   background: #f5f7fa;
@@ -20,6 +20,5 @@ html, body {
 
 .app-content {
   flex: 1;
-  overflow: hidden;
-  padding-bottom: 80px; /* Space for navigation */
+  /* Remove overflow: hidden to allow scrolling */
 }

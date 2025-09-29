@@ -154,6 +154,21 @@ export function useSession(sets: number, reminderIntervalMinutes: number) {
     setNextReminderTime(null);
   };
 
+  // Remove a specific set by index
+  const removeSet = (idx: number) => {
+    if (idx < 0 || idx >= setsDone.length || setsDone[idx] === 0) return;
+
+    const updated = [...setsDone];
+    updated[idx] = 0; // Reset the set to 0 (empty)
+    setSetsDone(updated);
+
+    // If we now have incomplete sets and reminders are enabled, start the timer
+    if (!isReminderDisabled && updated.some(r => r === 0) && !reminder && !nextReminderTime) {
+      const reminderTime = Date.now() + REMINDER_INTERVAL;
+      setNextReminderTime(reminderTime);
+    }
+  };
+
   const formatTime = (ms: number) => {
     const minutes = Math.floor(ms / (1000 * 60));
     const seconds = Math.floor((ms % (1000 * 60)) / 1000);
@@ -179,6 +194,7 @@ export function useSession(sets: number, reminderIntervalMinutes: number) {
     flipCard,
     updateReps,
     dismissReminder,
-    addSetWithReps
+    addSetWithReps,
+    removeSet
   };
 }

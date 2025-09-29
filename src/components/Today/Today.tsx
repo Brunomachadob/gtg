@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bed, Plus, Target, Clock, Trophy, Edit3, Calendar, Info } from 'lucide-react';
+import { Bed, Plus, Target, Clock, Trophy, Edit3, Calendar, Info, X } from 'lucide-react';
 import {Config, Exercise, PageType} from '../../types';
 import { useSession } from '../../hooks/useSession';
 import { useMaxReps } from '../../hooks/useMaxReps';
@@ -36,7 +36,8 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
   // Get session data for set cards
   const {
     setsDone,
-    addSetWithReps
+    addSetWithReps,
+    removeSet
   } = useSession(config.sets, config.reminderIntervalMinutes);
 
   // Get max reps data
@@ -532,9 +533,19 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             if (reps > 0) {
               return (
                 <div key={i} className="completed-set-card">
+                    <div className="set-remove-container">
+                        <button
+                            className="set-remove-button"
+                            onClick={() => removeSet(i)}
+                            title="Remove Set"
+                        >
+                            <X size={16} />
+                        </button>
+                    </div>
                   <div className="set-header">
                     <div className="set-checkmark">✓</div>
                     <div className="set-number">Set {i + 1}</div>
+                    {/* Remove set button - always visible on mobile, hover to show on desktop */}
                   </div>
                   <div className="set-reps">{reps} reps</div>
                 </div>

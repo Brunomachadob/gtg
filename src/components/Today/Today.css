@@ -38,7 +38,7 @@
 
 .sets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 80px));
+  grid-template-columns: repeat(auto-fill, minmax(90px, 90px)); /* Increased from 80px to 90px */
   gap: 16px;
   justify-content: start;
 }
@@ -206,15 +206,15 @@
   transform: translateY(-1px);
 }
 
-/* Completed set card styling - smaller square design */
+/* Completed set card styling - increased size for better UX */
 .completed-set-card {
   background: linear-gradient(135deg, #f1f8e9, #ffffff);
   border-radius: 12px;
-  padding: 8px;
+  padding: 10px; /* Increased from 8px to 10px */
   text-align: center;
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 90px; /* Increased from 80px to 90px */
+  height: 90px; /* Increased from 80px to 90px */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -235,152 +235,103 @@
 .set-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 3px;
-  margin-bottom: 2px;
+  justify-content: space-between;
+  gap: 3px; /* Increased from 2px to 3px */
+  margin-bottom: 3px; /* Increased from 2px to 3px */
+  width: 100%;
+  position: relative;
+}
+
+.set-checkmark {
+  font-size: 0.85em; /* Slightly increased from 0.8em */
+  color: #22c55e;
+  opacity: 0.8;
+  flex-shrink: 0;
 }
 
 .set-number {
-  font-size: 0.7em;
+  font-size: 0.75em; /* Slightly increased from 0.7em */
   font-weight: 600;
   color: rgba(22, 101, 52, 0.7);
   text-transform: uppercase;
   letter-spacing: 0.3px;
-}
-
-.set-checkmark {
-  font-size: 0.8em;
-  color: #22c55e;
-  opacity: 0.8;
+  flex: 1;
+  text-align: center;
 }
 
 .set-reps {
-  font-size: 1.1em;
+  font-size: 1.15em; /* Slightly increased from 1.1em */
   font-weight: 700;
   color: #166534;
   margin-bottom: 0;
   line-height: 1;
 }
 
-/* Add set card styling - match statistics style */
-.add-set-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Remove button container and styling - repositioned closer to border */
+.set-remove-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
 }
 
-.add-set-button {
-  background: linear-gradient(135deg, #f0f7ff, #ffffff);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: #3b82f6;
-  font-weight: 600;
-  width: 100%;
-  height: 120px;
-  justify-content: center;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.add-set-button:hover {
-  background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-}
-
-/* Reps input container - match statistics style */
-.reps-input-container {
-  background: linear-gradient(135deg, #e0f2fe, #ffffff);
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
-  width: 100%;
-  height: 120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.reps-input-label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 0.8em;
-}
-
-.reps-input {
-  width: 60px;
-  padding: 8px;
-  border: 1px solid rgba(209, 213, 219, 0.5);
-  border-radius: 8px;
-  text-align: center;
-  font-size: 1.1em;
-  font-weight: 700;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(5px);
-  transition: all 0.2s ease;
-}
-
-.reps-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  background: rgba(255, 255, 255, 0.95);
-}
-
-.reps-input-buttons {
-  display: flex;
-  gap: 6px;
-}
-
-.reps-input-buttons button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.8em;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(5px);
-}
-
-.reps-input-buttons button:first-child {
-  background: rgba(59, 130, 246, 0.9);
+.set-remove-button {
+  width: 22px; /* Slightly increased from 20px */
+  height: 22px; /* Slightly increased from 20px */
+  border-radius: 50%;
+  background: #ef4444;
   color: white;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4); /* Slightly enhanced shadow */
+  opacity: 0;
+  transform: scale(0.8);
 }
 
-.reps-input-buttons button:first-child:hover:not(:disabled) {
-  background: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+.set-remove-button:hover {
+  background: #dc2626;
+  transform: scale(1.05); /* Slightly more scale on hover */
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.5); /* Enhanced hover shadow */
 }
 
-.reps-input-buttons button:first-child:disabled {
-  background: rgba(156, 163, 175, 0.6);
-  cursor: not-allowed;
-  transform: none;
+.set-remove-button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
 }
 
-.reps-input-buttons button:last-child {
-  background: rgba(243, 244, 246, 0.8);
-  color: #374151;
-  border: 1px solid rgba(209, 213, 219, 0.5);
+/* Desktop: Show remove button on card hover */
+@media (min-width: 769px) {
+  .completed-set-card:hover .set-remove-button {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.reps-input-buttons button:last-child:hover {
-  background: rgba(229, 231, 235, 0.9);
-  transform: translateY(-1px);
+/* Mobile and tablets: Always show remove button for better touch interaction */
+@media (max-width: 768px) {
+  .set-remove-button {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+
+  .set-remove-button:hover {
+    opacity: 1;
+  }
+
+  /* Make the remove button larger on mobile for easier touch */
+  .set-remove-button {
+    width: 26px; /* Increased from 24px */
+    height: 26px; /* Increased from 24px */
+  }
+
+  .set-remove-container {
+    top: -8px; /* Moved further out from -6px */
+    right: -8px; /* Moved further out from -6px */
+  }
 }
 
 /* Daily History Section */

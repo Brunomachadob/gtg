@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Statistics } from '../types';
 import { StorageService } from '../services/StorageService';
+import { DateService } from '../services/DateService';
 
 export function useStatistics(): Statistics {
   const [stats, setStats] = useState<Statistics>({
@@ -57,7 +58,7 @@ export function useStatistics(): Statistics {
 
     // Helper function to calculate stats for a specific exercise
     const calculateExerciseStats = (exerciseType: 'Pull Ups' | 'Dips', dailyData: { [date: string]: number }) => {
-      const now = new Date();
+      const now = DateService.getCurrentDate();
       let weekly = 0, monthly = 0;
       let streakCount = 0;
       let bonusDaysCount = 0;
@@ -112,7 +113,7 @@ export function useStatistics(): Statistics {
     };
 
     // Calculate overall stats (existing logic)
-    const now = new Date();
+    const now = DateService.getCurrentDate();
     let weekly = 0, monthly = 0;
     let streakCount = 0;
     let bonusDaysCount = 0;

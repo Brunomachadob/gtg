@@ -4,13 +4,14 @@ import { useConfig } from './hooks/useConfig';
 import { useSession } from './hooks/useSession';
 import { useRouter } from './hooks/useRouter';
 import { Navigation, Today, Config, Statistics, About, Developer } from './components';
+import { DateService } from './services/DateService';
 
 export function App() {
   const { currentPage, navigateTo } = useRouter();
   const { config, setConfig } = useConfig();
 
   // Get session data for countdown integration
-  const todayIdx = new Date().getDay();
+  const todayIdx = DateService.getCurrentDate().getDay();
   const todayExercise = config.days[todayIdx];
   const isRestDay = todayExercise === 'Rest';
 

@@ -1,21 +1,18 @@
-import { useState } from 'react';
-import { MaxRepsData } from '../types';
+import { useState, useEffect } from 'react';
 import { StorageService } from '../services/StorageService';
+import { DateService } from '../services/DateService';
+import { MaxRepsData } from '../types';
 
 export function useMaxReps() {
-  const [maxRepsData, setMaxRepsData] = useState<MaxRepsData>(() =>
-    StorageService.getMaxRepsData()
-  );
+  const [maxReps, setMaxReps] = useState<MaxRepsData>({});
 
-  const updateMaxReps = (exercise: string, newMax: number) => {
-    StorageService.updateMaxReps(exercise, newMax);
-    // Refresh data from storage to get the updated state
-    setMaxRepsData(StorageService.getMaxRepsData());
-  };
+  useEffect(() => {
+    setMaxReps(StorageService.getMaxRepsData());
+  }, []);
 
   const setCurrentMax = (exercise: string, maxReps: number) => {
     const data = StorageService.getMaxRepsData();
-    const now = new Date().toISOString();
+    const now = DateService.getCurrentDate().toISOString();
 
     if (!data[exercise]) {
       data[exercise] = {
@@ -25,9 +22,8 @@ export function useMaxReps() {
       };
     }
 
-    // Always update current max (not just when it's higher)
-    // Add to history if it's different from current max
-    if (maxReps !== data[exercise].currentMax) {
+    // Add to history if this is a new max
+    if (maxReps > data[exercise].currentMax) {
       data[exercise].history.push({
         date: now,
         maxReps: maxReps
@@ -38,33 +34,58 @@ export function useMaxReps() {
     data[exercise].lastUpdated = now;
 
     StorageService.saveMaxRepsData(data);
-    setMaxRepsData(data);
+    setMaxReps(data);
+  };
+
+  const getCurrentMax = (exercise: string): number => {
+    return maxReps[exercise]?.currentMax || 0;
+  };
+
+  const getLastUpdated = (exercise: string): string | null => {
+    const data = maxReps[exercise];
+    if (!data?.lastUpdated) return null;
+
+    return new Date(data.lastUpdated).toLocaleDateString();
+  };
+
+  const getHistory = (exercise: string) => {
+    return maxReps[exercise]?.history || [];
+  };
+
+  const getDaysSinceLastUpdate = (exercise: string): number => {
+    const data = maxReps[exercise];
+    if (!data?.lastUpdated) return 0;
+
+    const lastUpdate = new Date(data.lastUpdated);
+    const now = DateService.getCurrentDate();
+    const diffTime = Math.abs(now.getTime() - lastUpdate.getTime());
+
+    return Math.floor(diffTime / (1000 * 60 * 60 * 24));
   };
 
   const getExerciseData = (exercise: string) => {
-    return maxRepsData[exercise] || {
+    return maxReps[exercise] || {
       currentMax: 0,
       lastUpdated: '',
       history: []
     };
   };
 
-  // Check if it's been a week since last update
   const canUpdateMax = (exercise: string): boolean => {
-    const exerciseData = getExerciseData(exercise);
-    if (!exerciseData.lastUpdated) return true;
+    const data = maxReps[exercise];
+    if (!data?.lastUpdated) return true;
 
-    const lastUpdate = new Date(exerciseData.lastUpdated);
-    const now = new Date();
-    const daysDiff = Math.floor((now.getTime() - lastUpdate.getTime()) / (1000 * 60 * 60 * 24));
-
-    return daysDiff >= 7; // Allow update once per week
+    // Allow updates if it's been at least 1 day since last update
+    return getDaysSinceLastUpdate(exercise) >= 1;
   };
 
   return {
-    maxRepsData,
-    updateMaxReps,
+    maxReps,
     setCurrentMax,
+    getCurrentMax,
+    getLastUpdated,
+    getHistory,
+    getDaysSinceLastUpdate,
     getExerciseData,
     canUpdateMax
   };

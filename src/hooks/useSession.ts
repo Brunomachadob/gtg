@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { StorageService } from '../services/StorageService';
+import { DateService } from '../services/DateService';
 
 export function useSession(sets: number, reminderIntervalMinutes: number) {
-  const todayKey = new Date().toISOString().slice(0, 10);
+  const todayKey = DateService.getCurrentDateString();
   const REMINDER_INTERVAL = reminderIntervalMinutes * 60 * 1000; // Convert minutes to milliseconds
   const isReminderDisabled = reminderIntervalMinutes === 0;
 

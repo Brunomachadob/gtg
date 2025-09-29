@@ -1,4 +1,5 @@
 import { Config, SessionData, MaxRepsData, DAYS, Exercise } from '../types';
+import { DateService } from './DateService';
 
 const CONFIG_KEY = 'gtg_config';
 const SESSION_KEY_PREFIX = 'gtg_sessions_';
@@ -80,7 +81,7 @@ export class StorageService {
 
   static updateMaxReps(exercise: string, newMax: number): void {
     const data = this.getMaxRepsData();
-    const now = new Date().toISOString();
+    const now = DateService.getCurrentDate().toISOString();
 
     if (!data[exercise]) {
       data[exercise] = {

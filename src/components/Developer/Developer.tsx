@@ -1,10 +1,43 @@
-import React from 'react';
-import { Code, RotateCcw, Trash2, Download, Upload } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Code, RotateCcw, Trash2, Download, Upload, Calendar, Clock } from 'lucide-react';
+import { DateService } from '../../services/DateService';
 import './Developer.css';
 
 export function Developer() {
+  const [mockDate, setMockDate] = useState<string>('');
+  const [isMockActive, setIsMockActive] = useState(false);
+
+  useEffect(() => {
+    // Initialize mock date state
+    const currentMockDate = DateService.getMockDate();
+    if (currentMockDate) {
+      setMockDate(currentMockDate.toISOString().slice(0, 10));
+      setIsMockActive(true);
+    } else {
+      setMockDate(new Date().toISOString().slice(0, 10));
+      setIsMockActive(false);
+    }
+  }, []);
+
+  const handleSetMockDate = () => {
+    if (mockDate) {
+      DateService.setMockDate(new Date(mockDate));
+      setIsMockActive(true);
+      alert(`Mock date set to: ${mockDate}`);
+      window.location.reload();
+    }
+  };
+
+  const handleClearMockDate = () => {
+    DateService.clearMockDate();
+    setIsMockActive(false);
+    setMockDate(new Date().toISOString().slice(0, 10));
+    alert('Mock date cleared. Using real current date.');
+    window.location.reload();
+  };
+
   const resetTodaysSets = () => {
-    const todayKey = new Date().toISOString().slice(0, 10);
+    const todayKey = DateService.getCurrentDateString();
     localStorage.removeItem(`gtg_sessions_${todayKey}`);
     alert('Today\'s sets have been reset!');
     // Force a page refresh to update the session state
@@ -38,7 +71,7 @@ export function Developer() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `gtg-data-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `gtg-data-${DateService.getCurrentDateString()}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -84,6 +117,52 @@ export function Developer() {
       </div>
 
       <div className="developer-sections">
+        <div className="developer-section">
+          <h3>Date & Time Control</h3>
+          <div className="date-controls">
+            <div className="current-date-info">
+              <div className="date-info-item">
+                <Clock size={16} />
+                <span>Current App Date: <strong>{DateService.getCurrentDateString()}</strong></span>
+                {isMockActive && <span className="mock-indicator">MOCK</span>}
+              </div>
+              <div className="date-info-item">
+                <Calendar size={16} />
+                <span>Real Date: <strong>{new Date().toISOString().slice(0, 10)}</strong></span>
+              </div>
+            </div>
+            <div className="date-picker-controls">
+              <label className="date-label">
+                Set Mock Date:
+                <input
+                  type="date"
+                  value={mockDate}
+                  onChange={(e) => setMockDate(e.target.value)}
+                  className="date-input"
+                />
+              </label>
+              <div className="date-buttons">
+                <button
+                  className="dev-button set-date-button"
+                  onClick={handleSetMockDate}
+                  disabled={!mockDate}
+                >
+                  <Clock size={16} />
+                  Set Mock Date
+                </button>
+                <button
+                  className="dev-button clear-date-button"
+                  onClick={handleClearMockDate}
+                  disabled={!isMockActive}
+                >
+                  <RotateCcw size={16} />
+                  Use Real Date
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="developer-section">
           <h3>Session Management</h3>
           <div className="developer-controls">

@@ -290,16 +290,6 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
           </div>
         </div>
 
-        {/* Completion message below the cards */}
-        {hasReachedMinimum && (
-          <p className="completion-message">
-            {completedSets === config.sets
-              ? "Minimum sets completed! 🎉"
-              : `Great job! ${completedSets - config.sets} bonus set${completedSets - config.sets > 1 ? 's' : ''}! 🔥`
-            }
-          </p>
-        )}
-
         {/* Add Set Button - Always Visible */}
         <div className="add-set-fixed">
           <button className="add-set-pill" onClick={handleAddSet}>

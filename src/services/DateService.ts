@@ -57,12 +57,4 @@ export class DateService {
     }
     return null;
   }
-
-  /**
-   * Check if mock date is currently active
-   * @returns true if mock date is active
-   */
-  static isMockDateActive(): boolean {
-    return isDevelopment() && !!localStorage.getItem(MOCK_DATE_KEY);
-  }
 }

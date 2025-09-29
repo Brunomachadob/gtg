@@ -48,14 +48,6 @@
   justify-content: start;
 }
 
-.completion-message {
-  text-align: center;
-  font-size: 1.2em;
-  color: #27ae60;
-  font-weight: bold;
-  margin: 20px 0 0 0;
-}
-
 .rest-day-message {
   display: flex;
   flex-direction: column;

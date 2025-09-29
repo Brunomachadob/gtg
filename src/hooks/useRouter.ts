@@ -4,7 +4,6 @@ import { PageType } from '../types';
 // Map hash values to page types
 const hashToPage: Record<string, PageType> = {
   '#today': 'today',
-  '#config': 'config',
   '#stats': 'stats',
   '#about': 'about',
   '#developer': 'developer',
@@ -13,7 +12,6 @@ const hashToPage: Record<string, PageType> = {
 
 const pageToHash: Record<PageType, string> = {
   'today': '#today',
-  'config': '#config',
   'stats': '#stats',
   'about': '#about',
   'developer': '#developer',

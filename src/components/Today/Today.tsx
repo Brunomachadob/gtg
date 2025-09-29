@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Bed, Plus, Target, Clock, Trophy, Edit3, Calendar } from 'lucide-react';
-import { Config, Exercise } from '../../types';
+import { Bed, Plus, Target, Clock, Trophy, Edit3, Calendar, Info } from 'lucide-react';
+import {Config, Exercise, PageType} from '../../types';
 import { useSession } from '../../hooks/useSession';
 import { useMaxReps } from '../../hooks/useMaxReps';
 import './Today.css';
@@ -17,9 +17,10 @@ interface TodayProps {
   config: Config;
   todayExercise: Exercise;
   countdown?: CountdownData;
+  navigateTo: (page: PageType) => void;
 }
 
-export function Today({ config, todayExercise, countdown }: TodayProps) {
+export function Today({ config, todayExercise, countdown, navigateTo }: TodayProps) {
   const [showRepsInput, setShowRepsInput] = useState(false);
   const [newSetReps, setNewSetReps] = useState(0);
   const [showMaxRepsInput, setShowMaxRepsInput] = useState<string | null>(null);
@@ -61,6 +62,13 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
   }
 
   const handleAddSet = () => {
+    // Prevent adding sets if no valid exercise is scheduled for today
+    // Use type assertion to handle the case where todayExercise might be empty string
+    const exercise = todayExercise as string;
+    if (!exercise || exercise === '' || exercise === 'Rest') {
+      return;
+    }
+
     // Get the reps from the last completed set to pre-populate the input
     const completedSetsReps = setsDone.filter(reps => reps > 0);
     const lastSetReps = completedSetsReps.length > 0 ? completedSetsReps[completedSetsReps.length - 1] : 0;
@@ -200,6 +208,37 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
     newSchedule[dayIndex] = value as Exercise;
     setScheduleConfig(newSchedule);
   };
+
+  // If no exercise is scheduled for today (fresh app state), show a setup message
+  if ((!todayExercise || (todayExercise as string) === '') && !showScheduleInput) {
+    return (
+      <div className="today-page">
+        <div className="rest-day-message">
+          <Calendar className="mx-auto mb-4 text-orange-500" size={48} />
+          <h2 className="text-2xl font-bold text-gray-700 mb-2">Exercise Not Set</h2>
+          <p className="text-gray-600 text-center mb-4">
+            There's no exercise scheduled for today. Please set up your schedule to start exercising.
+          </p>
+          <div className="flex justify-center gap-4">
+            <button
+              className="schedule-setup-button"
+              onClick={handleUpdateSchedule}
+            >
+              <Calendar size={20} />
+              Set Up Schedule
+            </button>
+            <button
+              className="learn-more-button"
+              onClick={() => navigateTo('about')}
+            >
+              <Info size={20} />
+              Learn More
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="today-page">

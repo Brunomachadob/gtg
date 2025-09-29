@@ -91,20 +91,21 @@ export function About() {
                 <div className="step">
                   <div className="step-number">1</div>
                   <div className="step-content">
-                    <h3>Configure Your Schedule</h3>
+                    <h3>Configure Your Weekly Schedule</h3>
                     <p>
-                      Set up your weekly exercise routine in the Config page. Choose which
-                      exercises to practice each day and how many sets you want to complete.
+                      Set up your weekly exercise routine with designated days for pull-ups,
+                      dips, and rest.
                     </p>
                   </div>
                 </div>
                 <div className="step">
                   <div className="step-number">2</div>
                   <div className="step-content">
-                    <h3>Set Your Intensity</h3>
+                    <h3>Configure how many sets per day</h3>
                     <p>
-                      For each set, aim for about 50-70% of your maximum reps. If you can
-                      do 10 pull-ups max, do 5-7 reps per set. Stay fresh and comfortable.
+                      By default it will start with 5 sets per day, but you can adjust this for more sets.
+                        Also doing more sets are not a problem,
+                        and we will keep track of how many days you were over the minimum.
                     </p>
                   </div>
                 </div>
@@ -121,13 +122,21 @@ export function About() {
                 <div className="step">
                   <div className="step-number">4</div>
                   <div className="step-content">
-                    <h3>Track Your Progress</h3>
+                    <h3>Set a recurring reminder</h3>
                     <p>
-                      Log each set in the Today page and monitor your consistency in the
-                      Statistics page. Focus on completing your daily minimum consistently.
+                      Set a reminder to be notified every time you have a set to do.
                     </p>
                   </div>
                 </div>
+                  <div className="step">
+                      <div className="step-number">5</div>
+                      <div className="step-content">
+                          <h3>Track your progress</h3>
+                          <p>
+                              Check the Statistics tab to monitor your daily, weekly, and monthly performance.
+                          </p>
+                      </div>
+                  </div>
               </div>
             </div>
 

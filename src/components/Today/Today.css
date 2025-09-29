@@ -49,7 +49,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 60px 20px;
+  padding: 40px 20px;
+  min-height: 50vh;
   background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   border-radius: 16px;
   border: 2px solid #bae6fd;
@@ -1497,5 +1498,106 @@
 
   .schedule-day {
     color: #f9fafb;
+  }
+}
+
+.schedule-setup-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f97316;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+.schedule-setup-button:hover {
+  background: #ea580c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.4);
+}
+
+.schedule-setup-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+.learn-more-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: #f97316;
+  border: 2px solid #f97316;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.learn-more-button:hover {
+  background: #f97316;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+}
+
+.learn-more-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+/* Button container responsive styling */
+.rest-day-message .flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+/* For tablets and small screens */
+@media (max-width: 768px) {
+  .rest-day-message .flex {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .schedule-setup-button,
+  .learn-more-button {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+  .schedule-setup-button,
+  .learn-more-button {
+    padding: 14px 20px;
+    font-size: 15px;
+    max-width: 250px;
+  }
+
+  .rest-day-message {
+    padding: 32px 16px;
+  }
+
+  .rest-day-message h2 {
+    font-size: 1.5rem;
+  }
+
+  .rest-day-message .flex {
+    gap: 10px;
   }
 }

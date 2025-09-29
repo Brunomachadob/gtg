@@ -8,7 +8,7 @@ import { DateService } from './services/DateService';
 
 export function App() {
   const { currentPage, navigateTo } = useRouter();
-  const { config, setConfig } = useConfig();
+  const { config } = useConfig();
 
   // Get session data for countdown integration
   const todayIdx = DateService.getCurrentDate().getDay();
@@ -33,6 +33,7 @@ export function App() {
           <Today
             config={config}
             todayExercise={todayExercise}
+            navigateTo={navigateTo}
             countdown={shouldShowCountdown ? {
               reminder,
               timeRemaining,

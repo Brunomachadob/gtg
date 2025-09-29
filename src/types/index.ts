@@ -2,7 +2,6 @@ export const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fr
 export const EXERCISES = ['Pull Ups', 'Dips', 'Rest'] as const;
 
 export type Exercise = typeof EXERCISES[number];
-export type DayOfWeek = typeof DAYS[number];
 
 export interface Config {
   days: Exercise[];
@@ -58,4 +57,4 @@ export interface MaxRepsData {
   };
 }
 
-export type PageType = 'today' | 'config' | 'stats' | 'about';
+export type PageType = 'today' | 'config' | 'stats' | 'about' | 'developer';

@@ -7,6 +7,7 @@ const hashToPage: Record<string, PageType> = {
   '#config': 'config',
   '#stats': 'stats',
   '#about': 'about',
+  '#developer': 'developer',
   '': 'today', // Default to today when no hash
 };
 
@@ -15,6 +16,7 @@ const pageToHash: Record<PageType, string> = {
   'config': '#config',
   'stats': '#stats',
   'about': '#about',
+  'developer': '#developer',
 };
 
 export function useRouter() {
@@ -34,7 +36,7 @@ export function useRouter() {
     // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
 
-    // Set initial hash if none exists
+    // Set the initial hash if none exists
     if (!window.location.hash) {
       window.location.hash = '#today';
     }

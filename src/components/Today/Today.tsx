@@ -27,6 +27,8 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
   const [newGoalReps, setNewGoalReps] = useState(0);
   const [showReminderInput, setShowReminderInput] = useState(false);
   const [newReminderInterval, setNewReminderInterval] = useState(0);
+  const [showSetsInput, setShowSetsInput] = useState(false);
+  const [newDailySets, setNewDailySets] = useState(0);
 
   // Get session data for set cards
   const {
@@ -168,14 +170,38 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
     setNewReminderInterval(0);
   };
 
+  const handleUpdateSets = () => {
+    setNewDailySets(config.sets);
+    setShowSetsInput(true);
+  };
+
+  const handleSubmitSets = () => {
+    if (newDailySets > 0) {
+      // Update daily sets in config
+      const updatedConfig = {
+        ...config,
+        sets: newDailySets
+      };
+      localStorage.setItem('gtg_config', JSON.stringify(updatedConfig));
+      window.location.reload(); // Force reload to update config
+    }
+    setShowSetsInput(false);
+    setNewDailySets(0);
+  };
+
+  const handleCancelSets = () => {
+    setShowSetsInput(false);
+    setNewDailySets(0);
+  };
+
   return (
     <div className="today-page">
       {/* Fixed Header with Progress Cards */}
       <div className="today-header">
         {/* Progress Cards Grid */}
         <div className="progress-cards">
-          {/* Set Counter Card */}
-          <div className="progress-card set-progress">
+          {/* Set Counter Card - clickable to configure daily sets */}
+          <div className="progress-card set-progress sets-card" onClick={handleUpdateSets}>
             <div className="progress-icon">
               <Target className="text-green-600" size={24} />
             </div>
@@ -183,7 +209,10 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
             <div className="progress-value">
               {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
             </div>
-            <div className="progress-label">sets completed</div>
+            <div className="progress-label">tap to configure</div>
+            <div className="update-indicator sets-indicator">
+              <Edit3 size={16} />
+            </div>
           </div>
 
           {/* Countdown Card - clickable to configure reminder */}
@@ -366,6 +395,34 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
                 Save Reminder
               </button>
               <button onClick={handleCancelReminder}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal overlay for sets input - shown on top when needed */}
+      {showSetsInput && (
+        <div className="sets-input-modal">
+          <div className="sets-input-content">
+            <div className="sets-input-label">Configure Daily Sets</div>
+
+            <div className="input-group">
+              <div className="sets-input-label">Sets per Day:</div>
+              <input
+                type="number"
+                min={1}
+                value={newDailySets}
+                onChange={e => setNewDailySets(Number(e.target.value))}
+                className="sets-input"
+                placeholder="0"
+              />
+            </div>
+
+            <div className="sets-input-buttons">
+              <button onClick={handleSubmitSets} disabled={newDailySets <= 0}>
+                Save Settings
+              </button>
+              <button onClick={handleCancelSets}>Cancel</button>
             </div>
           </div>
         </div>

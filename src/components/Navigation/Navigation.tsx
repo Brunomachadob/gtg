@@ -1,6 +1,7 @@
 import React from 'react';
-import { Calendar, Settings, BarChart3, Info } from 'lucide-react';
+import { Calendar, Settings, BarChart3, Info, Code } from 'lucide-react';
 import { PageType } from '../../types';
+import { isDevelopment } from '../../utils/environment';
 import './Navigation.css';
 
 interface NavigationProps {
@@ -39,6 +40,15 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         <Info size={20} />
         <span>About</span>
       </button>
+      {isDevelopment() && (
+        <button
+          className={currentPage === 'developer' ? 'active' : ''}
+          onClick={() => onPageChange('developer')}
+        >
+          <Code size={20} />
+          <span>Dev</span>
+        </button>
+      )}
     </nav>
   );
 }

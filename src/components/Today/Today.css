@@ -981,3 +981,134 @@
   background: #e5e7eb;
   transform: translateY(-1px);
 }
+
+/* Sets Card styling - make it clickable like other cards */
+.progress-card.sets-card {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.progress-card.sets-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.sets-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: 50%;
+  padding: 4px;
+  color: #22c55e;
+}
+
+/* Sets Input Modal */
+.sets-input-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.sets-input-content {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  min-width: 320px;
+  max-width: 400px;
+  margin: 20px;
+  position: relative;
+  transform: scale(1);
+  transition: transform 0.2s ease;
+}
+
+.sets-input-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.sets-input-label:first-child {
+  font-size: 1.2rem;
+  margin-bottom: 24px;
+  color: #1f2937;
+}
+
+.sets-input {
+  width: 90px;
+  padding: 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.sets-input:focus {
+  outline: none;
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  background: white;
+}
+
+.sets-input-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.sets-input-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+}
+
+.sets-input-buttons button:first-child {
+  background: #22c55e;
+  color: white;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+}
+
+.sets-input-buttons button:first-child:hover:not(:disabled) {
+  background: #16a34a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+}
+
+.sets-input-buttons button:first-child:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.sets-input-buttons button:last-child {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.sets-input-buttons button:last-child:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}

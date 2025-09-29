@@ -1,5 +1,4 @@
 .today-page {
-  min-height: 100vh; /* Changed from height to min-height to allow content to extend beyond viewport */
   display: flex;
   flex-direction: column;
   padding: 20px;

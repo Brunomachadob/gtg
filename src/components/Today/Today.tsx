@@ -5,6 +5,7 @@ import { useSession } from '../../hooks/useSession';
 import { useMaxReps } from '../../hooks/useMaxReps';
 import './Today.css';
 import {NumberInput} from "../NumberInput/NumberInput.tsx";
+import {DateService} from "../../services/DateService.ts";
 
 interface CountdownData {
   reminder: boolean;
@@ -253,9 +254,9 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
                 <div className="progress-icon">
                     <Calendar className="text-red-600" size={24} />
                 </div>
-                <div className="exercise-name">Weekly Schedule</div>
+                <div className="exercise-name">Schedule</div>
                 <div className="progress-value">
-                    {scheduleConfig.length} days
+                    {todayExercise} / {getDayNames()[DateService.getCurrentDate().getDay()]}
                 </div>
                 <div className="update-indicator">
                     <Edit3 size={16} />

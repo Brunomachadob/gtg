@@ -2,81 +2,95 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   width: 100%;
-  max-width: 280px;
   margin: 0 auto;
+  border-radius: 0;
+  border: none;
+  background-color: transparent;
+  overflow: visible;
+}
+
+.number-input:focus-within .number-input-button,
+.number-input:focus-within .number-input-field {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
 }
 
 .number-input-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
+  width: 40px;
   height: 56px;
   border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  background-color: #ffffff;
+  border-radius: 0;
+  background-color: #f8fafc;
   color: #374151;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.number-input-button.decrement {
+  border-radius: 28px 0 0 28px;
+  border-right: none;
+}
+
+.number-input-button.increment {
+  border-radius: 0 28px 28px 0;
+  border-left: none;
 }
 
 .number-input-button:hover:not(:disabled) {
-  border-color: #3b82f6;
-  background-color: #f8fafc;
+  background-color: #e2e8f0;
   transform: scale(1.02);
 }
 
 .number-input-button:active:not(:disabled) {
   transform: scale(0.98);
-  background-color: #e2e8f0;
+  background-color: #cbd5e1;
 }
 
 .number-input-button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
   background-color: #f8fafc;
-  border-color: #e5e7eb;
 }
 
 .number-input-button.decrement:hover:not(:disabled) {
-  border-color: #ef4444;
+  background-color: #fef2f2;
   color: #ef4444;
 }
 
 .number-input-button.increment:hover:not(:disabled) {
-  border-color: #10b981;
+  background-color: #f0fdf4;
   color: #10b981;
 }
 
 .number-input-field {
-  width: 100px;
+  flex: 1;
   height: 56px;
   border: 2px solid #e5e7eb;
-  border-radius: 12px;
+  border-radius: 0;
   text-align: center;
   font-size: 24px;
   font-weight: 600;
   color: #1f2937;
   background-color: #ffffff;
   outline: none;
-  transition: border-color 0.2s ease-in-out;
   -webkit-appearance: none;
   -moz-appearance: textfield;
+  box-sizing: border-box;
+  vertical-align: top;
 }
 
 .number-input-field::-webkit-outer-spin-button,
 .number-input-field::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-.number-input-field:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .number-input-field:disabled {
@@ -94,37 +108,17 @@
 @media (max-width: 480px) {
   .number-input {
     max-width: 100%;
-    gap: 12px;
   }
 
   .number-input-button {
-    width: 64px;
+    width: 48px;
     height: 64px;
-    border-radius: 16px;
+    box-sizing: border-box;
   }
 
   .number-input-field {
-    width: 120px;
     height: 64px;
     font-size: 28px;
-    border-radius: 16px;
-  }
-}
-
-/* Extra small screens */
-@media (max-width: 320px) {
-  .number-input {
-    gap: 8px;
-  }
-
-  .number-input-button {
-    width: 56px;
-    height: 56px;
-  }
-
-  .number-input-field {
-    width: 100px;
-    height: 56px;
-    font-size: 24px;
+    box-sizing: border-box;
   }
 }

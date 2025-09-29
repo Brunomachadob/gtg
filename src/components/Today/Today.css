@@ -2,9 +2,16 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 0 20px;
-  margin: 0;
-  overflow: hidden;
+  padding: 20px;
+  margin: 0 auto;
+  padding-top: 40px; /* Extra top padding for the fixed header */
+  padding-bottom: 90px; /* Space for navigation */
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Firefox scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
 }
 
 /* Fixed Header containing progress counter */

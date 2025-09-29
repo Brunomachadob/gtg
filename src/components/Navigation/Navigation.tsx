@@ -13,7 +13,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
   return (
     <nav className="navigation">
       <button
-        className={`main-button ${currentPage === 'today' ? 'active' : ''}`}
+        className={currentPage === 'today' ? 'active' : ''}
         onClick={() => onPageChange('today')}
       >
         <Calendar size={28} />

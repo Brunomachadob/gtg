@@ -1,7 +1,14 @@
 .config-page {
   margin: 0;
-  padding: 20px; /* Add padding to prevent content from hiding behind header */
+  padding: 20px;
   padding-top: 40px; /* Extra top padding for the fixed header */
+  padding-bottom: 90px; /* Space for navigation */
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Firefox scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 #f1f1f1;
 }
 
 .config-section {
@@ -126,7 +133,6 @@
 
   .day-card {
     padding: 16px;
-    min-height: 140px;
   }
 
   .day-name {
@@ -147,7 +153,6 @@
 
   .day-card {
     padding: 14px;
-    min-height: 120px;
   }
 }
 

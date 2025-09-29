@@ -71,14 +71,6 @@ export function useMaxReps() {
     };
   };
 
-  const canUpdateMax = (exercise: string): boolean => {
-    const data = maxReps[exercise];
-    if (!data?.lastUpdated) return true;
-
-    // Allow updates if it's been at least 1 day since last update
-    return getDaysSinceLastUpdate(exercise) >= 1;
-  };
-
   return {
     maxReps,
     setCurrentMax,
@@ -86,7 +78,6 @@ export function useMaxReps() {
     getLastUpdated,
     getHistory,
     getDaysSinceLastUpdate,
-    getExerciseData,
-    canUpdateMax
+    getExerciseData
   };
 }

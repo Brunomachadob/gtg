@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bed, Plus, Target, Clock, Trophy, Edit3 } from 'lucide-react';
+import { Bed, Plus, Target, Clock, Trophy, Edit3, Calendar } from 'lucide-react';
 import { Config, Exercise } from '../../types';
 import { useSession } from '../../hooks/useSession';
 import { useMaxReps } from '../../hooks/useMaxReps';
@@ -29,6 +29,8 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
   const [newReminderInterval, setNewReminderInterval] = useState(0);
   const [showSetsInput, setShowSetsInput] = useState(false);
   const [newDailySets, setNewDailySets] = useState(0);
+  const [showScheduleInput, setShowScheduleInput] = useState(false);
+  const [scheduleConfig, setScheduleConfig] = useState(config.days || []);
 
   // Get session data for set cards
   const {
@@ -37,13 +39,13 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
   } = useSession(config.sets, config.reminderIntervalMinutes);
 
   // Get max reps data
-  const { getExerciseData, setCurrentMax, canUpdateMax } = useMaxReps();
+  const { getExerciseData, setCurrentMax } = useMaxReps();
 
   // Calculate completed sets
   const completedSets = setsDone.filter((reps: number) => reps > 0).length;
   const hasReachedMinimum = completedSets >= config.sets;
 
-  // If today is a rest day, show rest message
+  // If today is a rest day, show a rest message
   if (todayExercise === 'Rest') {
     return (
       <div className="today-page">
@@ -194,6 +196,40 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
     setNewDailySets(0);
   };
 
+  const handleUpdateSchedule = () => {
+    setScheduleConfig(config.days);
+    setShowScheduleInput(true);
+  };
+
+  const handleSubmitSchedule = () => {
+    if (scheduleConfig.length > 0) {
+      // Update schedule in config
+      const updatedConfig = {
+        ...config,
+        days: scheduleConfig
+      };
+      localStorage.setItem('gtg_config', JSON.stringify(updatedConfig));
+      window.location.reload(); // Force reload to update config
+    }
+    setShowScheduleInput(false);
+  };
+
+  const handleCancelSchedule = () => {
+    setShowScheduleInput(false);
+  };
+
+  // Helper function to get day names
+  const getDayNames = () => {
+    return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  };
+
+  // Helper function to handle schedule changes
+  const handleScheduleChange = (dayIndex: number, value: string) => {
+    const newSchedule = [...scheduleConfig];
+    newSchedule[dayIndex] = value as Exercise;
+    setScheduleConfig(newSchedule);
+  };
+
   return (
     <div className="today-page">
       {/* Fixed Header with Progress Cards */}
@@ -288,6 +324,21 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
               <Edit3 size={16} />
             </div>
           </div>
+
+          {/* Schedule Configuration Card - clickable to configure schedule */}
+          <div className="progress-card schedule-card" onClick={handleUpdateSchedule}>
+            <div className="progress-icon">
+              <Calendar className="text-red-600" size={24} />
+            </div>
+            <div className="exercise-name">Weekly Schedule</div>
+            <div className="progress-value">
+              {scheduleConfig.length} days
+            </div>
+            <div className="progress-label">tap to configure</div>
+            <div className="update-indicator">
+              <Edit3 size={16} />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -298,22 +349,28 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
 
       {/* Modal overlay for reps input - shown on top when needed */}
       {showRepsInput && (
-        <div className="reps-input-modal">
-          <div className="reps-input-content">
-            <div className="reps-input-label">How many reps?</div>
-            <input
-              type="number"
-              min={1}
-              value={newSetReps}
-              onChange={e => setNewSetReps(Number(e.target.value))}
-              className="reps-input"
-              autoFocus
-            />
-            <div className="reps-input-buttons">
-              <button onClick={handleSubmitSet} disabled={newSetReps <= 0}>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-title">How many reps?</div>
+
+            <div className="modal-body">
+              <input
+                type="number"
+                min={1}
+                value={newSetReps}
+                onChange={e => setNewSetReps(Number(e.target.value))}
+                className="modal-input"
+                autoFocus
+              />
+            </div>
+
+            <div className="modal-buttons">
+              <button className="modal-button modal-button-primary" onClick={handleSubmitSet} disabled={newSetReps <= 0}>
                 Add Set
               </button>
-              <button onClick={handleCancelSet}>Cancel</button>
+              <button className="modal-button modal-button-secondary" onClick={handleCancelSet}>
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -321,39 +378,43 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
 
       {/* Modal overlay for max reps input - shown on top when needed */}
       {showMaxRepsInput && (
-        <div className="max-reps-input-modal">
-          <div className="max-reps-input-content">
-            <div className="max-reps-input-label">Configure {showMaxRepsInput}</div>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-title">Configure {showMaxRepsInput}</div>
 
-            <div className="input-group">
-              <div className="max-reps-input-label">Current Max Reps:</div>
-              <input
-                type="number"
-                min={0}
-                value={newMaxReps}
-                onChange={e => setNewMaxReps(Number(e.target.value))}
-                className="max-reps-input"
-                placeholder="0"
-              />
+            <div className="modal-body">
+              <div className="input-group">
+                <div className="modal-input-label">Current Max Reps:</div>
+                <input
+                  type="number"
+                  min={0}
+                  value={newMaxReps}
+                  onChange={e => setNewMaxReps(Number(e.target.value))}
+                  className="modal-input"
+                  placeholder="0"
+                />
+              </div>
+
+              <div className="input-group">
+                <div className="modal-input-label">Goal Reps:</div>
+                <input
+                  type="number"
+                  min={1}
+                  value={newGoalReps}
+                  onChange={e => setNewGoalReps(Number(e.target.value))}
+                  className="modal-input"
+                  placeholder="20"
+                />
+              </div>
             </div>
 
-            <div className="input-group">
-              <div className="max-reps-input-label">Goal Reps:</div>
-              <input
-                type="number"
-                min={1}
-                value={newGoalReps}
-                onChange={e => setNewGoalReps(Number(e.target.value))}
-                className="max-reps-input"
-                placeholder="20"
-              />
-            </div>
-
-            <div className="max-reps-input-buttons">
-              <button onClick={handleSubmitMaxReps} disabled={newGoalReps <= 0}>
+            <div className="modal-buttons">
+              <button className="modal-button modal-button-primary" onClick={handleSubmitMaxReps} disabled={newGoalReps <= 0}>
                 Save Settings
               </button>
-              <button onClick={handleCancelMaxReps}>Cancel</button>
+              <button className="modal-button modal-button-secondary" onClick={handleCancelMaxReps}>
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -361,27 +422,31 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
 
       {/* Modal overlay for reminder input - shown on top when needed */}
       {showReminderInput && (
-        <div className="reminder-input-modal">
-          <div className="reminder-input-content">
-            <div className="reminder-input-label">Set Reminder Interval</div>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-title">Set Reminder Interval</div>
 
-            <div className="input-group">
-              <div className="reminder-input-label">Interval (minutes):</div>
-              <input
-                type="number"
-                min={0}
-                value={newReminderInterval}
-                onChange={e => setNewReminderInterval(Number(e.target.value))}
-                className="reminder-input"
-                placeholder="0"
-              />
+            <div className="modal-body">
+              <div className="input-group">
+                <div className="modal-input-label">Interval (minutes):</div>
+                <input
+                  type="number"
+                  min={0}
+                  value={newReminderInterval}
+                  onChange={e => setNewReminderInterval(Number(e.target.value))}
+                  className="modal-input"
+                  placeholder="0"
+                />
+              </div>
             </div>
 
-            <div className="reminder-input-buttons">
-              <button onClick={handleSubmitReminder} disabled={newReminderInterval < 0}>
+            <div className="modal-buttons">
+              <button className="modal-button modal-button-primary" onClick={handleSubmitReminder} disabled={newReminderInterval < 0}>
                 Save Reminder
               </button>
-              <button onClick={handleCancelReminder}>Cancel</button>
+              <button className="modal-button modal-button-secondary" onClick={handleCancelReminder}>
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -389,27 +454,72 @@ export function Today({ config, todayExercise, countdown }: TodayProps) {
 
       {/* Modal overlay for sets input - shown on top when needed */}
       {showSetsInput && (
-        <div className="sets-input-modal">
-          <div className="sets-input-content">
-            <div className="sets-input-label">Configure Daily Sets</div>
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-title">Configure Daily Sets</div>
 
-            <div className="input-group">
-              <div className="sets-input-label">Sets per Day:</div>
-              <input
-                type="number"
-                min={1}
-                value={newDailySets}
-                onChange={e => setNewDailySets(Number(e.target.value))}
-                className="sets-input"
-                placeholder="0"
-              />
+            <div className="modal-body">
+              <div className="input-group">
+                <div className="modal-input-label">Sets per Day:</div>
+                <input
+                  type="number"
+                  min={1}
+                  value={newDailySets}
+                  onChange={e => setNewDailySets(Number(e.target.value))}
+                  className="modal-input"
+                  placeholder="0"
+                />
+              </div>
             </div>
 
-            <div className="sets-input-buttons">
-              <button onClick={handleSubmitSets} disabled={newDailySets <= 0}>
+            <div className="modal-buttons">
+              <button className="modal-button modal-button-primary" onClick={handleSubmitSets} disabled={newDailySets <= 0}>
                 Save Settings
               </button>
-              <button onClick={handleCancelSets}>Cancel</button>
+              <button className="modal-button modal-button-secondary" onClick={handleCancelSets}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal overlay for schedule input - shown on top when needed */}
+      {showScheduleInput && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-title">Configure Weekly Schedule</div>
+
+            {/* Schedule configuration UI here */}
+            <div className="schedule-config-grid">
+              {getDayNames().map((dayName, index) => (
+                <div key={index} className="schedule-config-item">
+                  <div className="schedule-day">{dayName}</div>
+                  <div className="schedule-exercise">
+                    <select
+                      value={scheduleConfig[index] || ''}
+                      onChange={e => handleScheduleChange(index, e.target.value)}
+                      className="exercise-select"
+                    >
+                      {!scheduleConfig[index] && (
+                        <option value="" disabled>Select Exercise</option>
+                      )}
+                      <option value="Pull Ups">Pull Ups</option>
+                      <option value="Dips">Dips</option>
+                      <option value="Rest">Rest</option>
+                    </select>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="modal-buttons">
+              <button className="modal-button modal-button-primary" onClick={handleSubmitSchedule}>
+                Save Schedule
+              </button>
+              <button className="modal-button modal-button-secondary" onClick={handleCancelSchedule}>
+                Cancel
+              </button>
             </div>
           </div>
         </div>

@@ -21,12 +21,173 @@
   z-index: 10;
 }
 
-/* Progress Cards Grid */
+/* Progress Cards Grid - changed to flexible wrapping layout for pills */
 .progress-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* Progress Card - transformed to pill-like horizontal container */
+.progress-card {
+  background: white;
+  padding: 8px 16px;
+  border-radius: 30px; /* More rounded for pill shape */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: row; /* Changed from column to row */
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  min-height: 40px;
+  flex: 0 1 auto; /* Allow flexible sizing */
+  white-space: nowrap;
+  position: relative;
+}
+
+.progress-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Set Progress Card */
+.progress-card.set-progress {
+  background: linear-gradient(90deg, #f1f8e9, #ffffff);
+}
+
+.progress-card.set-progress.completed {
+  background: linear-gradient(90deg, #e8f5e8, #dcfce7);
+}
+
+/* Countdown Progress Card */
+.progress-card.countdown-progress {
+  background: linear-gradient(90deg, #f0f7ff, #ffffff);
+}
+
+.progress-card.countdown-progress.reminder-active {
+  background: linear-gradient(90deg, #fef2f2, #fee2e2);
+  animation: reminder-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes reminder-glow {
+  0%, 100% { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); }
+  50% { box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25); }
+}
+
+/* Progress Card Elements - adapted for horizontal layout */
+.progress-icon {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.exercise-name {
+  margin: 0;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-value {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #388e3c;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Update indicator - positioned at the end */
+.update-indicator {
+  margin-left: 12px; /* Increased from auto to provide specific spacing */
+  opacity: 0.6;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center; /* Ensure vertical centering */
+  justify-content: center;
+  min-width: 20px; /* Ensure minimum width for the icon */
+  height: 20px; /* Set specific height */
+    border-radius: 50%;
+}
+
+.progress-card:hover .update-indicator {
+  opacity: 1;
+}
+
+/* Countdown Card Elements - adapted for horizontal layout */
+.card-countdown-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.countdown-title {
+  margin: 0;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.countdown-value {
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #3b82f6;
+  margin: 0;
+  line-height: 1;
+}
+
+.countdown-label {
+  font-size: 0.75em;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Reminder Content - adapted for horizontal layout */
+.card-reminder-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.reminder-title {
+  margin: 0;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #ef4444;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reminder-message {
+  font-size: 0.75em;
+  color: #6b7280;
+  margin: 0;
+}
+
+.dismiss-btn-card {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
 }
 
 /* Sets Container - remove separate scroll, just flow with page */
@@ -36,10 +197,10 @@
 }
 
 .sets-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 90px)); /* Increased from 80px to 90px */
-  gap: 16px;
-  justify-content: start;
+  display: flex; /* Changed from grid to flex */
+  flex-wrap: wrap; /* Allow wrapping */
+  gap: 8px; /* Reduced gap to match progress cards */
+  justify-content: flex-start; /* Align to start */
 }
 
 .rest-day-message {
@@ -65,219 +226,97 @@
   line-height: 1.6;
 }
 
-/* Progress Card - matching statistics style exactly */
-.progress-card {
-  background: white;
-  padding: 16px 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-    justify-content: space-around;
-  gap: 4px;
-}
-
-.progress-card:hover {
-  transform: translateY(-2px);
-}
-
-/* Set Progress Card */
-.progress-card.set-progress {
-  background: linear-gradient(135deg, #f1f8e9, #ffffff);
-}
-
-.progress-card.set-progress.completed {
-  background: linear-gradient(135deg, #e8f5e8, #dcfce7);
-}
-
-/* Countdown Progress Card */
-.progress-card.countdown-progress {
-  background: linear-gradient(135deg, #f0f7ff, #ffffff);
-}
-
-.progress-card.countdown-progress.reminder-active {
-  background: linear-gradient(135deg, #fef2f2, #fee2e2);
-  animation: reminder-glow 1.5s ease-in-out infinite;
-}
-
-@keyframes reminder-glow {
-  0%, 100% { box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); }
-  50% { box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3); }
-}
-
-/* Progress Card Elements */
-.progress-icon {
-  margin-bottom: 4px;
-  flex-shrink: 0;
-}
-
-.exercise-name {
-  margin: 0 0 6px 0;
-  font-size: 0.95em;
-  font-weight: 700;
-  color: #1f2937;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.progress-value {
-  font-size: 2em;
-  font-weight: bold;
-  color: #388e3c;
-  margin: 4px 0;
-  line-height: 1;
-}
-
-/* Countdown Card Elements */
-.card-countdown-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.countdown-title {
-  margin: 0 0 6px 0;
-  font-size: 0.95em;
-  font-weight: 700;
-  color: #1f2937;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.countdown-value {
-  font-size: 2em;
-  font-weight: bold;
-  color: #3b82f6;
-  margin: 4px 0;
-  line-height: 1;
-}
-
-.countdown-label {
-  font-size: 0.8em;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 500;
-  margin: 0;
-}
-
-/* Reminder Content */
-.card-reminder-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.reminder-title {
-  margin: 0 0 6px 0;
-  font-size: 0.95em;
-  font-weight: 700;
-  color: #ef4444;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.reminder-message {
-  font-size: 0.8em;
-  color: #6b7280;
-  margin: 2px 0 8px 0;
-}
-
-.dismiss-btn-card {
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.dismiss-btn-card:hover {
-  background: #dc2626;
-  transform: translateY(-1px);
-}
-
-/* Completed set card styling - increased size for better UX */
+/* Completed set card styling - transformed to pill-like horizontal container */
 .completed-set-card {
-  background: linear-gradient(135deg, #f1f8e9, #ffffff);
-  border-radius: 12px;
-  padding: 10px; /* Increased from 8px to 10px */
-  text-align: center;
+  background: linear-gradient(90deg, #f1f8e9, #ffffff);
+  border-radius: 30px; /* Changed to match pill shape */
+  padding: 8px 16px; /* Match progress card padding */
+  text-align: left; /* Changed from center to left for horizontal layout */
   position: relative;
-  width: 90px; /* Increased from 80px to 90px */
-  height: 90px; /* Increased from 80px to 90px */
+  width: auto; /* Changed from fixed 90px to auto width */
+  height: 50px; /* Increased height to accommodate stacked content */
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row; /* Changed from column to row */
+  justify-content: flex-start; /* Changed alignment */
   align-items: center;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Match progress card shadow */
   transition: all 0.2s ease;
   color: #388e3c;
-  opacity: 0.9;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06); /* Match progress card border */
   box-sizing: border-box;
+  gap: 8px; /* Add gap between elements */
+  cursor: pointer;
+  min-width: 120px; /* Ensure minimum width for content */
+  flex: 0 1 auto; /* Allow flexible sizing */
 }
 
 .completed-set-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px); /* Match progress card hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Match progress card hover shadow */
 }
 
 .set-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 3px; /* Increased from 2px to 3px */
-  margin-bottom: 3px; /* Increased from 2px to 3px */
-  width: 100%;
+  gap: 8px; /* Gap between checkmark and stacked content */
+  margin-bottom: 0; /* Remove bottom margin */
   position: relative;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
 .set-checkmark {
-  font-size: 0.85em; /* Slightly increased from 0.8em */
+  font-size: 0.9em; /* Slightly larger for better visibility */
   color: #22c55e;
   opacity: 0.8;
   flex-shrink: 0;
+  margin: 0; /* Remove any margins */
+}
+
+.set-content {
+  display: flex;
+  flex-direction: column; /* Stack set number and reps vertically */
+  align-items: flex-start;
+  gap: 1px; /* Small gap between set number and reps */
 }
 
 .set-number {
-  font-size: 0.75em; /* Slightly increased from 0.7em */
+  font-size: 0.7em; /* Smaller for stacked layout */
   font-weight: 600;
-  color: rgba(22, 101, 52, 0.7);
+  color: rgba(22, 101, 52, 0.8); /* Slightly more opaque */
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  flex: 1;
-  text-align: center;
+  margin: 0; /* Remove margins */
+  white-space: nowrap; /* Prevent wrapping */
+  line-height: 1.2;
 }
 
 .set-reps {
-  font-size: 1.15em; /* Slightly increased from 1.1em */
+  font-size: 0.95em; /* Slightly larger for emphasis */
   font-weight: 700;
   color: #166534;
-  margin-bottom: 0;
-  line-height: 1;
+  margin: 0; /* Remove margins */
+  line-height: 1.2;
+  white-space: nowrap; /* Prevent wrapping */
 }
 
-/* Remove button container and styling - repositioned closer to border */
+/* Remove button container and styling - positioned at the right end */
 .set-remove-container {
-  position: absolute;
-  top: 0;
-  right: 0;
+  margin-left: auto; /* Push to the right */
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  position: relative; /* Changed from absolute to relative */
+  top: auto; /* Reset absolute positioning */
+  right: auto; /* Reset absolute positioning */
   z-index: 10;
 }
 
 .set-remove-button {
-  width: 22px; /* Slightly increased from 20px */
-  height: 22px; /* Slightly increased from 20px */
+  width: 20px; /* Match update indicator size */
+  height: 20px; /* Match update indicator size */
   border-radius: 50%;
   background: #ef4444;
   color: white;
@@ -287,51 +326,26 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4); /* Slightly enhanced shadow */
-  opacity: 0;
-  transform: scale(0.8);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+  opacity: 0.6; /* Match update indicator opacity */
+  transform: scale(1); /* Reset scale */
 }
 
 .set-remove-button:hover {
   background: #dc2626;
-  transform: scale(1.05); /* Slightly more scale on hover */
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.5); /* Enhanced hover shadow */
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+  opacity: 1; /* Full opacity on hover */
 }
 
 .set-remove-button:active {
   transform: scale(0.95);
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
 }
 
-/* Desktop: Show remove button on card hover */
-@media (min-width: 769px) {
-  .completed-set-card:hover .set-remove-button {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Mobile and tablets: Always show remove button for better touch interaction */
-@media (max-width: 768px) {
-  .set-remove-button {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-
-  .set-remove-button:hover {
-    opacity: 1;
-  }
-
-  /* Make the remove button larger on mobile for easier touch */
-  .set-remove-button {
-    width: 26px; /* Increased from 24px */
-    height: 26px; /* Increased from 24px */
-  }
-
-  .set-remove-container {
-    top: -8px; /* Moved further out from -6px */
-    right: -8px; /* Moved further out from -6px */
-  }
+/* Show remove button on card hover like update indicators */
+.completed-set-card:hover .set-remove-button {
+  opacity: 1;
 }
 
 /* Daily History Section */
@@ -853,16 +867,16 @@
 }
 
 .progress-card.max-reps-card.pull-ups {
-  background: linear-gradient(135deg, #faf5ff, #ffffff);
+  background: linear-gradient(90deg, #faf5ff, #ffffff);
 }
 
 .progress-card.max-reps-card.dips {
-  background: linear-gradient(135deg, #fffbeb, #ffffff);
+  background: linear-gradient(90deg, #fffbeb, #ffffff);
 }
 
 .progress-card.max-reps-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .progress-card.max-reps-card .progress-value {
@@ -870,21 +884,6 @@
 }
 
 .progress-card.max-reps-card.dips .progress-value {
-  color: #d97706;
-}
-
-.update-indicator {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: rgba(124, 58, 237, 0.1);
-  border-radius: 50%;
-  padding: 4px;
-  color: #7c3aed;
-}
-
-.progress-card.max-reps-card.dips .update-indicator {
-  background: rgba(217, 119, 6, 0.1);
   color: #d97706;
 }
 
@@ -901,13 +900,20 @@
 }
 
 .reminder-indicator {
-  position: absolute;
-  top: 8px;
-  right: 8px;
   background: rgba(59, 130, 246, 0.1);
-  border-radius: 50%;
-  padding: 4px;
   color: #3b82f6;
+}
+
+/* Pull Ups Max Reps indicator */
+.pull-ups-indicator {
+  background: rgba(124, 58, 237, 0.1);
+  color: #7c3aed;
+}
+
+/* Dips Max Reps indicator */
+.dips-indicator {
+  background: rgba(217, 119, 6, 0.1);
+  color: #d97706;
 }
 
 /* Reminder Input Modal */
@@ -1148,12 +1154,7 @@
 }
 
 .sets-indicator {
-  position: absolute;
-  top: 8px;
-  right: 8px;
   background: rgba(34, 197, 94, 0.1);
-  border-radius: 50%;
-  padding: 4px;
   color: #22c55e;
 }
 
@@ -1175,12 +1176,7 @@
 }
 
 .schedule-indicator {
-  position: absolute;
-  top: 8px;
-  right: 8px;
   background: rgba(220, 38, 38, 0.1);
-  border-radius: 50%;
-  padding: 4px;
   color: #dc2626;
 }
 

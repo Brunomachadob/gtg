@@ -258,7 +258,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
                 <div className="progress-value">
                     {todayExercise} / {getDayNames()[DateService.getCurrentDate().getDay()]}
                 </div>
-                <div className="update-indicator">
+                <div className="update-indicator schedule-indicator">
                     <Edit3 size={16} />
                 </div>
             </div>
@@ -323,7 +323,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             <div className="progress-value">
               {getExerciseData('Pull Ups').currentMax} / {config.goals.pullUps}
             </div>
-            <div className="update-indicator">
+            <div className="update-indicator pull-ups-indicator">
               <Edit3 size={16} />
             </div>
           </div>
@@ -337,7 +337,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             <div className="progress-value">
               {getExerciseData('Dips').currentMax} / {config.goals.dips}
             </div>
-            <div className="update-indicator">
+            <div className="update-indicator dips-indicator">
               <Edit3 size={16} />
             </div>
           </div>
@@ -520,21 +520,22 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             if (reps > 0) {
               return (
                 <div key={i} className="completed-set-card">
-                    <div className="set-remove-container">
-                        <button
-                            className="set-remove-button"
-                            onClick={() => removeSet(i)}
-                            title="Remove Set"
-                        >
-                            <X size={16} />
-                        </button>
-                    </div>
                   <div className="set-header">
                     <div className="set-checkmark">✓</div>
-                    <div className="set-number">Set {i + 1}</div>
-                    {/* Remove set button - always visible on mobile, hover to show on desktop */}
+                    <div className="set-content">
+                      <div className="set-number">Set {i + 1}</div>
+                      <div className="set-reps">{reps} reps</div>
+                    </div>
                   </div>
-                  <div className="set-reps">{reps} reps</div>
+                  <div className="set-remove-container">
+                    <button
+                      className="set-remove-button"
+                      onClick={() => removeSet(i)}
+                      title="Remove Set"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
                 </div>
               );
             }

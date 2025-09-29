@@ -4,6 +4,7 @@ import {Config, Exercise, PageType} from '../../types';
 import { useSession } from '../../hooks/useSession';
 import { useMaxReps } from '../../hooks/useMaxReps';
 import './Today.css';
+import {NumberInput} from "../NumberInput/NumberInput.tsx";
 
 interface CountdownData {
   reminder: boolean;
@@ -354,14 +355,11 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             <div className="modal-title">How many reps?</div>
 
             <div className="modal-body">
-              <input
-                type="number"
-                min={1}
-                value={newSetReps}
-                onChange={e => setNewSetReps(Number(e.target.value))}
-                className="modal-input"
-                autoFocus
-              />
+                <NumberInput
+                    min={1}
+                    value={newSetReps}
+                    onChange={setNewSetReps}
+                />
             </div>
 
             <div className="modal-buttons">
@@ -385,26 +383,20 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             <div className="modal-body">
               <div className="input-group">
                 <div className="modal-input-label">Current Max Reps:</div>
-                <input
-                  type="number"
-                  min={0}
-                  value={newMaxReps}
-                  onChange={e => setNewMaxReps(Number(e.target.value))}
-                  className="modal-input"
-                  placeholder="0"
-                />
+                  <NumberInput
+                      min={1}
+                      value={newMaxReps}
+                      onChange={setNewMaxReps}
+                  />
               </div>
 
               <div className="input-group">
                 <div className="modal-input-label">Goal Reps:</div>
-                <input
-                  type="number"
-                  min={1}
-                  value={newGoalReps}
-                  onChange={e => setNewGoalReps(Number(e.target.value))}
-                  className="modal-input"
-                  placeholder="20"
-                />
+                  <NumberInput
+                      min={1}
+                      value={newGoalReps}
+                      onChange={setNewGoalReps}
+                  />
               </div>
             </div>
 
@@ -429,14 +421,11 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             <div className="modal-body">
               <div className="input-group">
                 <div className="modal-input-label">Interval (minutes):</div>
-                <input
-                  type="number"
-                  min={0}
-                  value={newReminderInterval}
-                  onChange={e => setNewReminderInterval(Number(e.target.value))}
-                  className="modal-input"
-                  placeholder="0"
-                />
+                  <NumberInput
+                      min={0}
+                      value={newReminderInterval}
+                      onChange={setNewReminderInterval}
+                  />
               </div>
             </div>
 
@@ -461,14 +450,11 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
             <div className="modal-body">
               <div className="input-group">
                 <div className="modal-input-label">Sets per Day:</div>
-                <input
-                  type="number"
-                  min={1}
-                  value={newDailySets}
-                  onChange={e => setNewDailySets(Number(e.target.value))}
-                  className="modal-input"
-                  placeholder="0"
-                />
+                  <NumberInput
+                      min={1}
+                      value={newDailySets}
+                      onChange={setNewDailySets}
+                  />
               </div>
             </div>
 

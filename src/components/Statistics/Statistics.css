@@ -296,22 +296,21 @@
 
 .chart-container {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden; /* Changed from auto to hidden to prevent horizontal scroll */
 }
 
 .custom-chart-wrapper {
   position: relative;
-  min-width: 800px;
+  width: 100%; /* Changed from min-width: 800px to responsive width */
   overflow: visible;
 }
 
 .custom-bar-chart {
   display: block;
   shape-rendering: crispEdges;
-}
-
-.custom-bar-chart text {
-  shape-rendering: optimizeLegibility;
+  width: 100%; /* Ensure SVG takes full width */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 100%; /* Prevent overflow */
 }
 
 .chart-bar {
@@ -405,10 +404,6 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .statistics-page {
-    padding: 16px;
-  }
-
   .stats-summary {
     grid-template-columns: 1fr;
   }

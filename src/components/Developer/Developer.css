@@ -3,8 +3,7 @@
   padding-top: 40px; /* Extra top padding for the fixed header */
   padding-bottom: 100px; /* Extra space for navigation */
   background: #f5f7fa;
-  min-height: 100vh;
-  height: 100vh;
+  min-height: 100vh; /* Remove conflicting height: 100vh */
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
@@ -112,6 +111,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  width: 100%; /* Ensure container takes full width */
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .dev-button {
@@ -125,10 +126,16 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 140px;
+  flex: 1 1 auto; /* Allow buttons to grow and shrink */
+  min-width: 120px; /* Reduced from 140px */
+  max-width: 200px; /* Prevent buttons from getting too wide */
   justify-content: center;
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; /* Include padding in width calculation */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis for long text */
 }
 
 .dev-button:hover {
@@ -303,10 +310,6 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .developer-page {
-    padding: 16px;
-  }
-
   .developer-controls {
     flex-direction: column;
   }

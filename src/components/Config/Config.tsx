@@ -92,47 +92,6 @@ export function Config({ config, setConfig }: ConfigProps) {
         </div>
       </div>
 
-      <div className="config-section">
-        <div className="flex items-center gap-2 mb-4">
-          <Hash className="text-purple-600" size={20} />
-          <h3 className="mb-0">Max Reps Goals</h3>
-        </div>
-        <div className="sets-reminder-config">
-          <div className="config-item">
-            <div className="config-item-row">
-              <label htmlFor="pullups-goal-input">Pull Ups Goal: </label>
-              <input
-                id="pullups-goal-input"
-                type="number"
-                min={1}
-                max={100}
-                value={config.goals.pullUps}
-                onChange={e => updateGoal('pullUps', Number(e.target.value))}
-              />
-            </div>
-            <div className="config-help-text">
-              Your target maximum reps for pull ups in a single set
-            </div>
-          </div>
-          <div className="config-item">
-            <div className="config-item-row">
-              <label htmlFor="dips-goal-input">Dips Goal: </label>
-              <input
-                id="dips-goal-input"
-                type="number"
-                min={1}
-                max={100}
-                value={config.goals.dips}
-                onChange={e => updateGoal('dips', Number(e.target.value))}
-              />
-            </div>
-            <div className="config-help-text">
-              Your target maximum reps for dips in a single set
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Developer Section - Only visible in development mode */}
       {isDevelopment() && (
         <div className="config-section developer-section">

@@ -7,50 +7,39 @@ const hashToPage: Record<string, PageType> = {
   '#stats': 'stats',
   '#about': 'about',
   '#developer': 'developer',
-  '': 'today', // Default to today when no hash
-};
-
-const pageToHash: Record<PageType, string> = {
-  'today': '#today',
-  'stats': '#stats',
-  'about': '#about',
-  'developer': '#developer',
 };
 
 export function useRouter() {
   const getPageFromHash = (): PageType => {
-    const hash = window.location.hash;
-    return hashToPage[hash] || 'today';
+    return hashToPage[window.location.hash] || 'today';
   };
+
+  const navigateTo = (page: PageType) => {
+    window.location.hash = `#${page}`
+  };
+
+  const windowReload = () => {
+    window.location.reload();
+  }
 
   const [currentPage, setCurrentPage] = useState<PageType>(getPageFromHash);
 
   useEffect(() => {
     const handleHashChange = () => {
-      const newPage = getPageFromHash();
-      setCurrentPage(newPage);
+      setCurrentPage(getPageFromHash());
     };
 
     // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
-
-    // Set the initial hash if none exists
-    if (!window.location.hash) {
-      window.location.hash = '#today';
-    }
 
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
 
-  const navigateTo = (page: PageType) => {
-    window.location.hash = pageToHash[page];
-    // setCurrentPage will be updated by the hashchange event
-  };
-
   return {
     currentPage,
-    navigateTo
+    navigateTo,
+    windowReload
   };
 }

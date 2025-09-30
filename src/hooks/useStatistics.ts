@@ -1,169 +1,99 @@
-import { useState, useEffect } from 'react';
-import { Statistics } from '../types';
+import { Statistics, Stats } from '../types';
 import { StorageService } from '../services/StorageService';
 import { DateService } from '../services/DateService';
 
 export function useStatistics(): Statistics {
-  const [stats, setStats] = useState<Statistics>({
-    daily: {},
+  type StatsKeys = 'pullUps' | 'dips' | 'total';
+
+  const updateAverageBonusSets = (stats: Statistics, key: StatsKeys) => {
+    if (stats[key].bonusDays > 0) {
+      stats[key].averageBonusSets = Math.round((stats[key].bonusSets / stats[key].bonusDays) * 10) / 10;
+    }
+  }
+
+  const exerciseToStatKey = (exercise: 'Pull Ups' | 'Dips'): StatsKeys => {
+    switch (exercise) {
+      case 'Pull Ups': return 'pullUps';
+      case "Dips": return 'dips';
+    }
+  }
+
+  const now = DateService.getCurrentDate();
+  const allDailySets = StorageService.getAllDailySets();
+  const config = StorageService.getConfig();
+
+  const startStats: Stats = {
     weekly: 0,
     monthly: 0,
     streak: 0,
     bonusDays: 0,
-    averageBonusSets: 0,
-    exerciseStats: {
-      pullUps: {
-        daily: {},
-        weekly: 0,
-        monthly: 0,
-        streak: 0,
-        bonusDays: 0,
-        averageBonusSets: 0,
-      },
-      dips: {
-        daily: {},
-        weekly: 0,
-        monthly: 0,
-        streak: 0,
-        bonusDays: 0,
-        averageBonusSets: 0,
-      },
+    bonusSets: 0,
+    averageBonusSets: 0
+  };
+
+  const stats: Statistics = {
+    total: {
+      ...startStats
     },
-  });
+    pullUps: {
+      ...startStats
+    },
+    dips: {
+      ...startStats
+    },
+    overtime: []
+  };
 
-  useEffect(() => {
-    const sessions = StorageService.getAllSessions();
-    const config = StorageService.getConfig();
+  for (let day = 0; day < 31; day++) {
+    const dt = new Date(now);
+    dt.setDate(now.getDate() - day);
+    const dateStr = dt.toISOString().slice(0, 10);
 
-    // Calculate daily totals
-    const daily: { [date: string]: number } = {};
-    const pullUpsDaily: { [date: string]: number } = {};
-    const dipsDaily: { [date: string]: number } = {};
+    const dailySet = allDailySets[dateStr];
+    const exercise = dailySet?.exercise || ''
 
-    Object.entries(sessions).forEach(([date, sets]) => {
-      const totalReps = sets.reduce((a: number, b: number) => a + b, 0);
-      daily[date] = totalReps;
+    const setsArray = dailySet?.sets || [];
+    const reps = setsArray.reduce((a, b) => a + b, 0);
+    const completedSets = setsArray.filter(r => r > 0).length;
 
-      // Determine exercise type for this date
-      const dateObj = new Date(date);
-      const dayIndex = dateObj.getDay();
-      const exerciseType = config.days[dayIndex];
+    // We need the data in the correct order for the overtime chart
+    stats.overtime.unshift({
+      date: dateStr,
+      dayMonth: dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      pullUps: exercise == 'Pull Ups' ? reps : 0,
+      dips: exercise == 'Dips' ? reps : 0,
+    })
 
-      if (exerciseType === 'Pull Ups') {
-        pullUpsDaily[date] = totalReps;
-      } else if (exerciseType === 'Dips') {
-        dipsDaily[date] = totalReps;
-      }
-    });
-
-    // Helper function to calculate stats for a specific exercise
-    const calculateExerciseStats = (exerciseType: 'Pull Ups' | 'Dips', dailyData: { [date: string]: number }) => {
-      const now = DateService.getCurrentDate();
-      let weekly = 0, monthly = 0;
-      let streakCount = 0;
-      let bonusDaysCount = 0;
-      let totalBonusSets = 0;
-
-      for (let d = 0; d < 31; d++) {
-        const dt = new Date(now);
-        dt.setDate(now.getDate() - d);
-        const key = dt.toISOString().slice(0, 10);
-        const dayIndex = dt.getDay();
-        const configuredExercise = config.days[dayIndex];
-
-        // Only count stats for days that match this exercise type
-        if (configuredExercise === exerciseType) {
-          const reps = dailyData[key] || 0;
-          const setsArray = sessions[key] || [];
-          const completedSets = setsArray.filter(r => r > 0).length;
-
-          if (d < 7) weekly += reps;
-          monthly += reps;
-
-          // Check if this day had bonus sets
-          if (completedSets > config.sets) {
-            bonusDaysCount++;
-            totalBonusSets += (completedSets - config.sets);
-          }
-
-          // Streak: count consecutive exercise days with all minimum sets done
-          if (sessions[key] && setsArray.slice(0, config.sets).every((r: number) => r > 0)) {
-            streakCount++;
-          } else if (d === 0 && configuredExercise === exerciseType) {
-            // If today is this exercise type and not complete, streak is 0
-            streakCount = 0;
-            break;
-          } else {
-            // If any previous day of this exercise type breaks the streak, stop counting
-            break;
-          }
-        }
-      }
-
-      const averageBonusSets = bonusDaysCount > 0 ? Math.round((totalBonusSets / bonusDaysCount) * 10) / 10 : 0;
-
-      return {
-        daily: dailyData,
-        weekly,
-        monthly,
-        streak: streakCount,
-        bonusDays: bonusDaysCount,
-        averageBonusSets,
-      };
-    };
-
-    // Calculate overall stats (existing logic)
-    const now = DateService.getCurrentDate();
-    let weekly = 0, monthly = 0;
-    let streakCount = 0;
-    let bonusDaysCount = 0;
-    let totalBonusSets = 0;
-
-    for (let d = 0; d < 31; d++) {
-      const dt = new Date(now);
-      dt.setDate(now.getDate() - d);
-      const key = dt.toISOString().slice(0, 10);
-      const reps = daily[key] || 0;
-      const setsArray = sessions[key] || [];
-      const completedSets = setsArray.filter(r => r > 0).length;
-
-      if (d < 7) weekly += reps;
-      monthly += reps;
-
-      if (completedSets > config.sets) {
-        bonusDaysCount++;
-        totalBonusSets += (completedSets - config.sets);
-      }
-
-      if (sessions[key] && setsArray.slice(0, config.sets).every((r: number) => r > 0)) {
-        streakCount++;
-      } else if (d === 0) {
-        streakCount = 0;
-        break;
-      } else {
-        break;
-      }
+    if (exercise == '' || exercise == 'Rest') {
+      continue;
     }
 
-    const averageBonusSets = bonusDaysCount > 0 ? Math.round((totalBonusSets / bonusDaysCount) * 10) / 10 : 0;
+    if (day < 7) {
+      stats.total.weekly += reps;
+      stats[exerciseToStatKey(exercise)].weekly += reps;
+    }
 
-    // Calculate exercise-specific stats
-    const pullUpsStats = calculateExerciseStats('Pull Ups', pullUpsDaily);
-    const dipsStats = calculateExerciseStats('Dips', dipsDaily);
+    stats.total.monthly += reps;
+    stats[exerciseToStatKey(exercise)].monthly += reps;
 
-    setStats({
-      daily,
-      weekly,
-      monthly,
-      streak: streakCount,
-      bonusDays: bonusDaysCount,
-      averageBonusSets,
-      exerciseStats: {
-        pullUps: pullUpsStats,
-        dips: dipsStats,
-      },
-    });
-  }, []);
+    if (completedSets > config.sets) {
+      stats.total.streak++;
+      stats[exerciseToStatKey(exercise)].streak++;
+
+      stats.total.bonusDays++;
+      stats[exerciseToStatKey(exercise)].bonusDays++;
+
+      stats.total.bonusSets += (completedSets - config.sets);
+      stats[exerciseToStatKey(exercise)].bonusSets += (completedSets - config.sets);
+    } else if (completedSets == config.sets) {
+      stats.total.streak++;
+      stats[exerciseToStatKey(exercise)].streak++;
+    }
+  }
+
+  updateAverageBonusSets(stats, 'total');
+  updateAverageBonusSets(stats, 'pullUps');
+  updateAverageBonusSets(stats, 'dips');
 
   return stats;
 }

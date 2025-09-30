@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 3px 6px;
+  padding: 10px;
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 32px;
@@ -54,6 +54,10 @@
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1;
+}
+
+.navigation button.today {
+  scale: 125%;
 }
 
 /* Mobile adjustments */

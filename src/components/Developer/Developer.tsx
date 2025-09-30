@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Code, RotateCcw, Trash2, Download, Upload, Calendar, Clock } from 'lucide-react';
+import { Code, RotateCcw, Trash2, Calendar, Clock } from 'lucide-react';
 import { DateService } from '../../services/DateService';
+import {StorageService} from "../../services/StorageService.ts";
+import {useRouter} from "../../hooks/useRouter.ts";
 import './Developer.css';
 
 export function Developer() {
   const [mockDate, setMockDate] = useState<string>('');
   const [isMockActive, setIsMockActive] = useState(false);
+  const { windowReload } = useRouter()
 
   useEffect(() => {
     // Initialize mock date state
@@ -24,7 +27,7 @@ export function Developer() {
       DateService.setMockDate(new Date(mockDate));
       setIsMockActive(true);
       alert(`Mock date set to: ${mockDate}`);
-      window.location.reload();
+      windowReload();
     }
   };
 
@@ -33,74 +36,21 @@ export function Developer() {
     setIsMockActive(false);
     setMockDate(new Date().toISOString().slice(0, 10));
     alert('Mock date cleared. Using real current date.');
-    window.location.reload();
+    windowReload();
   };
 
   const resetTodaysSets = () => {
-    const todayKey = DateService.getCurrentDateString();
-    localStorage.removeItem(`gtg_sessions_${todayKey}`);
+    StorageService.clearDailySets(DateService.getCurrentDateString());
     alert('Today\'s sets have been reset!');
-    // Force a page refresh to update the session state
-    window.location.reload();
+    windowReload();
   };
 
   const clearAllData = () => {
     if (window.confirm('Are you sure you want to clear ALL app data? This cannot be undone!')) {
-      // Clear all localStorage data related to the app
-      const keys = Object.keys(localStorage);
-      keys.forEach(key => {
-        if (key.startsWith('gtg_')) {
-          localStorage.removeItem(key);
-        }
-      });
+      StorageService.clearAllData();
       alert('All app data has been cleared!');
-      window.location.reload();
+      windowReload();
     }
-  };
-
-  const exportData = () => {
-    const data: any = {};
-    const keys = Object.keys(localStorage);
-    keys.forEach(key => {
-      if (key.startsWith('gtg_')) {
-        data[key] = localStorage.getItem(key);
-      }
-    });
-
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `gtg-data-${DateService.getCurrentDateString()}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  const importData = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const data = JSON.parse(e.target?.result as string);
-
-        if (window.confirm('This will overwrite existing data. Continue?')) {
-          Object.entries(data).forEach(([key, value]) => {
-            if (key.startsWith('gtg_') && typeof value === 'string') {
-              localStorage.setItem(key, value);
-            }
-          });
-          alert('Data imported successfully!');
-          window.location.reload();
-        }
-      } catch (error) {
-        alert('Error importing data: Invalid file format');
-      }
-    };
-    reader.readAsText(file);
   };
 
   return (
@@ -180,26 +130,6 @@ export function Developer() {
         <div className="developer-section">
           <h3>Data Management</h3>
           <div className="developer-controls">
-            <button
-              className="dev-button export-button"
-              onClick={exportData}
-              title="Export all app data to JSON file"
-            >
-              <Download size={16} />
-              Export Data
-            </button>
-
-            <label className="dev-button import-button" title="Import app data from JSON file">
-              <Upload size={16} />
-              Import Data
-              <input
-                type="file"
-                accept=".json"
-                onChange={importData}
-                style={{ display: 'none' }}
-              />
-            </label>
-
             <button
               className="dev-button danger-button"
               onClick={clearAllData}

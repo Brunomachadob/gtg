@@ -1,6 +1,5 @@
 import { isDevelopment } from '../utils/environment';
-
-const MOCK_DATE_KEY = 'gtg_dev_mock_date';
+import { StorageService } from "./StorageService.ts";
 
 export class DateService {
   /**
@@ -9,11 +8,9 @@ export class DateService {
    */
   static getCurrentDate(): Date {
     if (isDevelopment()) {
-      const mockDateString = localStorage.getItem(MOCK_DATE_KEY);
-      if (mockDateString) {
-        return new Date(mockDateString);
-      }
+        return StorageService.getMockDate() || new Date();
     }
+
     return new Date();
   }
 
@@ -31,7 +28,7 @@ export class DateService {
    */
   static setMockDate(date: Date): void {
     if (isDevelopment()) {
-      localStorage.setItem(MOCK_DATE_KEY, date.toISOString());
+        StorageService.setMockDate(date)
     }
   }
 
@@ -40,7 +37,7 @@ export class DateService {
    */
   static clearMockDate(): void {
     if (isDevelopment()) {
-      localStorage.removeItem(MOCK_DATE_KEY);
+      StorageService.clearMockDate();
     }
   }
 
@@ -49,12 +46,6 @@ export class DateService {
    * @returns Mock date or null
    */
   static getMockDate(): Date | null {
-    if (isDevelopment()) {
-      const mockDateString = localStorage.getItem(MOCK_DATE_KEY);
-      if (mockDateString) {
-        return new Date(mockDateString);
-      }
-    }
-    return null;
+      return isDevelopment() ? StorageService.getMockDate() : null
   }
 }

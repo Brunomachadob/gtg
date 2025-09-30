@@ -19,13 +19,13 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         <BarChart3 size={20} />
         <span>Statistics</span>
       </button>
-        <button
-            className={currentPage === 'today' ? 'active' : ''}
-            onClick={() => onPageChange('today')}
-        >
-            <Calendar size={28} />
-            <span>Today</span>
-        </button>
+      <button
+        className={"today " + (currentPage === 'today' ? 'active' : '')}
+        onClick={() => onPageChange('today')}
+      >
+        <Calendar size={28} />
+        <span>Today</span>
+      </button>
       <button
         className={currentPage === 'about' ? 'active' : ''}
         onClick={() => onPageChange('about')}

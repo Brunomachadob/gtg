@@ -1,33 +1,34 @@
 import { useState, useEffect } from 'react';
 import { StorageService } from '../services/StorageService';
 import { DateService } from '../services/DateService';
+import { DailySets, Exercise } from "../types";
 
-export function useSession(sets: number, reminderIntervalMinutes: number) {
+export function useSession(sets: number, todayExercise: Exercise, reminderIntervalMinutes: number) {
   const todayKey = DateService.getCurrentDateString();
   const REMINDER_INTERVAL = reminderIntervalMinutes * 60 * 1000; // Convert minutes to milliseconds
   const isReminderDisabled = reminderIntervalMinutes === 0;
 
-  const [setsDone, setSetsDone] = useState<number[]>(() => {
-    const saved = StorageService.getSessionData(todayKey);
-    return saved.length > 0 ? saved : Array(sets).fill(0);
+  const [dailySets, setDailySets] = useState<DailySets>(() => {
+    return StorageService.getDailySets(todayKey) || {
+      exercise: todayExercise,
+      sets: Array(sets).fill(0),
+    };
   });
 
-  const [repsInputs, setRepsInputs] = useState<number[]>(() => Array(sets).fill(0));
-  const [flipped, setFlipped] = useState<boolean[]>(() => Array(sets).fill(false));
   const [reminder, setReminder] = useState(false);
   const [nextReminderTime, setNextReminderTime] = useState<number | null>(null);
   const [timeRemaining, setTimeRemaining] = useState<number>(0);
 
   useEffect(() => {
-    StorageService.saveSessionData(todayKey, setsDone);
-  }, [setsDone, todayKey]);
+    StorageService.saveDailySets(todayKey, dailySets);
+  }, [dailySets, todayKey, todayExercise]);
 
   useEffect(() => {
-    if (!isReminderDisabled && setsDone.some(r => r === 0) && !reminder && !nextReminderTime) {
+    if (!isReminderDisabled && dailySets.sets.some(r => r === 0) && !reminder && !nextReminderTime) {
       const reminderTime = Date.now() + REMINDER_INTERVAL;
       setNextReminderTime(reminderTime);
     }
-  }, [setsDone, reminder, nextReminderTime, isReminderDisabled, REMINDER_INTERVAL]);
+  }, [dailySets, reminder, nextReminderTime, isReminderDisabled, REMINDER_INTERVAL]);
 
   // Reset timer when interval configuration changes
   useEffect(() => {
@@ -102,36 +103,10 @@ export function useSession(sets: number, reminderIntervalMinutes: number) {
     }
   };
 
-  const markSetDone = (idx: number) => {
-    if (setsDone[idx] > 0 || repsInputs[idx] <= 0) return;
-    const updated = [...setsDone];
-    updated[idx] = repsInputs[idx];
-    setSetsDone(updated);
-
-    const flipUpd = [...flipped];
-    flipUpd[idx] = false;
-    setFlipped(flipUpd);
-    setReminder(false);
-    setNextReminderTime(null);
-  };
-
-  const flipCard = (idx: number) => {
-    if (setsDone[idx] > 0) return;
-    const updated = [...flipped];
-    updated[idx] = !updated[idx];
-    setFlipped(updated);
-  };
-
-  const updateReps = (idx: number, value: number) => {
-    const updated = [...repsInputs];
-    updated[idx] = value;
-    setRepsInputs(updated);
-  };
-
   const dismissReminder = () => {
     setReminder(false);
     // Set next reminder only if not disabled
-    if (!isReminderDisabled && setsDone.some(r => r === 0)) {
+    if (!isReminderDisabled && dailySets.sets.some(r => r === 0)) {
       const reminderTime = Date.now() + REMINDER_INTERVAL;
       setNextReminderTime(reminderTime);
     }
@@ -139,28 +114,36 @@ export function useSession(sets: number, reminderIntervalMinutes: number) {
 
   // Direct method to add a set with specific reps
   const addSetWithReps = (reps: number) => {
-    const firstEmptyIndex = setsDone.findIndex(r => r === 0);
+    const firstEmptyIndex = dailySets.sets.findIndex(r => r === 0);
+    let updatedSets;
+
     if (firstEmptyIndex !== -1) {
       // Add to existing empty slot
-      const updated = [...setsDone];
-      updated[firstEmptyIndex] = reps;
-      setSetsDone(updated);
+      updatedSets = [...dailySets.sets];
+      updatedSets[firstEmptyIndex] = reps;
     } else {
       // All slots filled, add a new set beyond the minimum
-      const updated = [...setsDone, reps];
-      setSetsDone(updated);
+      updatedSets = [...dailySets.sets, reps];
     }
+
+    setDailySets({
+      ...dailySets,
+      sets: updatedSets
+    });
     setReminder(false);
     setNextReminderTime(null);
   };
 
   // Remove a specific set by index
   const removeSet = (idx: number) => {
-    if (idx < 0 || idx >= setsDone.length || setsDone[idx] === 0) return;
+    if (idx < 0 || idx >= dailySets.sets.length || dailySets.sets[idx] === 0) return;
 
-    const updated = [...setsDone];
+    const updated = [...dailySets.sets];
     updated[idx] = 0; // Reset the set to 0 (empty)
-    setSetsDone(updated);
+    setDailySets({
+      ...dailySets,
+      sets: updated
+    });
 
     // If we now have incomplete sets and reminders are enabled, start the timer
     if (!isReminderDisabled && updated.some(r => r === 0) && !reminder && !nextReminderTime) {
@@ -169,30 +152,10 @@ export function useSession(sets: number, reminderIntervalMinutes: number) {
     }
   };
 
-  const formatTime = (ms: number) => {
-    const minutes = Math.floor(ms / (1000 * 60));
-    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  };
-
-  const getProgressPercentage = () => {
-    if (!nextReminderTime) return 0;
-    const totalTime = REMINDER_INTERVAL;
-    const elapsed = totalTime - timeRemaining;
-    return Math.min(100, (elapsed / totalTime) * 100);
-  };
-
   return {
-    setsDone,
-    repsInputs,
-    flipped,
+    dailySets,
     reminder,
     timeRemaining,
-    progressPercentage: getProgressPercentage(),
-    formatTime,
-    markSetDone,
-    flipCard,
-    updateReps,
     dismissReminder,
     addSetWithReps,
     removeSet

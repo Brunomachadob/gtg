@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
 import { Bed, Plus, Target, Clock, ChevronUp, ChevronDown, Edit3, Calendar, Info, X } from 'lucide-react';
-import {Config, Exercise, PageType} from '../../types';
+import { Exercise, PageType} from '../../types';
 import { useSession } from '../../hooks/useSession';
 import { useMaxReps } from '../../hooks/useMaxReps';
-import './Today.css';
+import { useConfig } from '../../hooks/useConfig';
 import {NumberInput} from "../NumberInput/NumberInput.tsx";
 import {DateService} from "../../services/DateService.ts";
-
-interface CountdownData {
-  reminder: boolean;
-  timeRemaining: number;
-  countdownProgress: number;
-  formatTime: (time: number) => string;
-  dismissReminder: () => void;
-}
+import './Today.css';
 
 interface TodayProps {
-  config: Config;
-  todayExercise: Exercise;
-  countdown?: CountdownData;
   navigateTo: (page: PageType) => void;
 }
 
-export function Today({ config, todayExercise, countdown, navigateTo }: TodayProps) {
+export function Today({ navigateTo }: TodayProps) {
+  const { config, setConfig } = useConfig();
+
+  // Get session data for countdown integration
+  const todayIdx = DateService.getCurrentDate().getDay();
+  const todayExercise = config.days[todayIdx];
+  const isRestDay = todayExercise === 'Rest';
+
   const [showRepsInput, setShowRepsInput] = useState(false);
   const [newSetReps, setNewSetReps] = useState(0);
   const [showMaxRepsInput, setShowMaxRepsInput] = useState<string | null>(null);
@@ -37,20 +34,26 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
 
   // Get session data for set cards
   const {
-    setsDone,
+    dailySets,
     addSetWithReps,
-    removeSet
-  } = useSession(config.sets, config.reminderIntervalMinutes);
+    removeSet,
+    reminder,
+    dismissReminder,
+    timeRemaining,
+  } = useSession(config.sets, todayExercise, config.reminderIntervalMinutes);
 
   // Get max reps data
   const { getExerciseData, setCurrentMax } = useMaxReps();
 
   // Calculate completed sets
-  const completedSets = setsDone.filter((reps: number) => reps > 0).length;
+  const completedSets = dailySets.sets.filter((reps: number) => reps > 0).length;
   const hasReachedMinimum = completedSets >= config.sets;
 
-  // Check if today is a rest day
-  const isRestDay = todayExercise === 'Rest';
+  const formatTime = (ms: number) => {
+    const minutes = Math.floor(ms / (1000 * 60));
+    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  };
 
   const handleAddSet = () => {
     // Prevent adding sets if no valid exercise is scheduled for today or if it's a rest day
@@ -61,7 +64,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
     }
 
     // Get the reps from the last completed set to pre-populate the input
-    const completedSetsReps = setsDone.filter(reps => reps > 0);
+    const completedSetsReps = dailySets.sets.filter(reps => reps > 0);
     const lastSetReps = completedSetsReps.length > 0 ? completedSetsReps[completedSetsReps.length - 1] : 0;
     setNewSetReps(lastSetReps);
     setShowRepsInput(true);
@@ -90,10 +93,10 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
 
   const handleSubmitMaxReps = () => {
     if (showMaxRepsInput && newMaxReps >= 0 && newGoalReps > 0) {
-      // Update current max
+      // Update current max using centralized service
       setCurrentMax(showMaxRepsInput, newMaxReps);
 
-      // Update goal in config
+      // Update goal in config using the hook
       const exerciseKey = showMaxRepsInput === 'Pull Ups' ? 'pullUps' : 'dips';
       const updatedConfig = {
         ...config,
@@ -102,10 +105,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
           [exerciseKey]: newGoalReps
         }
       };
-      // We need to get setConfig from props, but it's not currently passed
-      // For now, we'll update it via the same pattern used in Config component
-      localStorage.setItem('gtg_config', JSON.stringify(updatedConfig));
-      window.location.reload(); // Force reload to update config
+      setConfig(updatedConfig);
     }
     setShowMaxRepsInput(null);
     setNewMaxReps(0);
@@ -125,13 +125,12 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
 
   const handleSubmitReminder = () => {
     if (newReminderInterval >= 0) {
-      // Update reminder interval in config
+      // Update reminder interval using the config hook
       const updatedConfig = {
         ...config,
         reminderIntervalMinutes: newReminderInterval
       };
-      localStorage.setItem('gtg_config', JSON.stringify(updatedConfig));
-      window.location.reload(); // Force reload to update config
+      setConfig(updatedConfig);
     }
     setShowReminderInput(false);
     setNewReminderInterval(0);
@@ -149,13 +148,12 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
 
   const handleSubmitSets = () => {
     if (newDailySets > 0) {
-      // Update daily sets in config
+      // Update daily sets using the config hook
       const updatedConfig = {
         ...config,
         sets: newDailySets
       };
-      localStorage.setItem('gtg_config', JSON.stringify(updatedConfig));
-      window.location.reload(); // Force reload to update config
+      setConfig(updatedConfig);
     }
     setShowSetsInput(false);
     setNewDailySets(0);
@@ -173,13 +171,12 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
 
   const handleSubmitSchedule = () => {
     if (scheduleConfig.length > 0) {
-      // Update schedule in config
+      // Update schedule using the config hook
       const updatedConfig = {
         ...config,
         days: scheduleConfig
       };
-      localStorage.setItem('gtg_config', JSON.stringify(updatedConfig));
-      window.location.reload(); // Force reload to update config
+      setConfig(updatedConfig);
     }
     setShowScheduleInput(false);
   };
@@ -200,36 +197,35 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
     setScheduleConfig(newSchedule);
   };
 
-  // If no exercise is scheduled for today (fresh app state), show a setup message
-  if ((!todayExercise || (todayExercise as string) === '') && !showScheduleInput) {
-    return (
-      <div className="today-page">
-        <div className="rest-day-message">
-          <Calendar className="mx-auto mb-4 text-orange-500" size={48} />
-          <h2 className="text-2xl font-bold text-gray-700 mb-2">Exercise Not Set</h2>
-          <p className="text-gray-600 text-center mb-4">
-            There's no exercise scheduled for today. Please set up your schedule to start exercising.
-          </p>
-          <div className="flex justify-center gap-4">
-            <button
-              className="schedule-setup-button"
-              onClick={handleUpdateSchedule}
-            >
-              <Calendar size={20} />
-              Set Up Schedule
-            </button>
-            <button
-              className="learn-more-button"
-              onClick={() => navigateTo('about')}
-            >
-              <Info size={20} />
-              Learn More
-            </button>
-          </div>
-        </div>
+  const alternateSetsGrid = isRestDay ? (
+    <div className="empty-sets-message">
+      <Bed className="empty-icon" size={48} />
+      <p>Rest Day</p>
+      <p className="empty-subtitle">Today is your rest day. Take time to recover and come back stronger tomorrow!</p>
+    </div>
+  ) : !todayExercise || (todayExercise as string) === '' ? (
+    <div className="empty-sets-message">
+      <Calendar className="empty-icon" size={48} />
+      <p>Exercise Not Set</p>
+      <p className="empty-subtitle">There's no exercise scheduled for today. Please set up your schedule to start exercising.</p>
+      <div className="flex justify-center empty-sets-buttons-container">
+        <button
+          className="schedule-setup-button"
+          onClick={handleUpdateSchedule}
+        >
+          <Calendar size={20} />
+          Set Up Schedule
+        </button>
+        <button
+          className="learn-more-button"
+          onClick={() => navigateTo('about')}
+        >
+          <Info size={20} />
+          Learn More
+        </button>
       </div>
-    );
-  }
+    </div>
+  ) : null;
 
   return (
     <div className="today-page">
@@ -286,16 +282,10 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
 
         <div className="sets-grid">
           {/* Show rest day message when it's a rest day */}
-          {isRestDay ? (
-            <div className="empty-sets-message">
-              <Bed className="empty-icon" size={48} />
-              <p>Rest Day</p>
-              <p className="empty-subtitle">Today is your rest day. Take time to recover and come back stronger tomorrow!</p>
-            </div>
-          ) : (
+          {alternateSetsGrid ||  (
             <>
               {/* Show completed sets */}
-              {setsDone.map((reps: number, i: number) => {
+              {dailySets.sets.map((reps: number, i: number) => {
                 if (reps > 0) {
                   return (
                     <div key={i} className="completed-set-card">
@@ -322,7 +312,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
               })}
 
               {/* Empty state when no sets */}
-              {setsDone.filter(reps => reps > 0).length === 0 && (
+              {dailySets.sets.filter(reps => reps > 0).length === 0 && (
                 <div className="empty-sets-message">
                   <Target className="empty-icon" size={32} />
                   <p>No sets completed yet today</p>
@@ -342,7 +332,7 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
 
         <div className="progress-cards secondary">
           {/* Reminder Card */}
-          <div className={`progress-card countdown-progress reminder-card secondary-card ${countdown?.reminder ? 'reminder-active' : ''}`} onClick={handleUpdateReminder}>
+          <div className={`progress-card countdown-progress reminder-card secondary-card ${reminder ? 'reminder-active' : ''}`} onClick={handleUpdateReminder}>
             <div className="progress-icon">
               <Clock className="text-blue-600" size={20} />
             </div>
@@ -351,21 +341,21 @@ export function Today({ config, todayExercise, countdown, navigateTo }: TodayPro
                 <div className="exercise-name">Reminder</div>
                 <div className="progress-value">OFF</div>
               </div>
-            ) : countdown?.reminder ? (
+            ) : reminder ? (
               <div className="card-reminder-content">
                 <div className="reminder-title">Time's Up!</div>
                 <div className="reminder-message">Ready for your next set</div>
                 <button className="dismiss-btn-card" onClick={(e) => {
                   e.stopPropagation();
-                  countdown.dismissReminder();
+                  dismissReminder();
                 }}>
                   Dismiss
                 </button>
               </div>
-            ) : countdown && countdown.timeRemaining > 0 ? (
+            ) : timeRemaining > 0 ? (
               <div className="card-content">
                 <div className="exercise-name">Reminder</div>
-                <div className="progress-value">{countdown.formatTime(countdown.timeRemaining)}</div>
+                <div className="progress-value">{formatTime(timeRemaining)}</div>
               </div>
             ) : (
               <div className="card-content">

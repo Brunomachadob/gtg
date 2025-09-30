@@ -1,49 +1,44 @@
 export const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as const;
-export const EXERCISES = ['Pull Ups', 'Dips', 'Rest'] as const;
 
+export const EXERCISES = ['Pull Ups', 'Dips', 'Rest'] as const;
 export type Exercise = typeof EXERCISES[number] | '';
+
+export type PageType = 'today' | 'stats' | 'about' | 'developer';
 
 export interface Config {
   days: Exercise[];
   sets: number;
   reminderIntervalMinutes: number;
-  // Max reps goals for each exercise
   goals: {
     pullUps: number;
     dips: number;
   };
 }
 
-export interface SessionData {
-  [date: string]: number[];
+export interface DailySets {
+  exercise: Exercise;
+  sets: number[];
 }
 
-export interface Statistics {
-  daily: { [date: string]: number };
+export interface Stats {
   weekly: number;
   monthly: number;
   streak: number;
   bonusDays: number;
+  bonusSets: number;
   averageBonusSets: number;
-  // Exercise-specific statistics
-  exerciseStats: {
-    pullUps: {
-      daily: { [date: string]: number };
-      weekly: number;
-      monthly: number;
-      streak: number;
-      bonusDays: number;
-      averageBonusSets: number;
-    };
-    dips: {
-      daily: { [date: string]: number };
-      weekly: number;
-      monthly: number;
-      streak: number;
-      bonusDays: number;
-      averageBonusSets: number;
-    };
-  };
+}
+
+export interface Statistics {
+  total: Stats;
+  pullUps: Stats;
+  dips: Stats;
+  overtime: Array<{
+    date: string,
+    pullUps: number,
+    dips: number,
+    dayMonth: string,
+  }>
 }
 
 export interface MaxRepsData {
@@ -57,4 +52,4 @@ export interface MaxRepsData {
   };
 }
 
-export type PageType = 'today' | 'stats' | 'about' | 'developer';
+

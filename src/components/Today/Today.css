@@ -358,6 +358,14 @@
   margin: 0;
 }
 
+.empty-sets-buttons-container {
+  padding: 8px;
+}
+
+.empty-sets-buttons-container > button {
+  margin: 8px;
+}
+
 .section-header {
   margin-bottom: 16px;
 }
@@ -376,6 +384,7 @@
   background: linear-gradient(90deg, #f1f8e9, #ffffff);
   border-radius: 30px; /* Changed to match pill shape */
   padding: 8px 16px; /* Match progress card padding */
+  margin: 8px;
   text-align: left; /* Changed from center to left for horizontal layout */
   position: relative;
   width: auto; /* Changed from fixed 90px to auto width */
@@ -389,8 +398,6 @@
   color: #388e3c;
   border: 1px solid rgba(0, 0, 0, 0.06); /* Match progress card border */
   box-sizing: border-box;
-  gap: 8px; /* Add gap between elements */
-  cursor: pointer;
   min-width: 120px; /* Ensure minimum width for content */
   flex: 0 1 auto; /* Allow flexible sizing */
 }
@@ -469,11 +476,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
   opacity: 0.6; /* Match update indicator opacity */
   transform: scale(1); /* Reset scale */
+  cursor: pointer;
 }
 
 .set-remove-button:hover {

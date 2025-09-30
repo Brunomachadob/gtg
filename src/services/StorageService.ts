@@ -1,9 +1,12 @@
-import { Config, SessionData, MaxRepsData, DAYS, Exercise } from '../types';
+import { Config, MaxRepsData, DAYS, Exercise, DailySets } from '../types';
 import { DateService } from './DateService';
 
-const CONFIG_KEY = 'gtg_config';
-const SESSION_KEY_PREFIX = 'gtg_sessions_';
-const MAX_REPS_KEY = 'gtg_max_reps';
+const GTG_PREFIX = 'gtg_';
+
+const CONFIG_KEY = `${GTG_PREFIX}config`;
+const SETS_KEY_PREFIX = `${GTG_PREFIX}sets_`;
+const MAX_REPS_KEY = `${GTG_PREFIX}max_reps`;
+const MOCK_DATE_KEY = `${GTG_PREFIX}dev_mock_date`;
 
 export class StorageService {
   static getConfig(): Config {
@@ -35,25 +38,31 @@ export class StorageService {
     localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
   }
 
-  static getSessionData(date: string): number[] {
-    const saved = localStorage.getItem(SESSION_KEY_PREFIX + date);
-    return saved ? JSON.parse(saved) : [];
+  static clearDailySets(date: string) {
+    localStorage.removeItem(SETS_KEY_PREFIX + date)
   }
 
-  static saveSessionData(date: string, data: number[]): void {
-    localStorage.setItem(SESSION_KEY_PREFIX + date, JSON.stringify(data));
+  static saveDailySets(date: string, dailySets: DailySets) {
+    localStorage.setItem(SETS_KEY_PREFIX + date, JSON.stringify(dailySets))
   }
 
-  static getAllSessions(): SessionData {
-    const sessions: SessionData = {};
+  static getDailySets(date: string): DailySets | null {
+    const saved = localStorage.getItem(SETS_KEY_PREFIX + date);
+    return saved ? JSON.parse(saved) : null;
+  }
+
+  static getAllDailySets(): {[date: string]: DailySets} {
+    const allSets: {[date: string]: DailySets} = {};
+
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key?.startsWith(SESSION_KEY_PREFIX)) {
-        const date = key.replace(SESSION_KEY_PREFIX, '');
-        sessions[date] = JSON.parse(localStorage.getItem(key) || '[]');
+      if (key?.startsWith(SETS_KEY_PREFIX)) {
+        const date = key.replace(SETS_KEY_PREFIX, '');
+        allSets[date] = JSON.parse(localStorage.getItem(key) || '[]');
       }
     }
-    return sessions;
+
+    return allSets;
   }
 
   static getMaxRepsData(): MaxRepsData {
@@ -79,7 +88,16 @@ export class StorageService {
     localStorage.setItem(MAX_REPS_KEY, JSON.stringify(data));
   }
 
-  static updateMaxReps(exercise: string, newMax: number): void {
+  static clearAllData(): void {
+      const keys = Object.keys(localStorage);
+      keys.forEach(key => {
+          if (key.startsWith(GTG_PREFIX)) {
+              localStorage.removeItem(key);
+          }
+      });
+  }
+
+  static updateMaxReps(exercise: string, newMax: number, forceUpdate: boolean = false): void {
     const data = this.getMaxRepsData();
     const now = DateService.getCurrentDate().toISOString();
 
@@ -91,19 +109,34 @@ export class StorageService {
       };
     }
 
-    // Only update if it's actually a new max
-    if (newMax > data[exercise].currentMax) {
-      // Add to history
-      data[exercise].history.push({
-        date: now,
-        maxReps: newMax
-      });
+    // Update if it's actually a new max or if forced
+    if (newMax > data[exercise].currentMax || forceUpdate) {
+      // Add to history if this is a new max
+      if (newMax > data[exercise].currentMax) {
+        data[exercise].history.push({
+          date: now,
+          maxReps: newMax
+        });
+      }
 
-      // Update current max
+      // Update current max and last updated
       data[exercise].currentMax = newMax;
       data[exercise].lastUpdated = now;
 
       this.saveMaxRepsData(data);
     }
   }
+
+    static setMockDate(date: Date) {
+        localStorage.setItem(MOCK_DATE_KEY, date.toISOString());
+    }
+
+    static getMockDate(): Date | null {
+        const mockDateString = localStorage.getItem(MOCK_DATE_KEY);
+        return mockDateString && new Date(mockDateString) || null;
+    }
+
+    static clearMockDate() {
+        localStorage.removeItem(MOCK_DATE_KEY);
+    }
 }

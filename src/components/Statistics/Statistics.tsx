@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Flame, Calendar, Trophy, TrendingUp, BarChart3 } from 'lucide-react';
 import { useStatistics } from '../../hooks/useStatistics';
-import { StorageService } from '../../services/StorageService';
-import { DateService } from '../../services/DateService';
 import './Statistics.css';
 
 export function Statistics() {
@@ -45,51 +43,6 @@ export function Statistics() {
     setTooltip(prev => ({ ...prev, show: false }));
   };
 
-  // Prepare graph data for the last 30 days with separate series for each exercise
-  const getGraphData = () => {
-    const days = 30;
-    const today = DateService.getCurrentDate();
-    const data = [];
-    const sessions = StorageService.getAllSessions();
-    const config = StorageService.getConfig();
-
-    for (let i = days - 1; i >= 0; i--) {
-      const date = new Date(today);
-      date.setDate(today.getDate() - i);
-      const dateStr = date.toISOString().slice(0, 10);
-
-      // Get the day index to determine what exercise was scheduled
-      const dayIndex = date.getDay();
-      const scheduledExercise = config.days[dayIndex];
-
-      // Get session data for this date
-      const sessionData = sessions[dateStr] || [];
-      const totalReps = sessionData.reduce((sum: number, reps: number) => sum + reps, 0);
-
-      // Determine which exercise the reps belong to based on the scheduled exercise for that day
-      let pullUpsReps = 0;
-      let dipsReps = 0;
-
-      if (scheduledExercise === 'Pull Ups') {
-        pullUpsReps = totalReps;
-      } else if (scheduledExercise === 'Dips') {
-        dipsReps = totalReps;
-      }
-
-      data.push({
-        date: dateStr,
-        pullUps: pullUpsReps,
-        dips: dipsReps,
-        dayMonth: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        isToday: dateStr === DateService.getCurrentDateString()
-      });
-    }
-
-    return data;
-  };
-
-  const graphData = getGraphData();
-
   // Chart dimensions and calculations - use proper pixel-based approach
   const chartWidth = 800;
   const chartHeight = 300;
@@ -99,12 +52,12 @@ export function Statistics() {
 
   // Calculate max value for scaling
   const maxReps = Math.max(
-    ...graphData.map(d => Math.max(d.pullUps, d.dips)),
+    ...stats.overtime.map(d => Math.max(d.pullUps, d.dips)),
     1
   );
 
   // Bar chart calculations
-  const barGroupWidth = innerWidth / graphData.length;
+  const barGroupWidth = innerWidth / stats.overtime.length;
   const barWidth = Math.min(barGroupWidth * 0.35, 15); // Each bar takes 35% of group width, max 15px
   const barSpacing = 2; // Space between the two bars in a group
 
@@ -117,38 +70,20 @@ export function Statistics() {
       </div>
 
       <div className="stats-summary">
-        {/* Current Streak Card */}
-        <div className="stat-card streak">
-          <Flame className="mx-auto mb-2 text-orange-500" size={24} />
-          <h3>Current Streak</h3>
-          <div className="stat-value">{stats.streak}</div>
-          <div className="stat-unit">days total</div>
-          <div className="exercise-breakdown">
-            <div className="exercise-stat">
-              <span className="exercise-name">Pull Ups:</span>
-              <span className="exercise-value">{stats.exerciseStats.pullUps.streak} days</span>
-            </div>
-            <div className="exercise-stat">
-              <span className="exercise-name">Dips:</span>
-              <span className="exercise-value">{stats.exerciseStats.dips.streak} days</span>
-            </div>
-          </div>
-        </div>
-
         {/* Weekly Stats Card */}
         <div className="stat-card weekly">
           <Calendar className="mx-auto mb-2 text-blue-500" size={24} />
           <h3>This Week</h3>
-          <div className="stat-value">{stats.weekly}</div>
+          <div className="stat-value">{stats.total.weekly}</div>
           <div className="stat-unit">reps total</div>
           <div className="exercise-breakdown">
             <div className="exercise-stat">
               <span className="exercise-name">Pull Ups:</span>
-              <span className="exercise-value">{stats.exerciseStats.pullUps.weekly} reps</span>
+              <span className="exercise-value">{stats.pullUps.weekly} reps</span>
             </div>
             <div className="exercise-stat">
               <span className="exercise-name">Dips:</span>
-              <span className="exercise-value">{stats.exerciseStats.dips.weekly} reps</span>
+              <span className="exercise-value">{stats.dips.weekly} reps</span>
             </div>
           </div>
         </div>
@@ -157,16 +92,34 @@ export function Statistics() {
         <div className="stat-card monthly">
           <Trophy className="mx-auto mb-2 text-green-500" size={24} />
           <h3>This Month</h3>
-          <div className="stat-value">{stats.monthly}</div>
+          <div className="stat-value">{stats.total.monthly}</div>
           <div className="stat-unit">reps total</div>
           <div className="exercise-breakdown">
             <div className="exercise-stat">
               <span className="exercise-name">Pull Ups:</span>
-              <span className="exercise-value">{stats.exerciseStats.pullUps.monthly} reps</span>
+              <span className="exercise-value">{stats.pullUps.monthly} reps</span>
             </div>
             <div className="exercise-stat">
               <span className="exercise-name">Dips:</span>
-              <span className="exercise-value">{stats.exerciseStats.dips.monthly} reps</span>
+              <span className="exercise-value">{stats.dips.monthly} reps</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Current Streak Card */}
+        <div className="stat-card streak">
+          <Flame className="mx-auto mb-2 text-orange-500" size={24} />
+          <h3>Current Streak</h3>
+          <div className="stat-value">{stats.total.streak}</div>
+          <div className="stat-unit">days total</div>
+          <div className="exercise-breakdown">
+            <div className="exercise-stat">
+              <span className="exercise-name">Pull Ups:</span>
+              <span className="exercise-value">{stats.pullUps.streak} days</span>
+            </div>
+            <div className="exercise-stat">
+              <span className="exercise-name">Dips:</span>
+              <span className="exercise-value">{stats.dips.streak} days</span>
             </div>
           </div>
         </div>
@@ -175,21 +128,21 @@ export function Statistics() {
         <div className="stat-card bonus">
           <TrendingUp className="mx-auto mb-2 text-purple-500" size={24} />
           <h3>Bonus Days</h3>
-          <div className="stat-value">{stats.bonusDays}</div>
+          <div className="stat-value">{stats.total.bonusDays}</div>
           <div className="stat-unit">days exceeded minimum</div>
-          {stats.bonusDays > 0 && (
+          {stats.total.bonusDays > 0 && (
             <div className="bonus-average">
-              Avg +{stats.averageBonusSets} sets
+              Avg +{stats.total.averageBonusSets} sets
             </div>
           )}
           <div className="exercise-breakdown">
             <div className="exercise-stat">
               <span className="exercise-name">Pull Ups:</span>
-              <span className="exercise-value">{stats.exerciseStats.pullUps.bonusDays} days</span>
+              <span className="exercise-value">{stats.pullUps.bonusDays} days</span>
             </div>
             <div className="exercise-stat">
               <span className="exercise-name">Dips:</span>
-              <span className="exercise-value">{stats.exerciseStats.dips.bonusDays} days</span>
+              <span className="exercise-value">{stats.dips.bonusDays} days</span>
             </div>
           </div>
         </div>
@@ -271,7 +224,7 @@ export function Statistics() {
               />
 
               {/* Bars and labels */}
-              {graphData.map((point, index) => {
+              {stats.overtime.map((point, index) => {
                 const groupX = padding.left + (index * barGroupWidth) + (barGroupWidth / 2);
 
                 // Pull Ups bar (left)
@@ -342,8 +295,8 @@ export function Statistics() {
                       </text>
                     )}
 
-                    {/* Date labels (every 5th day) */}
-                    {index % 5 === 0 && (
+                    {/* Date labels (every other day) */}
+                    {index % 2 === 0 && (
                       <text
                         x={groupX}
                         y={padding.top + innerHeight + 20}
@@ -354,20 +307,6 @@ export function Statistics() {
                       >
                         {point.dayMonth}
                       </text>
-                    )}
-
-                    {/* Today indicator */}
-                    {point.isToday && (
-                      <line
-                        x1={groupX}
-                        y1={padding.top}
-                        x2={groupX}
-                        y2={padding.top + innerHeight}
-                        stroke="#f59e0b"
-                        strokeWidth="2"
-                        strokeDasharray="5,5"
-                        opacity="0.7"
-                      />
                     )}
                   </g>
                 );

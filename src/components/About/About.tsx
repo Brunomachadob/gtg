@@ -1,178 +1,160 @@
 import React from 'react';
-import { Info, Target, Clock, TrendingUp, Calendar, Zap } from 'lucide-react';
+import { Info, Target, Clock, TrendingUp, Calendar, Zap, CheckCircle, Settings, BarChart3 } from 'lucide-react';
 import './About.css';
 
 export function About() {
   return (
     <div className="about-page">
+      {/* Page Header */}
+      <div className="about-header">
+        <h1 className="about-title">Grease the Groove</h1>
+        <p className="about-subtitle">
+          Master your bodyweight exercises through frequent, submaximal practice
+        </p>
+      </div>
+
+      {/* Main Content Cards */}
       <div className="about-content">
-        <div className="about-inner">
-          {/* Hero Section */}
-          <div className="about-hero">
-            <div className="hero-icon">
-              <Target className="text-blue-600" size={48} />
+        <div className="about-card">
+          <div className="card-header">
+            <div className="card-icon">
+              <Info size={24} />
             </div>
-            <h1>Grease the Groove</h1>
-            <p className="hero-subtitle">
-              Master your bodyweight exercises through frequent, submaximal practice
-            </p>
+            <h2 className="card-title">What is Grease the Groove?</h2>
           </div>
-
-          {/* What is GTG Section */}
-          <div className="about-section">
-            <div className="section-header">
-              <Info className="text-green-600" size={24} />
-              <h2>What is Grease the Groove?</h2>
-            </div>
-            <div className="content-card">
-              <p>
-                <strong>Grease the Groove (GTG)</strong> is a training method developed by Pavel Tsatsouline
-                that focuses on practicing a movement frequently throughout the day at submaximal intensity.
-                Instead of doing exhausting sets to failure, you perform multiple easy sets spread across
-                the entire day.
-              </p>
-              <p>
-                The key principle is <em>"practice makes permanent"</em> - by performing the exercise often
-                but never to exhaustion, you develop neural pathways and strength without fatigue, leading
-                to remarkable improvements in performance.
-              </p>
-            </div>
-          </div>
-
-          {/* How it Works Section */}
-          <div className="about-section">
-            <div className="section-header">
-              <Zap className="text-yellow-600" size={24} />
-              <h2>How Does GTG Work?</h2>
-            </div>
-            <div className="principles-grid">
-              <div className="principle-card">
-                <div className="principle-icon">
-                  <TrendingUp className="text-blue-500" size={32} />
-                </div>
-                <h3>Neural Adaptation</h3>
-                <p>
-                  Frequent practice improves motor patterns and neural efficiency,
-                  making movements smoother and stronger over time.
-                </p>
-              </div>
-              <div className="principle-card">
-                <div className="principle-icon">
-                  <Clock className="text-green-500" size={32} />
-                </div>
-                <h3>No Fatigue</h3>
-                <p>
-                  By staying well below your maximum, you avoid fatigue and can
-                  practice multiple times per day without overtraining.
-                </p>
-              </div>
-              <div className="principle-card">
-                <div className="principle-icon">
-                  <Calendar className="text-purple-500" size={32} />
-                </div>
-                <h3>Consistency</h3>
-                <p>
-                  Daily practice builds habits and creates consistent stimulus
-                  for adaptation without the need for lengthy workouts.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Side-by-side sections: How to Use App + Pro Tips */}
-          <div className="side-by-side-sections">
-            {/* How to Use This App Section */}
-            <div className="about-section side-by-side-section">
-              <div className="section-header">
-                <Target className="text-orange-600" size={24} />
-                <h2>How to Use This App</h2>
-              </div>
-              <div className="steps-container">
-                <div className="step">
-                  <div className="step-number">1</div>
-                  <div className="step-content">
-                    <h3>Configure Your Weekly Schedule</h3>
-                    <p>
-                      Set up your weekly exercise routine with designated days for pull-ups,
-                      dips, and rest.
-                    </p>
-                  </div>
-                </div>
-                <div className="step">
-                  <div className="step-number">2</div>
-                  <div className="step-content">
-                    <h3>Configure how many sets per day</h3>
-                    <p>
-                      By default it will start with 5 sets per day, but you can adjust this for more sets.
-                        Also doing more sets are not a problem,
-                        and we will keep track of how many days you were over the minimum.
-                    </p>
-                  </div>
-                </div>
-                <div className="step">
-                  <div className="step-number">3</div>
-                  <div className="step-content">
-                    <h3>Spread Throughout the Day</h3>
-                    <p>
-                      Use the optional reminder system to space your sets throughout the day.
-                      Aim for at least 15-30 minutes between sets to avoid fatigue.
-                    </p>
-                  </div>
-                </div>
-                <div className="step">
-                  <div className="step-number">4</div>
-                  <div className="step-content">
-                    <h3>Set a recurring reminder</h3>
-                    <p>
-                      Set a reminder to be notified every time you have a set to do.
-                    </p>
-                  </div>
-                </div>
-                  <div className="step">
-                      <div className="step-number">5</div>
-                      <div className="step-content">
-                          <h3>Track your progress</h3>
-                          <p>
-                              Check the Statistics tab to monitor your daily, weekly, and monthly performance.
-                          </p>
-                      </div>
-                  </div>
-              </div>
-            </div>
-
-            {/* Pro Tips Section */}
-            <div className="about-section side-by-side-section">
-              <div className="section-header">
-                <Zap className="text-red-600" size={24} />
-                <h2>Pro Tips</h2>
-              </div>
-              <div className="tips-grid">
-                <div className="tip-card">
-                  <h4>Start Conservative</h4>
-                  <p>Begin with fewer sets than you think you can handle. It's better to succeed consistently than to burn out.</p>
-                </div>
-                <div className="tip-card">
-                  <h4>Never Go to Failure</h4>
-                  <p>Each set should feel easy. If you're struggling or breathing hard, reduce the reps per set.</p>
-                </div>
-                <div className="tip-card">
-                  <h4>Be Consistent</h4>
-                  <p>Daily practice is more important than perfect sessions. Aim for your minimum sets every day.</p>
-                </div>
-                <div className="tip-card">
-                  <h4>Include Rest Days</h4>
-                  <p>Schedule 1-2 complete rest days per week to allow for full recovery and prevent overuse.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="about-footer">
+          <div className="card-content">
             <p>
-              <strong>Remember:</strong> Grease the Groove is about building strength through practice,
-              not exhaustion. Stay consistent, stay fresh, and watch your performance improve over time.
+              <strong>Grease the Groove (GTG)</strong> is a training method developed by Pavel Tsatsouline
+              that focuses on practicing a movement frequently throughout the day at submaximal intensity.
+              Instead of doing exhausting sets to failure, you perform multiple easy sets spread across
+              the entire day.
             </p>
+            <p>
+              The key principle is <em>"practice makes permanent"</em> - by performing the exercise often
+              but never to exhaustion, you develop neural pathways and strength without fatigue, leading
+              to remarkable improvements in performance.
+            </p>
+          </div>
+        </div>
+
+        <div className="about-card power-card">
+          <div className="card-header">
+            <div className="card-icon">
+              <Zap size={24} />
+            </div>
+            <h2 className="card-title">How Does GTG Work?</h2>
+          </div>
+          <div className="card-content">
+            <p>GTG works through several key principles:</p>
+            <ul>
+              <li>Frequent practice builds neural pathways</li>
+              <li>Submaximal intensity prevents fatigue</li>
+              <li>Consistent repetition improves motor patterns</li>
+              <li>High volume with low stress maximizes adaptation</li>
+            </ul>
+            <p>
+              By staying fresh and practicing often, your nervous system learns to recruit muscles
+              more efficiently, leading to strength gains without the stress of traditional training.
+            </p>
+          </div>
+        </div>
+
+        <div className="about-card green-card">
+          <div className="card-header">
+            <div className="card-icon">
+              <TrendingUp size={24} />
+            </div>
+            <h2 className="card-title">Benefits of GTG</h2>
+          </div>
+          <div className="card-content">
+            <p>This method offers unique advantages:</p>
+            <ul>
+              <li>Rapid strength gains without fatigue</li>
+              <li>Improved movement quality and technique</li>
+              <li>Can be done anywhere, anytime</li>
+              <li>Builds consistency and habit formation</li>
+              <li>Minimal time commitment per session</li>
+            </ul>
+            <p>
+              Perfect for busy schedules - just a few minutes several times throughout your day
+              can lead to remarkable improvements in your pull-ups and dips.
+            </p>
+          </div>
+        </div>
+
+        {/* Pro Tips Section */}
+        <div className="about-card purple-card">
+          <div className="card-header">
+            <div className="card-icon">
+              <Target size={24} />
+            </div>
+            <h2 className="card-title">Pro Tips</h2>
+          </div>
+          <div className="card-content">
+            <p>Master your GTG training with these expert recommendations from experienced practitioners
+              who have achieved remarkable results using this method.</p>
+            <ul>
+              <li>Start with 50-70% of your max reps to avoid fatigue</li>
+              <li>Space sets at least 15-30 minutes apart</li>
+              <li>Focus on perfect form over high numbers</li>
+              <li>Test your max every 2-3 weeks to track progress</li>
+              <li>Listen to your body - skip sets if you feel tired</li>
+              <li>Consistency beats intensity - aim for daily practice</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* How to Use Section */}
+      <div className="how-to-use-section">
+        <div className="section-header">
+          <h2 className="section-title">How to Use This App</h2>
+          <p className="section-subtitle">Follow these simple steps to start your GTG journey</p>
+        </div>
+
+        <div className="instructions-grid">
+          <div className="instruction-card">
+            <div className="instruction-header">
+              <div className="instruction-number">1</div>
+              <h3 className="instruction-title">Set Your Schedule</h3>
+            </div>
+            <div className="instruction-content">
+              Configure which exercises to do on which days. You can alternate between pull-ups and dips,
+              or focus on one exercise at a time. Include rest days for recovery.
+            </div>
+          </div>
+
+          <div className="instruction-card">
+            <div className="instruction-header">
+              <div className="instruction-number">2</div>
+              <h3 className="instruction-title">Configure Your Settings</h3>
+            </div>
+            <div className="instruction-content">
+              Set your current max reps for each exercise, your target goals, daily set count, and
+              reminder intervals. The app will help you stay consistent with gentle notifications.
+            </div>
+          </div>
+
+          <div className="instruction-card">
+            <div className="instruction-header">
+              <div className="instruction-number">3</div>
+              <h3 className="instruction-title">Perform Your Sets</h3>
+            </div>
+            <div className="instruction-content">
+              Throughout the day, when reminded, perform easy sets at about 50-80% of your max.
+              Never go to failure - stay fresh and strong for the next set.
+            </div>
+          </div>
+
+          <div className="instruction-card">
+            <div className="instruction-header">
+              <div className="instruction-number">4</div>
+              <h3 className="instruction-title">Track Your Progress</h3>
+            </div>
+            <div className="instruction-content">
+              Log each set in the app and watch your statistics grow. Update your max reps regularly
+              as you get stronger, and celebrate your consistent progress.
+            </div>
           </div>
         </div>
       </div>

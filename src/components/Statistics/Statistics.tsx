@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Flame, Calendar, Trophy, TrendingUp, BarChart3 } from 'lucide-react';
 import { useStatistics } from '../../hooks/useStatistics';
 import './Statistics.css';
+import {Card} from "../Card/Card";
 
 export function Statistics() {
   const stats = useStatistics();
@@ -71,9 +72,11 @@ export function Statistics() {
 
       <div className="stats-summary">
         {/* Weekly Stats Card */}
-        <div className="stat-card weekly">
-          <Calendar className="mx-auto mb-2 text-blue-500" size={24} />
-          <h3>This Week</h3>
+        <Card
+          color="blue"
+          title="This Week"
+          icon={<Calendar size={24} />}
+        >
           <div className="stat-value">{stats.total.weekly}</div>
           <div className="stat-unit">reps total</div>
           <div className="exercise-breakdown">
@@ -86,12 +89,14 @@ export function Statistics() {
               <span className="exercise-value">{stats.dips.weekly} reps</span>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Monthly Stats Card */}
-        <div className="stat-card monthly">
-          <Trophy className="mx-auto mb-2 text-green-500" size={24} />
-          <h3>This Month</h3>
+        <Card
+          color="green"
+          title="This Month"
+          icon={<Calendar size={24} />}
+        >
           <div className="stat-value">{stats.total.monthly}</div>
           <div className="stat-unit">reps total</div>
           <div className="exercise-breakdown">
@@ -104,30 +109,34 @@ export function Statistics() {
               <span className="exercise-value">{stats.dips.monthly} reps</span>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Current Streak Card */}
-        <div className="stat-card streak">
-          <Flame className="mx-auto mb-2 text-orange-500" size={24} />
-          <h3>Current Streak</h3>
+        <Card
+          color="red"
+          title="Current Streak"
+          icon={<Flame size={24} />}
+        >
           <div className="stat-value">{stats.total.streak}</div>
-          <div className="stat-unit">days total</div>
+          <div className="stat-unit">reps total</div>
           <div className="exercise-breakdown">
             <div className="exercise-stat">
               <span className="exercise-name">Pull Ups:</span>
-              <span className="exercise-value">{stats.pullUps.streak} days</span>
+              <span className="exercise-value">{stats.pullUps.streak} reps</span>
             </div>
             <div className="exercise-stat">
               <span className="exercise-name">Dips:</span>
-              <span className="exercise-value">{stats.dips.streak} days</span>
+              <span className="exercise-value">{stats.dips.streak} reps</span>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Bonus Days Card */}
-        <div className="stat-card bonus">
-          <TrendingUp className="mx-auto mb-2 text-purple-500" size={24} />
-          <h3>Bonus Days</h3>
+        <Card
+          color="purple"
+          title="Bonus Days"
+          icon={<TrendingUp size={24} />}
+        >
           <div className="stat-value">{stats.total.bonusDays}</div>
           <div className="stat-unit">days exceeded minimum</div>
           {stats.total.bonusDays > 0 && (
@@ -145,218 +154,213 @@ export function Statistics() {
               <span className="exercise-value">{stats.dips.bonusDays} days</span>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* Daily Progress Graph Section */}
       <div className="daily-progress-graph">
-        <div className="graph-header">
-          <div className="flex items-center gap-2">
-            <BarChart3 className="text-gray-600" size={20} />
-            <h3 className="mb-0">30-Day Progress Trends</h3>
-          </div>
-        </div>
+        <Card
+          color="orange"
+          title="30-Day Progress"
+          icon={<BarChart3 size={24} />}
+        >
+          <svg
+            viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+            className="custom-bar-chart"
+            style={{ width: '100%', height: '300px' }}
+          >
+            {/* Gradient definitions for card-like styling */}
+            <defs>
+              <linearGradient id="pullups-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#60a5fa" />
+                <stop offset="100%" stopColor="#3b82f6" />
+              </linearGradient>
+              <linearGradient id="dips-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#f87171" />
+                <stop offset="100%" stopColor="#ef4444" />
+              </linearGradient>
+            </defs>
 
-        <div className="chart-container">
-          <div className="custom-chart-wrapper">
-            <svg
-              viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-              className="custom-bar-chart"
-              style={{ width: '100%', height: '300px' }}
-            >
-              {/* Gradient definitions for card-like styling */}
-              <defs>
-                <linearGradient id="pullups-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#60a5fa" />
-                  <stop offset="100%" stopColor="#3b82f6" />
-                </linearGradient>
-                <linearGradient id="dips-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="#f87171" />
-                  <stop offset="100%" stopColor="#ef4444" />
-                </linearGradient>
-              </defs>
+            {/* Grid lines */}
+            {[0, 0.25, 0.5, 0.75, 1].map((ratio, index) => {
+              const y = padding.top + innerHeight - ratio * innerHeight;
+              const value = Math.round(ratio * maxReps);
+              return (
+                <g key={index}>
+                  <line
+                    x1={padding.left}
+                    y1={y}
+                    x2={padding.left + innerWidth}
+                    y2={y}
+                    stroke="#f3f4f6"
+                    strokeWidth="1"
+                  />
+                  <text
+                    x={padding.left - 5}
+                    y={y + 4}
+                    textAnchor="end"
+                    fontSize="12"
+                    fill="#6b7280"
+                  >
+                    {value}
+                  </text>
+                </g>
+              );
+            })}
 
-              {/* Grid lines */}
-              {[0, 0.25, 0.5, 0.75, 1].map((ratio, index) => {
-                const y = padding.top + innerHeight - ratio * innerHeight;
-                const value = Math.round(ratio * maxReps);
-                return (
-                  <g key={index}>
-                    <line
-                      x1={padding.left}
-                      y1={y}
-                      x2={padding.left + innerWidth}
-                      y2={y}
-                      stroke="#f3f4f6"
-                      strokeWidth="1"
+            {/* X-axis */}
+            <line
+              x1={padding.left}
+              y1={padding.top + innerHeight}
+              x2={padding.left + innerWidth}
+              y2={padding.top + innerHeight}
+              stroke="#d1d5db"
+              strokeWidth="2"
+            />
+
+            {/* Y-axis */}
+            <line
+              x1={padding.left}
+              y1={padding.top}
+              x2={padding.left}
+              y2={padding.top + innerHeight}
+              stroke="#d1d5db"
+              strokeWidth="2"
+            />
+
+            {/* Bars and labels */}
+            {stats.overtime.map((point, index) => {
+              const groupX = padding.left + (index * barGroupWidth) + (barGroupWidth / 2);
+
+              // Pull Ups bar (left)
+              const pullUpsBarX = groupX - barWidth - (barSpacing / 2);
+              const pullUpsBarHeight = (point.pullUps / maxReps) * innerHeight;
+              const pullUpsBarY = padding.top + innerHeight - pullUpsBarHeight;
+
+              // Dips bar (right)
+              const dipsBarX = groupX + (barSpacing / 2);
+              const dipsBarHeight = (point.dips / maxReps) * innerHeight;
+              const dipsBarY = padding.top + innerHeight - dipsBarHeight;
+
+              return (
+                <g key={point.date}>
+                  {/* Pull Ups bar */}
+                  {point.pullUps > 0 && (
+                    <rect
+                      x={pullUpsBarX}
+                      y={pullUpsBarY}
+                      width={barWidth}
+                      height={pullUpsBarHeight}
+                      rx="2"
+                      className="chart-bar pullups-bar"
+                      onMouseEnter={(e) => handleBarMouseEnter(e, point, 'Pull Ups', point.pullUps)}
+                      onMouseLeave={handleBarMouseLeave}
                     />
+                  )}
+
+                  {/* Dips bar */}
+                  {point.dips > 0 && (
+                    <rect
+                      x={dipsBarX}
+                      y={dipsBarY}
+                      width={barWidth}
+                      height={dipsBarHeight}
+                      rx="2"
+                      className="chart-bar dips-bar"
+                      onMouseEnter={(e) => handleBarMouseEnter(e, point, 'Dips', point.dips)}
+                      onMouseLeave={handleBarMouseLeave}
+                    />
+                  )}
+
+                  {/* Pull Ups value label */}
+                  {point.pullUps > 0 && (
                     <text
-                      x={padding.left - 5}
-                      y={y + 4}
-                      textAnchor="end"
-                      fontSize="12"
-                      fill="#6b7280"
+                      x={pullUpsBarX + barWidth / 2}
+                      y={pullUpsBarY - 5}
+                      textAnchor="middle"
+                      fontSize="10"
+                      fill="#2563eb"
+                      fontWeight="600"
                     >
-                      {value}
+                      {point.pullUps}
                     </text>
-                  </g>
-                );
-              })}
+                  )}
 
-              {/* X-axis */}
-              <line
-                x1={padding.left}
-                y1={padding.top + innerHeight}
-                x2={padding.left + innerWidth}
-                y2={padding.top + innerHeight}
-                stroke="#d1d5db"
-                strokeWidth="2"
-              />
+                  {/* Dips value label */}
+                  {point.dips > 0 && (
+                    <text
+                      x={dipsBarX + barWidth / 2}
+                      y={dipsBarY - 5}
+                      textAnchor="middle"
+                      fontSize="10"
+                      fill="#dc2626"
+                      fontWeight="600"
+                    >
+                      {point.dips}
+                    </text>
+                  )}
 
-              {/* Y-axis */}
-              <line
-                x1={padding.left}
-                y1={padding.top}
-                x2={padding.left}
-                y2={padding.top + innerHeight}
-                stroke="#d1d5db"
-                strokeWidth="2"
-              />
+                  {/* Date labels (every other day) */}
+                  {index % 2 === 0 && (
+                    <text
+                      x={groupX}
+                      y={padding.top + innerHeight + 20}
+                      textAnchor="middle"
+                      fontSize="10"
+                      fill="#6b7280"
+                      transform={`rotate(-45 ${groupX} ${padding.top + innerHeight + 20})`}
+                    >
+                      {point.dayMonth}
+                    </text>
+                  )}
+                </g>
+              );
+            })}
 
-              {/* Bars and labels */}
-              {stats.overtime.map((point, index) => {
-                const groupX = padding.left + (index * barGroupWidth) + (barGroupWidth / 2);
+            {/* Y-axis label */}
+            <text
+              x={15}
+              y={padding.top + innerHeight / 2}
+              textAnchor="middle"
+              fontSize="12"
+              fill="#6b7280"
+              transform={`rotate(-90 15 ${padding.top + innerHeight / 2})`}
+            >
+              Reps
+            </text>
+          </svg>
 
-                // Pull Ups bar (left)
-                const pullUpsBarX = groupX - barWidth - (barSpacing / 2);
-                const pullUpsBarHeight = (point.pullUps / maxReps) * innerHeight;
-                const pullUpsBarY = padding.top + innerHeight - pullUpsBarHeight;
-
-                // Dips bar (right)
-                const dipsBarX = groupX + (barSpacing / 2);
-                const dipsBarHeight = (point.dips / maxReps) * innerHeight;
-                const dipsBarY = padding.top + innerHeight - dipsBarHeight;
-
-                return (
-                  <g key={point.date}>
-                    {/* Pull Ups bar */}
-                    {point.pullUps > 0 && (
-                      <rect
-                        x={pullUpsBarX}
-                        y={pullUpsBarY}
-                        width={barWidth}
-                        height={pullUpsBarHeight}
-                        rx="2"
-                        className="chart-bar pullups-bar"
-                        onMouseEnter={(e) => handleBarMouseEnter(e, point, 'Pull Ups', point.pullUps)}
-                        onMouseLeave={handleBarMouseLeave}
-                      />
-                    )}
-
-                    {/* Dips bar */}
-                    {point.dips > 0 && (
-                      <rect
-                        x={dipsBarX}
-                        y={dipsBarY}
-                        width={barWidth}
-                        height={dipsBarHeight}
-                        rx="2"
-                        className="chart-bar dips-bar"
-                        onMouseEnter={(e) => handleBarMouseEnter(e, point, 'Dips', point.dips)}
-                        onMouseLeave={handleBarMouseLeave}
-                      />
-                    )}
-
-                    {/* Pull Ups value label */}
-                    {point.pullUps > 0 && (
-                      <text
-                        x={pullUpsBarX + barWidth / 2}
-                        y={pullUpsBarY - 5}
-                        textAnchor="middle"
-                        fontSize="10"
-                        fill="#2563eb"
-                        fontWeight="600"
-                      >
-                        {point.pullUps}
-                      </text>
-                    )}
-
-                    {/* Dips value label */}
-                    {point.dips > 0 && (
-                      <text
-                        x={dipsBarX + barWidth / 2}
-                        y={dipsBarY - 5}
-                        textAnchor="middle"
-                        fontSize="10"
-                        fill="#dc2626"
-                        fontWeight="600"
-                      >
-                        {point.dips}
-                      </text>
-                    )}
-
-                    {/* Date labels (every other day) */}
-                    {index % 2 === 0 && (
-                      <text
-                        x={groupX}
-                        y={padding.top + innerHeight + 20}
-                        textAnchor="middle"
-                        fontSize="10"
-                        fill="#6b7280"
-                        transform={`rotate(-45 ${groupX} ${padding.top + innerHeight + 20})`}
-                      >
-                        {point.dayMonth}
-                      </text>
-                    )}
-                  </g>
-                );
-              })}
-
-              {/* Y-axis label */}
-              <text
-                x={15}
-                y={padding.top + innerHeight / 2}
-                textAnchor="middle"
-                fontSize="12"
-                fill="#6b7280"
-                transform={`rotate(-90 15 ${padding.top + innerHeight / 2})`}
-              >
-                Reps
-              </text>
-            </svg>
-
-            {/* Legend */}
-            <div className="chart-legend">
-              <div className="legend-item">
-                <div className="legend-color" style={{ backgroundColor: '#3b82f6' }}></div>
-                <span>Pull Ups</span>
-              </div>
-              <div className="legend-item">
-                <div className="legend-color" style={{ backgroundColor: '#ef4444' }}></div>
-                <span>Dips</span>
-              </div>
-              <div className="legend-item">
-                <div className="legend-line today"></div>
-                <span>Today</span>
-              </div>
+          {/* Legend */}
+          <div className="chart-legend">
+            <div className="legend-item">
+              <div className="legend-color" style={{ backgroundColor: '#3b82f6' }}></div>
+              <span>Pull Ups</span>
             </div>
-
-            {/* Tooltip */}
-            {tooltip.show && tooltip.content && (
-              <div
-                className="tooltip"
-                style={{
-                  left: tooltip.x,
-                  top: tooltip.y,
-                  transform: 'translate(-50%, -100%)'
-                }}
-              >
-                <div>{tooltip.content.dayMonth}</div>
-                <div>{tooltip.content.exercise}: {tooltip.content.reps} reps</div>
-              </div>
-            )}
+            <div className="legend-item">
+              <div className="legend-color" style={{ backgroundColor: '#ef4444' }}></div>
+              <span>Dips</span>
+            </div>
+            <div className="legend-item">
+              <div className="legend-line today"></div>
+              <span>Today</span>
+            </div>
           </div>
-        </div>
+
+          {/* Tooltip */}
+          {tooltip.show && tooltip.content && (
+            <div
+              className="tooltip"
+              style={{
+                left: tooltip.x,
+                top: tooltip.y,
+                transform: 'translate(-50%, -100%)'
+              }}
+            >
+              <div>{tooltip.content.dayMonth}</div>
+              <div>{tooltip.content.exercise}: {tooltip.content.reps} reps</div>
+            </div>
+          )}
+        </Card>
       </div>
     </div>
   );

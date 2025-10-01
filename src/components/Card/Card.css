@@ -1,0 +1,129 @@
+.card {
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  width: 100%;
+}
+
+.card-header-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.card-icon {
+  display: flex;
+  background: #f1f2f233;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.card-blue {
+  border-color: rgba(0, 128, 255, 0.3);
+  box-shadow: 0 8px 25px -5px rgba(0, 128, 255, 0.3);
+}
+
+.card-blue:before {
+  background: linear-gradient(180deg, #0080ff 0%, #66b3ff 100%);
+}
+
+.card-blue:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px -5px rgba(0, 128, 255, 0.4);
+  border-color: rgba(0, 128, 255, 0.5);
+}
+
+.card-red {
+  border-color: rgba(255, 51, 51, 0.3);
+  box-shadow: 0 8px 25px -5px rgba(255, 51, 51, 0.3);
+}
+
+.card-red:before {
+  background: linear-gradient(180deg, #ff3333 0%, #ff8080 100%);
+}
+
+.card-red:hover {
+  border-color: rgba(255, 51, 51, 0.5);
+  box-shadow: 0 12px 35px -5px rgba(255, 51, 51, 0.4);
+}
+
+.card-green {
+  border-color: rgba(40, 167, 69, 0.3);
+  box-shadow: 0 8px 25px -5px rgba(40, 167, 69, 0.3);
+}
+
+.card-green:before {
+  background: linear-gradient(180deg, #28a745 0%, #5cb85c 100%);
+}
+
+.card-green:hover {
+  border-color: rgba(40, 167, 69, 0.5);
+  box-shadow: 0 12px 35px -5px rgba(40, 167, 69, 0.4);
+}
+
+.card-orange {
+  border-color: rgba(255, 128, 0, 0.3);
+  box-shadow: 0 8px 25px -5px rgba(255, 128, 0, 0.3);
+}
+
+.card-orange:before {
+  background: linear-gradient(180deg, #ff8000 0%, #ffb366 100%);
+}
+
+.card-orange:hover {
+  border-color: rgba(255, 128, 0, 0.5);
+  box-shadow: 0 12px 35px -5px rgba(255, 128, 0, 0.4);
+}
+
+.card-purple {
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 8px 25px -5px rgba(139, 92, 246, 0.3);
+}
+
+.card-purple:before {
+  background: linear-gradient(180deg, #8b5cf6 0%, #a78bfa 100%);
+}
+
+.card-purple:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 12px 35px -5px rgba(139, 92, 246, 0.4);
+}

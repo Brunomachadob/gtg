@@ -1,89 +1,84 @@
+/* NumberInput Component - Aggressive Fitness Theme */
+.number-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.number-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+  border: 2px solid rgba(0, 128, 255, 0.3);
+  border-radius: 12px;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px -3px rgba(0, 128, 255, 0.2);
+}
+
+.number-input-wrapper:focus-within {
+  border-color: #0080ff;
+  box-shadow: 0 8px 25px -5px rgba(0, 128, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.number-input-wrapper.power-input {
+  border-color: rgba(255, 51, 51, 0.3);
+  box-shadow: 0 4px 15px -3px rgba(255, 51, 51, 0.2);
+}
+
+.number-input-wrapper.power-input:focus-within {
+  border-color: #ff3333;
+  box-shadow: 0 8px 25px -5px rgba(255, 51, 51, 0.4);
+}
+
 .number-input {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+  border: 2px solid rgba(0, 128, 255, 0.3);
+  border-radius: 12px;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px -3px rgba(0, 128, 255, 0.2);
+  max-width: 200px;
   margin: 0 auto;
-  border-radius: 0;
-  border: none;
-  background-color: transparent;
-  overflow: visible;
 }
 
-.number-input:focus-within .number-input-button,
-.number-input:focus-within .number-input-field {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.3);
+.number-input:focus-within {
+  border-color: #0080ff;
+  box-shadow: 0 8px 25px -5px rgba(0, 128, 255, 0.4);
+  transform: translateY(-1px);
 }
 
-.number-input-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 56px;
-  border: 2px solid #e5e7eb;
-  border-radius: 0;
-  background-color: #f8fafc;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  position: relative;
-  box-sizing: border-box;
+.number-input.power-input {
+  border-color: rgba(255, 51, 51, 0.3);
+  box-shadow: 0 4px 15px -3px rgba(255, 51, 51, 0.2);
 }
 
-.number-input-button.decrement {
-  border-radius: 28px 0 0 28px;
-  border-right: none;
-}
-
-.number-input-button.increment {
-  border-radius: 0 28px 28px 0;
-  border-left: none;
-}
-
-.number-input-button:hover:not(:disabled) {
-  background-color: #e2e8f0;
-  transform: scale(1.02);
-}
-
-.number-input-button:active:not(:disabled) {
-  transform: scale(0.98);
-  background-color: #cbd5e1;
-}
-
-.number-input-button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  background-color: #f8fafc;
-}
-
-.number-input-button.decrement:hover:not(:disabled) {
-  background-color: #fef2f2;
-  color: #ef4444;
-}
-
-.number-input-button.increment:hover:not(:disabled) {
-  background-color: #f0fdf4;
-  color: #10b981;
+.number-input.power-input:focus-within {
+  border-color: #ff3333;
+  box-shadow: 0 8px 25px -5px rgba(255, 51, 51, 0.4);
 }
 
 .number-input-field {
   flex: 1;
-  height: 56px;
-  border: 2px solid #e5e7eb;
-  border-radius: 0;
-  text-align: center;
-  font-weight: 600;
-  color: #1f2937;
-  background-color: #ffffff;
+  background: transparent;
+  border: none;
   outline: none;
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-  box-sizing: border-box;
-  vertical-align: top;
+  color: #ffffff;
+  font-size: 1.125rem;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  min-width: 0;
+  font-family: inherit;
+}
+
+.number-input-field::placeholder {
+  color: #6c757d;
+  font-weight: 500;
 }
 
 .number-input-field::-webkit-outer-spin-button,
@@ -92,31 +87,163 @@
   margin: 0;
 }
 
-.number-input-field:disabled {
+.number-input-field[type=number] {
+  -moz-appearance: textfield;
+}
+
+.number-input-button {
+  background: rgba(0, 128, 255, 0.2);
+  border: none;
+  border-radius: 8px;
+  color: #0080ff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.number-input-button:hover:not(:disabled) {
+  background: rgba(0, 128, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.number-input-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.power-input .number-input-button {
+  background: rgba(255, 51, 51, 0.2);
+  color: #ff3333;
+}
+
+.power-input .number-input-button:hover:not(:disabled) {
+  background: rgba(255, 51, 51, 0.3);
+}
+
+.number-input-button:disabled {
+  background: rgba(108, 117, 125, 0.2);
+  color: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.number-input-button.decrement {
+  margin-right: 0.5rem;
+}
+
+.number-input-button.increment {
+  margin-left: 0.5rem;
+}
+
+/* Alternative full-width style */
+.number-input.full-width {
+  max-width: none;
+  width: 100%;
+}
+
+/* Large variant */
+.number-input.large {
+  padding: 0.75rem;
+  max-width: 250px;
+}
+
+.number-input.large .number-input-field {
+  font-size: 1.25rem;
+  padding: 1rem;
+}
+
+.number-input.large .number-input-button {
+  width: 48px;
+  height: 48px;
+  font-size: 1.5rem;
+}
+
+/* Small variant */
+.number-input.small {
+  padding: 0.25rem;
+  max-width: 150px;
+}
+
+.number-input.small .number-input-field {
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.number-input.small .number-input-button {
+  width: 32px;
+  height: 32px;
+  font-size: 1rem;
+}
+
+/* Error state */
+.number-input.error {
+  border-color: #dc3545;
+  box-shadow: 0 4px 15px -3px rgba(220, 53, 69, 0.3);
+}
+
+.number-input.error:focus-within {
+  border-color: #dc3545;
+  box-shadow: 0 8px 25px -5px rgba(220, 53, 69, 0.4);
+}
+
+/* Success state */
+.number-input.success {
+  border-color: #28a745;
+  box-shadow: 0 4px 15px -3px rgba(40, 167, 69, 0.3);
+}
+
+.number-input.success:focus-within {
+  border-color: #28a745;
+  box-shadow: 0 8px 25px -5px rgba(40, 167, 69, 0.4);
+}
+
+/* Disabled state */
+.number-input:disabled,
+.number-input.disabled {
   opacity: 0.6;
-  background-color: #f9fafb;
   cursor: not-allowed;
 }
 
-.number-input-field::placeholder {
-  color: #9ca3af;
-  font-weight: 400;
+.number-input:disabled .number-input-field,
+.number-input.disabled .number-input-field {
+  cursor: not-allowed;
+  color: #6c757d;
 }
 
-/* Mobile-specific adjustments */
-@media (max-width: 480px) {
+/* Responsive design */
+@media (max-width: 768px) {
   .number-input {
-    max-width: 100%;
+    max-width: 180px;
+  }
+
+  .number-input.large {
+    max-width: 200px;
+  }
+
+  .number-input.small {
+    max-width: 120px;
   }
 
   .number-input-button {
-    width: 48px;
-    height: 64px;
-    box-sizing: border-box;
+    width: 36px;
+    height: 36px;
+    font-size: 1.125rem;
   }
 
-  .number-input-field {
-    height: 64px;
-    box-sizing: border-box;
+  .number-input.large .number-input-button {
+    width: 42px;
+    height: 42px;
+    font-size: 1.375rem;
+  }
+
+  .number-input.small .number-input-button {
+    width: 28px;
+    height: 28px;
+    font-size: 0.875rem;
   }
 }

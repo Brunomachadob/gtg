@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Bed, Plus, Target, Clock, ChevronUp, ChevronDown, Edit3, Calendar, Info, X } from 'lucide-react';
+import { Card } from '../Card/Card';
 import { Exercise, PageType} from '../../types';
 import { useSession } from '../../hooks/useSession';
 import { useMaxReps } from '../../hooks/useMaxReps';
@@ -47,6 +48,7 @@ export function Today({ navigateTo }: TodayProps) {
 
   // Calculate completed sets
   const completedSets = dailySets.sets.filter((reps: number) => reps > 0).length;
+  const totalReps = dailySets.sets.reduce((acc: number, reps: number) => acc + reps, 0);
   const hasReachedMinimum = completedSets >= config.sets;
 
   const formatTime = (ms: number) => {
@@ -233,34 +235,32 @@ export function Today({ navigateTo }: TodayProps) {
       <div className="today-header">
         <div className="progress-cards primary">
           {/* Today's Exercise - Most Important */}
-          <div className="progress-card schedule-card primary-card" onClick={handleUpdateSchedule}>
-            <div className="progress-icon">
-              <Calendar className="text-red-600" size={24} />
-            </div>
-            <div className="card-content">
-              <div className="exercise-name">Today</div>
-              <div className="progress-value">{todayExercise}</div>
-            </div>
-            <div className="update-indicator schedule-indicator">
-              <Edit3 size={16} />
-            </div>
-          </div>
+          <Card
+            color="blue"
+            title="Today"
+            onClick={handleUpdateSchedule}
+            icon={<Calendar size={24} />}
+            leftIcon={<Edit3 size={16} />}
+          >
+            <div className="progress-value">{todayExercise}</div>
+          </Card>
+
 
           {/* Daily Progress - Second Most Important */}
-          <div className="progress-card set-progress sets-card primary-card" onClick={handleUpdateSets}>
-            <div className="progress-icon">
-              <Target className="text-green-600" size={24} />
+          <Card
+            color="orange"
+            title="Progress"
+            onClick={handleUpdateSets}
+            icon={<Target size={24} />}
+            leftIcon={<Edit3 size={16} />}
+          >
+            <div className="progress-value">
+              Sets: {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
             </div>
-            <div className="card-content">
-              <div className="exercise-name">Progress</div>
-              <div className="progress-value">
-                {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
-              </div>
+            <div className="progress-value">
+              Reps: {totalReps}
             </div>
-            <div className="update-indicator sets-indicator">
-              <Edit3 size={16} />
-            </div>
-          </div>
+          </Card>
         </div>
       </div>
 
@@ -332,73 +332,57 @@ export function Today({ navigateTo }: TodayProps) {
 
         <div className="progress-cards secondary">
           {/* Reminder Card */}
-          <div className={`progress-card countdown-progress reminder-card secondary-card ${reminder ? 'reminder-active' : ''}`} onClick={handleUpdateReminder}>
-            <div className="progress-icon">
-              <Clock className="text-blue-600" size={20} />
-            </div>
-            {config.reminderIntervalMinutes === 0 ? (
-              <div className="card-content">
-                <div className="exercise-name">Reminder</div>
+          <Card
+            color="purple"
+            title="Reminder"
+            onClick={handleUpdateReminder}
+            icon={<Clock size={20} />}
+            leftIcon={<Edit3 size={16} />}
+          >
+            {
+              config.reminderIntervalMinutes === 0 ? (
                 <div className="progress-value">OFF</div>
-              </div>
-            ) : reminder ? (
-              <div className="card-reminder-content">
-                <div className="reminder-title">Time's Up!</div>
-                <div className="reminder-message">Ready for your next set</div>
-                <button className="dismiss-btn-card" onClick={(e) => {
-                  e.stopPropagation();
-                  dismissReminder();
-                }}>
-                  Dismiss
-                </button>
-              </div>
-            ) : timeRemaining > 0 ? (
-              <div className="card-content">
-                <div className="exercise-name">Reminder</div>
+              ) : reminder ? (
+                <div className="card-reminder-content">
+                  <div className="reminder-title">Time's Up!</div>
+                  <div className="reminder-message">Ready for your next set</div>
+                  <button className="dismiss-btn-card" onClick={(e) => {
+                    e.stopPropagation();
+                    dismissReminder();
+                  }}>
+                    Dismiss
+                  </button>
+                </div>
+              ) : timeRemaining > 0 ? (
                 <div className="progress-value">{formatTime(timeRemaining)}</div>
-              </div>
-            ) : (
-              <div className="card-content">
-                <div className="exercise-name">Reminder</div>
+              ) : (
                 <div className="progress-value">Ready</div>
-              </div>
-            )}
-            <div className="update-indicator reminder-indicator">
-              <Edit3 size={16} />
-            </div>
-          </div>
+              )
+            }
+          </Card>
+
 
           {/* Pull Ups Max */}
-          <div className="progress-card max-reps-card pull-ups secondary-card" onClick={() => handleUpdateMaxReps('Pull Ups')}>
-            <div className="progress-icon">
-              <ChevronUp className="text-purple-600" size={20} />
-            </div>
-            <div className="card-content">
-              <div className="exercise-name">Pull Ups Max</div>
-              <div className="progress-value">
-                {getExerciseData('Pull Ups').currentMax} / {config.goals.pullUps}
-              </div>
-            </div>
-            <div className="update-indicator pull-ups-indicator">
-              <Edit3 size={16} />
-            </div>
-          </div>
+          <Card
+            color="red"
+            title="Pull Ups Max"
+            onClick={() => handleUpdateMaxReps('Pull Ups')}
+            icon={<ChevronUp size={20} />}
+            leftIcon={<Edit3 size={16} />}
+          >
+            <div className="progress-value">{getExerciseData('Pull Ups').currentMax} / {config.goals.pullUps}</div>
+          </Card>
 
           {/* Dips Max */}
-          <div className="progress-card max-reps-card dips secondary-card" onClick={() => handleUpdateMaxReps('Dips')}>
-            <div className="progress-icon">
-              <ChevronDown className="text-amber-600" size={20} />
-            </div>
-            <div className="card-content">
-              <div className="exercise-name">Dips Max</div>
-              <div className="progress-value">
-                {getExerciseData('Dips').currentMax} / {config.goals.dips}
-              </div>
-            </div>
-            <div className="update-indicator dips-indicator">
-              <Edit3 size={16} />
-            </div>
-          </div>
+          <Card
+            color="green"
+            title="Pull Ups Max"
+            onClick={() => handleUpdateMaxReps('Dips')}
+            icon={<ChevronUp size={20} />}
+            leftIcon={<Edit3 size={16} />}
+          >
+            <div className="progress-value">{getExerciseData('Dips').currentMax} / {config.goals.dips}</div>
+          </Card>
         </div>
       </div>
 

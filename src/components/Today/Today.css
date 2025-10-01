@@ -1,794 +1,397 @@
+/* Today Component - Aggressive Fitness Theme */
 .today-page {
+  padding: 1rem 0;
+  color: #f8f9fa;
+}
+
+.today-header {
+  margin-bottom: 2rem;
+}
+
+/* Progress Cards - Bold & Energetic */
+.progress-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.progress-cards.primary {
+  margin-bottom: 3rem;
+}
+
+.progress-cards.secondary {
+  margin-bottom: 1rem;
+}
+
+.progress-card {
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+  border: 2px solid rgba(0, 128, 255, 0.3);
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 25px -5px rgba(0, 128, 255, 0.3);
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  margin: 0 auto;
-  padding-top: 40px; /* Extra top padding for the fixed header */
-  padding-bottom: 160px; /* Significantly increased padding for navigation + FAB + extra space */
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  /* Firefox scrollbar styling */
-  scrollbar-width: thin;
-  scrollbar-color: #c1c1c1 #f1f1f1;
 }
 
-/* Fixed Header containing progress counter - remove fixed positioning */
-.today-header {
-  flex-shrink: 0;
-  padding: 0 0 20px 0; /* Remove side padding since parent has it */
-  position: relative;
-  z-index: 10;
-}
-
-/* Progress Cards - Primary (top section) */
-.progress-cards.primary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 32px;
-}
-
-/* Progress Cards - Secondary (bottom section) */
-.progress-cards.secondary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-/* Progress Cards Grid - changed to flexible wrapping layout for pills */
-.progress-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
-/* Progress Card - transformed to pill-like horizontal container */
-.progress-card {
-  background: white;
-  border-radius: 30px; /* More rounded for pill shape */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  transition: all 0.2s ease;
-  display: flex;
-    padding: 0 16px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between; /* Changed to space-between for proper distribution */
-  gap: 12px; /* Increased gap for better spacing */
-  cursor: pointer;
-  min-height: 40px;
-  flex: 0 1 auto; /* Allow flexible sizing */
-  white-space: nowrap;
-  position: relative;
+.progress-card:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #0080ff 0%, #66b3ff 100%);
 }
 
 .progress-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 35px -5px rgba(0, 128, 255, 0.4);
+  border-color: rgba(0, 128, 255, 0.5);
 }
 
-/* Primary cards - larger and more prominent */
 .progress-card.primary-card {
-  min-height: 60px; /* Taller for better touch targets */
-  flex: 1 1 160px; /* Flexible but minimum width */
-  gap: 16px; /* Larger gap for primary cards */
+  border-color: rgba(255, 51, 51, 0.3);
+  box-shadow: 0 8px 25px -5px rgba(255, 51, 51, 0.3);
 }
 
-.progress-card.primary-card .progress-icon {
-  margin-right: 12px; /* More space for primary cards */
+.progress-card.primary-card:hover {
+  border-color: rgba(255, 51, 51, 0.5);
+  box-shadow: 0 12px 35px -5px rgba(255, 51, 51, 0.4);
 }
 
-.progress-card.primary-card .card-content .exercise-name {
-  font-size: 0.9em; /* Slightly larger text */
-  font-weight: 700; /* Bolder */
+.progress-card.primary-card:before {
+  background: linear-gradient(90deg, #ff3333 0%, #ff8080 100%);
 }
 
-.progress-card.primary-card .card-content .progress-value {
-  font-size: 1.3em; /* Larger values for primary cards */
-  font-weight: 800;
-}
-
-/* Secondary cards - smaller and more compact */
 .progress-card.secondary-card {
-  min-height: 48px; /* Smaller height */
-  flex: 1 1 140px; /* Flexible with smaller minimum */
-  gap: 10px; /* Smaller gap for secondary cards */
+  border-color: rgba(40, 167, 69, 0.3);
+  box-shadow: 0 8px 25px -5px rgba(40, 167, 69, 0.3);
 }
 
-.progress-card.secondary-card .progress-icon svg {
-  width: 20px; /* Smaller icons */
-  height: 20px;
+.progress-card.secondary-card:before {
+  background: linear-gradient(90deg, #28a745 0%, #5cb85c 100%);
 }
 
-.progress-card.secondary-card .card-content .exercise-name {
-  font-size: 0.8em; /* Smaller text */
-  font-weight: 600;
+.progress-card.secondary-card:hover {
+  border-color: rgba(40, 167, 69, 0.5);
+  box-shadow: 0 12px 35px -5px rgba(40, 167, 69, 0.4);
 }
 
-.progress-card.secondary-card .card-content .progress-value {
-  font-size: 1em; /* Smaller values */
-  font-weight: 700;
-}
-
-/* Set Progress Card */
-.progress-card.set-progress {
-  background: linear-gradient(90deg, #f1f8e9, #ffffff);
-}
-
-.progress-card.set-progress.completed {
-  background: linear-gradient(90deg, #e8f5e8, #dcfce7);
-}
-
-/* Countdown Progress Card */
-.progress-card.countdown-progress {
-  background: linear-gradient(90deg, #f0f7ff, #ffffff);
-}
-
-.progress-card.countdown-progress.reminder-active {
-  background: linear-gradient(90deg, #fef2f2, #fee2e2);
-  animation: reminder-glow 1.5s ease-in-out infinite;
-}
-
-@keyframes reminder-glow {
-  0%, 100% { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); }
-  50% { box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25); }
-}
-
-/* Progress Card Elements - adapted for centered layout */
-.progress-icon {
-  margin: 0;
-  flex-shrink: 0;
-  order: 1; /* First position */
-}
-
-.card-content {
+/* Header container with icon + name on left, edit button on right */
+.card-header {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  width: 100%;
+}
+
+/* Left side: Icon and exercise name */
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   flex: 1;
-  align-items: center; /* Center the text content */
+}
+
+.progress-icon {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  text-align: center;
-  order: 2; /* Middle position */
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 128, 255, 0.2);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.primary-card .progress-icon {
+  background: rgba(255, 51, 51, 0.2);
+}
+
+.secondary-card .progress-icon {
+  background: rgba(40, 167, 69, 0.2);
 }
 
 .exercise-name {
-  margin: 0;
-  font-size: 0.85em;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #6c757d;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin: 0;
+  flex: 1;
+}
+
+/* Right side: Edit button */
+.card-header-right {
+  display: flex;
+  align-items: center;
+}
+
+.edit-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+/* Content below header */
+.card-content {
+  flex: 1;
 }
 
 .progress-value {
-  font-size: 1.1em;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #388e3c;
+  color: #ffffff;
   margin: 0;
-  line-height: 1;
+  line-height: 1.2;
+  text-align: center;
 }
 
-/* Update indicator - positioned at the end */
-.update-indicator {
-  margin-left: 0; /* Remove margin since we're using space-between */
-  opacity: 0.6;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  order: 3; /* Last position */
-}
-
-/* Countdown Card Elements - adapted for horizontal layout */
-.card-countdown-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
-.countdown-title {
-  margin: 0;
-  font-size: 0.85em;
-  font-weight: 600;
-  color: #1f2937;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.countdown-value {
-  font-size: 1.1em;
-  font-weight: 700;
-  color: #3b82f6;
-  margin: 0;
-  line-height: 1;
-}
-
-.countdown-label {
-  font-size: 0.75em;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  font-weight: 500;
-  margin: 0;
-}
-
-/* Reminder Content - adapted for horizontal layout */
-.card-reminder-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
-.reminder-title {
-  margin: 0;
-  font-size: 0.85em;
-  font-weight: 600;
-  color: #ef4444;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.reminder-message {
-  font-size: 0.75em;
-  color: #6b7280;
-  margin: 0;
-}
-
-.dismiss-btn-card {
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-left: auto;
-}
-
-/* Sets Container - Main content area */
+/* Sets Container - Main workout area */
 .sets-container {
-  flex: 1;
-  padding: 0;
-  margin-bottom: 40px; /* Space before secondary controls */
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.sets-header {
+  margin-bottom: 1.5rem;
 }
 
 .sets-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #374151;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Add Set Pill Button - positioned below the header */
-.add-set-pill {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-  border: none;
-  border-radius: 30px; /* Pill shape */
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.add-set-pill:hover {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-}
-
-.add-set-pill:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.add-set-pill.disabled,
-.add-set-pill:disabled {
-  background: #e5e7eb;
-  color: #9ca3af;
-  cursor: not-allowed;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transform: none;
-}
-
-.add-set-pill.disabled:hover,
-.add-set-pill:disabled:hover {
-  background: #e5e7eb;
-  transform: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.add-set-pill span {
-  font-weight: 600;
-  letter-spacing: 0.025em;
-}
-
-/* Empty state for sets */
-.empty-sets-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 60px 20px;
-  border-radius: 20px;
-  border: 2px dashed #cbd5e1;
-  margin: 20px 0;
-}
-
-.empty-sets-message .empty-icon {
-  color: #94a3b8;
-  margin-bottom: 16px;
-  opacity: 0.7;
-}
-
-.empty-sets-message p {
-  margin: 0 0 8px 0;
-  font-weight: 600;
-  color: #64748b;
-}
-
-.empty-sets-message .empty-subtitle {
-  font-size: 0.9em;
-  color: #94a3b8;
-  margin: 0;
-}
-
-.empty-sets-buttons-container {
-  padding: 8px;
-}
-
-.empty-sets-buttons-container > button {
-  margin: 8px;
-}
-
-.section-header {
-  margin-bottom: 16px;
-}
-
-.section-header h3 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
-/* Completed set card styling - transformed to pill-like horizontal container */
-.completed-set-card {
-  background: linear-gradient(90deg, #f1f8e9, #ffffff);
-  border-radius: 30px; /* Changed to match pill shape */
-  padding: 8px 16px; /* Match progress card padding */
-  margin: 8px;
-  text-align: left; /* Changed from center to left for horizontal layout */
-  position: relative;
-  width: auto; /* Changed from fixed 90px to auto width */
-  height: 50px; /* Increased height to accommodate stacked content */
+/* Add Set Pill Button */
+.add-set-pill {
+  background: linear-gradient(135deg, #0080ff 0%, #66b3ff 100%);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 25px -5px rgba(0, 128, 255, 0.5);
+  width: 100%;
+  margin: 1.5rem 0;
   display: flex;
-  flex-direction: row; /* Changed from column to row */
-  justify-content: flex-start; /* Changed alignment */
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Match progress card shadow */
-  transition: all 0.2s ease;
-  color: #388e3c;
-  border: 1px solid rgba(0, 0, 0, 0.06); /* Match progress card border */
-  box-sizing: border-box;
-  min-width: 120px; /* Ensure minimum width for content */
-  flex: 0 1 auto; /* Allow flexible sizing */
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.add-set-pill:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px -5px rgba(0, 128, 255, 0.6);
+}
+
+.add-set-pill:disabled,
+.add-set-pill.disabled {
+  background: #495057;
+  color: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Sets Grid */
+.sets-grid {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+/* Completed Set Cards */
+.completed-set-card {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  border: 2px solid rgba(0, 255, 128, 0.5);
+  border-radius: 16px;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 8px 20px -5px rgba(0, 255, 128, 0.3);
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .completed-set-card:hover {
-  transform: translateY(-1px); /* Match progress card hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); /* Match progress card hover shadow */
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -5p rgba(0, 255, 128, 0.4);
 }
 
 .set-header {
   display: flex;
   align-items: center;
-  gap: 8px; /* Gap between checkmark and stacked content */
-  margin-bottom: 0; /* Remove bottom margin */
-  position: relative;
-  flex-shrink: 0; /* Prevent shrinking */
+  gap: 1rem;
+  flex: 1;
 }
 
 .set-checkmark {
-  font-size: 0.9em; /* Slightly larger for better visibility */
-  color: #22c55e;
-  opacity: 0.8;
-  flex-shrink: 0;
-  margin: 0; /* Remove any margins */
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
 }
 
 .set-content {
-  display: flex;
-  flex-direction: column; /* Stack set number and reps vertically */
-  align-items: flex-start;
-  gap: 1px; /* Small gap between set number and reps */
+  flex: 1;
 }
 
 .set-number {
-  font-size: 0.7em; /* Smaller for stacked layout */
+  font-size: 0.875rem;
   font-weight: 600;
-  color: rgba(22, 101, 52, 0.8); /* Slightly more opaque */
+  color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  margin: 0; /* Remove margins */
-  white-space: nowrap; /* Prevent wrapping */
-  line-height: 1.2;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
 }
 
 .set-reps {
-  font-size: 0.95em; /* Slightly larger for emphasis */
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #166534;
-  margin: 0; /* Remove margins */
-  line-height: 1.2;
-  white-space: nowrap; /* Prevent wrapping */
+  color: #ffffff;
 }
 
-/* Remove button container and styling - positioned at the right end */
 .set-remove-container {
-  margin-left: auto; /* Push to the right */
-  flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-width: 20px;
-  height: 20px;
-  position: relative; /* Changed from absolute to relative */
-  top: auto; /* Reset absolute positioning */
-  right: auto; /* Reset absolute positioning */
-  z-index: 10;
 }
 
 .set-remove-button {
-  width: 20px; /* Match update indicator size */
-  height: 20px; /* Match update indicator size */
-  border-radius: 50%;
-  background: #ef4444;
-  color: white;
+  background: rgba(255, 255, 255, 0.2);
   border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
-  opacity: 0.6; /* Match update indicator opacity */
-  transform: scale(1); /* Reset scale */
-  cursor: pointer;
 }
 
 .set-remove-button:hover {
-  background: #dc2626;
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
-  opacity: 1; /* Full opacity on hover */
+  background: rgba(220, 53, 69, 0.8);
+  transform: scale(1.1);
 }
 
-.set-remove-button:active {
-  transform: scale(0.95);
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+/* Secondary Controls */
+.secondary-controls {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
 }
 
-/* Show remove button on card hover like update indicators */
-.completed-set-card:hover .set-remove-button {
-  opacity: 1;
+.section-header {
+  margin-bottom: 1.5rem;
 }
 
-/* Daily History Section */
-.daily-history {
-  margin-top: 40px;
-}
-
-.daily-history .flex.items-center.gap-2.mb-4 {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.daily-history h3.mb-0 {
+.section-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
   margin: 0;
-  color: #333;
-  font-size: 1.1rem;
-  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.daily-history .flex {
+/* Reminder Card Special States */
+.progress-card.reminder-active {
+  border-color: rgba(255, 51, 51, 0.6);
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  animation: reminder-pulse 1s infinite;
+}
+
+@keyframes reminder-pulse {
+  0%, 100% { box-shadow: 0 8px 25px -5p rgba(255, 51, 51, 0.5); }
+  50% { box-shadow: 0 12px 35px -5p rgba(255, 51, 51, 0.8); }
+}
+
+.card-reminder-content {
   display: flex;
-}
-
-.daily-history .items-center {
+  flex-direction: column;
   align-items: center;
-}
-
-.daily-history .gap-2 {
-  gap: 8px;
-}
-
-.daily-history .mb-4 {
-  margin-bottom: 16px;
-}
-
-.daily-history h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.history-list {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.history-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid #eee;
-}
-
-.history-item:last-child {
-  border-bottom: none;
-}
-
-.history-item:hover {
-  background: #f8f9fa;
-}
-
-.history-date {
-  font-weight: 500;
-  color: #333;
-}
-
-.history-reps {
-  font-weight: 600;
-  color: #1976d2;
-}
-
-.no-data {
   text-align: center;
-  color: #777;
-  font-style: italic;
-  padding: 40px 20px;
-  background: #f8f9fa;
+}
+
+.reminder-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reminder-message {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+}
+
+.dismiss-btn-card {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
   border-radius: 8px;
-}
-
-.setup-buttons {
-  display: flex;
-  gap: 16px;
-  margin-top: 8px;
-}
-
-.setup-button {
-  border: none;
-  padding: 12px 24px;
-  border-radius: 12px;
-  font-size: 1rem;
+  color: #ffffff;
   font-weight: 600;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 140px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
 }
 
-.setup-button.primary {
-  background: #ea580c;
-  color: white;
-  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+.dismiss-btn-card:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-.setup-button.primary:hover {
-  background: #dc2626;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.4);
-}
-
-.setup-button.secondary {
-  background: white;
-  color: #ea580c;
-  border: 2px solid #ea580c;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.setup-button.secondary:hover {
-  background: #ea580c;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.3);
-}
-
-.setup-button:active {
-  transform: translateY(0);
-}
-
-/* Floating Action Button - New styles */
-/* .fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 100;
-}
-
-.fab:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5);
-}
-
-.fab:active {
-  transform: translateY(0);
-} */
-
-/* Floating Action Button - Add Set */
-/* .fab-add-set {
-  position: fixed;
-  bottom: 80px;
-  right: 20px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 999;
-}
-
-.fab-add-set:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5);
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-}
-
-.fab-add-set:active {
-  transform: translateY(0);
-} */
-
-/* Remove the old floating action button styles */
-/* Floating Action Button - New styles */
-.fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 100;
-}
-
-.fab:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5);
-}
-
-.fab:active {
-  transform: translateY(0);
-}
-
-/* Floating Action Button - Add Set */
-.fab-add-set {
-  position: fixed;
-  bottom: 80px; /* Position above navigation - navigation is at bottom: 12px with ~60px height */
-  right: 20px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 999; /* Below modals but above content */
-}
-
-.fab-add-set:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5);
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-}
-
-.fab-add-set:active {
-  transform: translateY(0);
-}
-
-/* Responsive positioning for smaller screens */
-@media (max-width: 640px) {
-  .today-page {
-    padding-top: 32px;
-  }
-
-  .fab-add-set {
-    bottom: 90px; /* Extra space on small screens to avoid navigation */
-    right: 16px;
-    width: 52px;
-    height: 52px;
-  }
-}
-
-@media (max-width: 480px) {
-  .today-page {
-    padding-top: 28px;
-  }
-
-  .fab-add-set {
-    bottom: 95px; /* Even more space for very small screens */
-    right: 12px;
-  }
-
-  .progress-cards {
-    grid-template-columns: 1fr; /* Single column on very small screens */
-    gap: 16px;
-  }
-}
-
-/* ===== REUSABLE MODAL STYLES (DRY) ===== */
-/* Modal overlay - reusable for all modals */
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -796,956 +399,258 @@
   backdrop-filter: blur(4px);
 }
 
-/* Modal content - reusable base styling */
 .modal-content {
-  background: white;
-  padding: 0;
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+  border: 2px solid rgba(0, 128, 255, 0.3);
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  min-width: 320px;
+  padding: 2rem;
+  margin: 1rem;
   max-width: 500px;
-  max-height: 80vh;
-  margin: 20px;
-  position: relative;
-  transform: scale(1);
-  transition: transform 0.2s ease;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.4);
 }
 
-/* Modal title - reusable */
 .modal-title {
+  font-size: 1.5rem;
   font-weight: 600;
-  color: #374151;
-  font-size: 1.2rem;
-  margin-bottom: 0;
-  padding: 32px 32px 24px 32px;
-  flex-shrink: 0;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* Modal body - scrollable content area */
 .modal-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 80px;
+  margin-bottom: 2rem;
 }
 
-/* Modal buttons container - reusable */
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.modal-input-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #e9ecef;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+}
+
 .modal-buttons {
   display: flex;
-  gap: 12px;
+  gap: 1rem;
   justify-content: center;
-  margin-top: 0;
-  padding: 24px 32px 24px;
-  flex-shrink: 0;
-  border-top: 1px solid #e5e7eb;
 }
 
-/* Modal button base - reusable */
 .modal-button {
-  padding: 10px 20px;
+  flex: 1;
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 10px;
-  font-size: 0.9rem;
+  border-radius: 12px;
   font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 100px;
+  transition: all 0.3s ease;
 }
 
-/* Primary modal button - reusable */
 .modal-button-primary {
-  background: #3b82f6;
+  background: linear-gradient(135deg, #0080ff 0%, #66b3ff 100%);
   color: white;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 6px 20px -5p rgba(0, 128, 255, 0.4);
 }
 
-.modal-button-primary:hover:not(:disabled) {
-  background: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+.modal-button-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5p rgba(0, 128, 255, 0.5);
 }
 
 .modal-button-primary:disabled {
-  background: #9ca3af;
+  background: #495057;
+  color: #6c757d;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
-/* Secondary modal button - reusable */
 .modal-button-secondary {
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
+  background: rgba(108, 117, 125, 0.2);
+  color: #ced4da;
+  border: 2px solid rgba(108, 117, 125, 0.3);
 }
 
 .modal-button-secondary:hover {
-  background: #e5e7eb;
+  background: rgba(108, 117, 125, 0.3);
+  border-color: rgba(108, 117, 125, 0.5);
   transform: translateY(-1px);
 }
 
-/* Modal input group - reusable */
-.modal-input-group {
-  margin-bottom: 20px;
+/* Schedule Configuration */
+.schedule-config-grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.schedule-config-item {
+  background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+  border: 2px solid rgba(255, 128, 0, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
-/* Modal input label - reusable */
-.modal-input-label {
+.schedule-day {
   font-weight: 600;
-  color: #374151;
-  font-size: 1rem;
-  margin-bottom: 8px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.875rem;
 }
 
-/* Modal input - reusable */
-.modal-input {
-  width: 90px;
-  padding: 12px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 700;
-  background: #f9fafb;
-  transition: all 0.2s ease;
-}
-
-.modal-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  background: white;
-}
-
-/* Schedule specific styles */
-.exercise-select {
+.schedule-exercise {
   flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  background: white;
-  transition: all 0.2s ease;
-  min-width: 140px;
+  margin-left: 1rem;
+}
+
+.exercise-select {
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+  border: 2px solid rgba(0, 128, 255, 0.3);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .exercise-select:focus {
   outline: none;
-  border-color: #dc2626;
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  border-color: #0080ff;
+  box-shadow: 0 0 0 3px rgba(0, 128, 255, 0.1);
 }
 
-/* Mobile responsiveness for schedule modal */
-@media (max-width: 640px) {
+.exercise-select option {
+  background: #343a40;
+  color: #ffffff;
+}
+
+/* Empty States */
+.empty-sets-message {
+  flex: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 128, 0, 0.3);
+  margin: 2rem 0;
+}
+
+.empty-icon {
+  color: #ff8000;
+  margin-bottom: 1rem;
+}
+
+.empty-sets-message h3,
+.empty-sets-message p:first-of-type {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.empty-subtitle {
+  color: #6c757d;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.empty-sets-buttons-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.schedule-setup-button, .learn-more-button {
+  background: linear-gradient(135deg, #ff3333 0%, #ff8080 100%);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px -5p rgba(255, 51, 51, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.learn-more-button {
+  background: linear-gradient(135deg, #0080ff 0%, #66b3ff 100%);
+  box-shadow: 0 6px 20px -5p rgba(0, 128, 255, 0.4);
+}
+
+.schedule-setup-button:hover, .learn-more-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5p rgba(255, 51, 51, 0.5);
+}
+
+.learn-more-button:hover {
+  box-shadow: 0 8px 25px -5p rgba(0, 128, 255, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .progress-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .progress-card {
+    padding: 1rem;
+  }
+
+  .empty-sets-buttons-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .schedule-setup-button, .learn-more-button {
+    width: 100%;
+    max-width: 200px;
+  }
+
   .modal-content {
-    min-width: 300px;
-    max-width: 90vw;
+    margin: 0.5rem;
+    padding: 1.5rem;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+  }
+
+  .modal-button {
+    width: 100%;
   }
 
   .schedule-config-item {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
+    gap: 0.5rem;
   }
 
-  .schedule-day {
-    min-width: auto;
-    text-align: center;
-  }
-
-  .exercise-select {
-    min-width: auto;
-  }
-}
-
-/* Modal-style reps input popup */
-.reps-input-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-}
-
-.reps-input-content {
-  background: white;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  min-width: 280px;
-  max-width: 400px;
-  margin: 20px;
-  position: relative;
-  transform: scale(1);
-  transition: transform 0.2s ease;
-}
-
-.reps-input-content .reps-input-label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 1.1rem;
-  margin-bottom: 16px;
-}
-
-.reps-input-content .reps-input {
-  width: 80px;
-  padding: 12px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 1.3rem;
-  font-weight: 700;
-  background: #f9fafb;
-  transition: all 0.2s ease;
-  margin-bottom: 20px;
-}
-
-.reps-input-content .reps-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  background: white;
-}
-
-.reps-input-content .reps-input-buttons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-.reps-input-content .reps-input-buttons button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 80px;
-}
-
-.reps-input-content .reps-input-buttons button:first-child {
-  background: #3b82f6;
-  color: white;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-}
-
-.reps-input-content .reps-input-buttons button:first-child:hover:not(:disabled) {
-  background: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-}
-
-.reps-input-content .reps-input-buttons button:first-child:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.reps-input-content .reps-input-buttons button:last-child {
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
-}
-
-.reps-input-content .reps-input-buttons button:last-child:hover {
-  background: #e5e7eb;
-  transform: translateY(-1px);
-}
-
-/* Max Reps Card styling */
-.progress-card.max-reps-card {
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
-}
-
-.progress-card.max-reps-card.pull-ups {
-  background: linear-gradient(90deg, #faf5ff, #ffffff);
-}
-
-.progress-card.max-reps-card.dips {
-  background: linear-gradient(90deg, #fffbeb, #ffffff);
-}
-
-.progress-card.max-reps-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.progress-card.max-reps-card .progress-value {
-  color: #7c3aed;
-}
-
-.progress-card.max-reps-card.dips .progress-value {
-  color: #d97706;
-}
-
-/* Reminder Card styling - make it clickable like max reps cards */
-.progress-card.reminder-card {
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
-}
-
-.progress-card.reminder-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.reminder-indicator {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
-}
-
-/* Pull Ups Max Reps indicator */
-.pull-ups-indicator {
-  background: rgba(124, 58, 237, 0.1);
-  color: #7c3aed;
-}
-
-/* Dips Max Reps indicator */
-.dips-indicator {
-  background: rgba(217, 119, 6, 0.1);
-  color: #d97706;
-}
-
-/* Reminder Input Modal */
-.reminder-input-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-}
-
-.reminder-input-content {
-  background: white;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  min-width: 320px;
-  max-width: 400px;
-  margin: 20px;
-  position: relative;
-  transform: scale(1);
-  transition: transform 0.2s ease;
-}
-
-.reminder-input-label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 1rem;
-  margin-bottom: 8px;
-}
-
-.reminder-input-label:first-child {
-  font-size: 1.2rem;
-  margin-bottom: 24px;
-  color: #1f2937;
-}
-
-.reminder-input {
-  width: 90px;
-  padding: 12px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 700;
-  background: #f9fafb;
-  transition: all 0.2s ease;
-}
-
-.reminder-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  background: white;
-}
-
-.reminder-input-buttons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 24px;
-}
-
-.reminder-input-buttons button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 100px;
-}
-
-.reminder-input-buttons button:first-child {
-  background: #3b82f6;
-  color: white;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-}
-
-.reminder-input-buttons button:first-child:hover:not(:disabled) {
-  background: #2563eb;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-}
-
-.reminder-input-buttons button:first-child:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.reminder-input-buttons button:last-child {
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
-}
-
-.reminder-input-buttons button:last-child:hover {
-  background: #e5e7eb;
-  transform: translateY(-1px);
-}
-
-/* Max Reps Input Modal */
-.max-reps-input-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-}
-
-.max-reps-input-content {
-  background: white;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  min-width: 340px;
-  max-width: 420px;
-  margin: 20px;
-  position: relative;
-  transform: scale(1);
-  transition: transform 0.2s ease;
-}
-
-.input-group {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.max-reps-input-label {
-  font-weight: 600;
-  color: #374151;
-  font-size: 1rem;
-  margin-bottom: 8px;
-}
-
-.max-reps-input-label:first-child {
-  font-size: 1.2rem;
-  margin-bottom: 24px;
-  color: #1f2937;
-}
-
-.max-reps-input {
-  width: 90px;
-  padding: 12px;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: 700;
-  background: #f9fafb;
-  transition: all 0.2s ease;
-}
-
-.max-reps-input:focus {
-  outline: none;
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-  background: white;
-}
-
-.max-reps-input-buttons {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 8px;
-}
-
-.max-reps-input-buttons button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 100px;
-}
-
-.max-reps-input-buttons button:first-child {
-  background: #7c3aed;
-  color: white;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
-}
-
-.max-reps-input-buttons button:first-child:hover:not(:disabled) {
-  background: #6d28d9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
-}
-
-.max-reps-input-buttons button:first-child:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.max-reps-input-buttons button:last-child {
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #d1d5db;
-}
-
-.max-reps-input-buttons button:last-child:hover {
-  background: #e5e7eb;
-  transform: translateY(-1px);
-}
-
-/* Sets Card styling - make it clickable like other cards */
-.progress-card.sets-card {
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
-}
-
-.progress-card.sets-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.sets-indicator {
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-}
-
-/* Schedule Card styling */
-.progress-card.schedule-card {
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
-  background: linear-gradient(135deg, #fef2f2, #ffffff); /* Light mode gradient */
-}
-
-.progress-card.schedule-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.progress-card.schedule-card .progress-value {
-  color: #dc2626; /* Light mode red color */
-}
-
-.schedule-indicator {
-  background: rgba(220, 38, 38, 0.1);
-  color: #dc2626;
-}
-
-/* Schedule Input Modal */
-.schedule-input-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-}
-
-.schedule-input-content {
-  background: #1f2937;
-  color: #f9fafb;
-  padding: 32px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  min-width: 360px;
-  max-width: 500px;
-  max-height: 80vh;
-  margin: 20px;
-  position: relative;
-  transform: scale(1);
-  transition: transform 0.2s ease;
-  overflow-y: auto;
-}
-
-.schedule-input-label {
-  font-weight: 600;
-  color: #f9fafb;
-  font-size: 1.2rem;
-  margin-bottom: 24px;
-}
-
-.schedule-config-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 0;
-  text-align: left;
-  flex: 1;
-  overflow-y: auto;
-  padding: 0 32px;
-  max-height: 50vh;
-}
-
-.schedule-config-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-}
-
-.schedule-day {
-  font-weight: 600;
-  color: #374151;
-  min-width: 80px;
-  font-size: 0.9rem;
-}
-
-/* Dark mode styles */
-@media (prefers-color-scheme: dark) {
-  .today-page {
-    background: #111827;
-    color: #f9fafb;
-  }
-
-  /* Progress Cards */
-  .progress-card {
-    background: #1f2937;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .progress-card.set-progress {
-    background: linear-gradient(135deg, #1f2937, #374151);
-  }
-
-  .progress-card.set-progress.completed {
-    background: linear-gradient(135deg, #065f46, #047857);
-  }
-
-  .progress-card.countdown-progress {
-    background: linear-gradient(135deg, #1e3a8a, #1f2937);
-  }
-
-  .progress-card.countdown-progress.reminder-active {
-    background: linear-gradient(135deg, #7f1d1d, #991b1b);
-  }
-
-  .progress-card.max-reps-card.pull-ups {
-    background: linear-gradient(135deg, #581c87, #1f2937);
-  }
-
-  .progress-card.max-reps-card.dips {
-    background: linear-gradient(135deg, #92400e, #1f2937);
-  }
-
-  /* Text colors */
-  .exercise-name,
-  .progress-value,
-  .countdown-title,
-  .countdown-value,
-  .countdown-label {
-    color: #f9fafb;
-  }
-
-  /* Set cards */
-  .completed-set-card {
-    background: linear-gradient(135deg, #065f46, #047857);
-    border-color: #059669;
-    color: #f0fdf4;
-  }
-
-  .completed-set-card .set-number,
-  .completed-set-card .set-reps {
-    color: #f0fdf4 !important;
-  }
-
-  .completed-set-card .set-checkmark {
-    color: #86efac !important;
-  }
-
-  /* Rest and setup messages */
-  .rest-day-message {
-    background: linear-gradient(135deg, #1e3a8a, #1e40af);
-    border-color: #3b82f6;
-    color: #f9fafb;
-  }
-
-  /* Floating Action Button - already has good contrast */
-
-  /* Modal backgrounds */
-  .reps-input-content,
-  .max-reps-input-content,
-  .reminder-input-content,
-  .sets-input-content {
-    background: #1f2937;
-    color: #f9fafb;
-  }
-
-  /* Input fields */
-  .reps-input-content .reps-input,
-  .max-reps-input,
-  .reminder-input,
-  .sets-input {
-    background: #111827;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .reps-input-content .reps-input:focus,
-  .max-reps-input:focus,
-  .reminder-input:focus,
-  .sets-input:focus {
-    background: #1f2937;
-    border-color: #3b82f6;
-  }
-
-  /* Icons */
-  .progress-card svg,
-  .today-header svg {
-    color: #f9fafb !important;
-  }
-
-  /* Schedule Card styling for dark mode */
-  .progress-card.schedule-card {
-    background: linear-gradient(135deg, #7f1d1d, #1f2937);
-  }
-
-  .progress-card.schedule-card .progress-value {
-    color: #f87171;
-  }
-
-  /* ===== DARK MODE MODAL STYLES ===== */
-  /* Modal content */
-  .modal-content {
-    background: #1f2937;
-    color: #f9fafb;
-  }
-
-  /* Modal title */
-  .modal-title {
-    color: #f9fafb;
-  }
-
-  /* Modal input labels */
-  .modal-input-label {
-    color: #f9fafb;
-  }
-
-  /* Modal inputs */
-  .modal-input {
-    background: #111827;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .modal-input:focus {
-    background: #1f2937;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
-
-  /* Modal buttons container */
-  .modal-buttons {
-    border-top: 1px solid #374151;
-  }
-
-  /* Secondary modal button in dark mode */
-  .modal-button-secondary {
-    background: #374151;
-    color: #f9fafb;
-    border: 1px solid #4b5563;
-  }
-
-  .modal-button-secondary:hover {
-    background: #4b5563;
-  }
-
-  /* Exercise select in dark mode */
-  .exercise-select {
-    background: #1f2937;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .exercise-select:focus {
-    border-color: #dc2626;
-    background: #111827;
-  }
-
-  /* Schedule config items in dark mode */
-  .schedule-config-item {
-    background: #111827;
-    border-color: #374151;
-  }
-
-  .schedule-day {
-    color: #f9fafb;
-  }
-
-  /* Headers - make them brighter in dark mode following Statistics component colors */
-  .sets-header h3,
-  .section-header h3 {
-    color: #f9fafb;
-  }
-}
-
-.schedule-setup-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #f97316;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-}
-
-.schedule-setup-button:hover {
-  background: #ea580c;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.4);
-}
-
-.schedule-setup-button:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-}
-
-.learn-more-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  color: #f97316;
-  border: 2px solid #f97316;
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.learn-more-button:hover {
-  background: #f97316;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
-}
-
-.learn-more-button:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-}
-
-/* Button container responsive styling */
-.rest-day-message .flex {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-}
-
-/* For tablets and small screens */
-@media (max-width: 768px) {
-  .rest-day-message .flex {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .schedule-setup-button,
-  .learn-more-button {
-    width: 100%;
-    max-width: 280px;
-    justify-content: center;
-  }
-}
-
-/* For very small screens */
-@media (max-width: 480px) {
-  .schedule-setup-button,
-  .learn-more-button {
-    padding: 14px 20px;
-    font-size: 15px;
-    max-width: 250px;
-  }
-
-  .rest-day-message {
-    padding: 32px 16px;
-  }
-
-  .rest-day-message h2 {
-    font-size: 1.5rem;
-  }
-
-  .rest-day-message .flex {
-    gap: 10px;
+  .schedule-exercise {
+    margin-left: 0;
   }
 }

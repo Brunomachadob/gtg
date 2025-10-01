@@ -11,22 +11,43 @@ html, body {
   font-family: system-ui;
 }
 
+/* Fitness App - Bold & Aggressive Theme */
+body {
+  margin: 0;
+  font-family: 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #0d1117 0%, #1a1d20 50%, #212529 100%);
+  color: #f8f9fa;
+  min-height: 100vh;
+}
+
 .app {
-  min-height: 100vh; /* Changed from height to min-height */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d1117 0%, #1a1d20 50%, #212529 100%);
   display: flex;
   flex-direction: column;
-  background: #f5f7fa;
 }
 
 .app-content {
   flex: 1;
-  /* Remove overflow: hidden to allow scrolling */
+  padding: 1rem;
+  padding-bottom: 5rem; /* Space for navigation */
 }
 
-/* Dark mode base styles */
-@media (prefers-color-scheme: dark) {
-  .app {
-    background: #111827;
-    color: #f9fafb;
-  }
+/* Bold typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
+
+/* Aggressive button styles */
+button {
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+

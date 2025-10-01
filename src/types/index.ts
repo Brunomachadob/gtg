@@ -5,6 +5,8 @@ export type Exercise = typeof EXERCISES[number] | '';
 
 export type PageType = 'today' | 'stats' | 'about' | 'developer';
 
+export type ReminderState = 'running' | 'paused' | 'off' | 'complete';
+
 export interface Config {
   days: Exercise[];
   sets: number;

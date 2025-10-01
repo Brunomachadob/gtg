@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { StorageService } from '../services/StorageService';
 import { DateService } from '../services/DateService';
-import { DailySets, Exercise } from "../types";
+import { DailySets, Exercise, ReminderState } from "../types";
 
 export function useSession(sets: number, todayExercise: Exercise, reminderIntervalMinutes: number) {
   const todayKey = DateService.getCurrentDateString();
-  const REMINDER_INTERVAL = reminderIntervalMinutes * 60 * 1000; // Convert minutes to milliseconds
-  const isReminderDisabled = reminderIntervalMinutes === 0;
 
   const [dailySets, setDailySets] = useState<DailySets>(() => {
     return StorageService.getDailySets(todayKey) || {
@@ -15,34 +13,80 @@ export function useSession(sets: number, todayExercise: Exercise, reminderInterv
     };
   });
 
-  const [reminder, setReminder] = useState(false);
-  const [nextReminderTime, setNextReminderTime] = useState<number | null>(null);
-  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  const areThereMoreSetsToDo = () => dailySets.sets.some(r => r === 0);
+
+  const [reminderState, setReminderState] = useState<ReminderState>({
+    intervalId: null,
+    remindAt: null,
+    remainingTime: null,
+    status: 'off',
+  });
 
   useEffect(() => {
     StorageService.saveDailySets(todayKey, dailySets);
   }, [dailySets, todayKey, todayExercise]);
 
   useEffect(() => {
-    if (!isReminderDisabled && dailySets.sets.some(r => r === 0) && !reminder && !nextReminderTime) {
-      const reminderTime = Date.now() + REMINDER_INTERVAL;
-      setNextReminderTime(reminderTime);
-    }
-  }, [dailySets, reminder, nextReminderTime, isReminderDisabled, REMINDER_INTERVAL]);
 
-  // Reset timer when interval configuration changes
-  useEffect(() => {
-    if (isReminderDisabled) {
-      // Disable reminders completely
-      setReminder(false);
-      setNextReminderTime(null);
-      setTimeRemaining(0);
-    } else if (nextReminderTime && !reminder) {
-      // If there's an active timer and no current reminder, reset it with the new interval
-      const reminderTime = Date.now() + REMINDER_INTERVAL;
-      setNextReminderTime(reminderTime);
+    if (reminderIntervalMinutes === 0) {
+      if (reminderState.intervalId) clearInterval(reminderState.intervalId);
+
+      setReminderState({
+        status: 'off',
+        intervalId: null,
+        remindAt: null,
+        remainingTime: null,
+      });
+    } else if (areThereMoreSetsToDo()) {
+      if (reminderState.intervalId) clearInterval(reminderState.intervalId);
+      if (reminderState.status === 'alert') return;
+
+      const remindAt = Date.now() + (reminderIntervalMinutes * 60 * 1000);
+
+      const intervalId = setInterval(() => {
+        setReminderState(currentState => {
+          if (!currentState.remindAt) return currentState;
+
+          const remainingTime = Math.max(0, currentState.remindAt - Date.now());
+
+          if (remainingTime <= 0) {
+            clearInterval(intervalId);
+            showDesktopNotification();
+            return {
+              ...currentState,
+              status: 'alert',
+              remindAt: null,
+              remainingTime: null,
+              intervalId: null
+            };
+          } else {
+            return {
+              ...currentState,
+              remainingTime,
+            };
+          }
+        });
+      }, 1000);
+
+      setReminderState({
+        intervalId,
+        status: "running",
+        remindAt,
+        remainingTime: reminderIntervalMinutes * 60 * 1000,
+      });
+
+      return () => clearInterval(intervalId);
+    } else {
+      if (reminderState.intervalId) clearInterval(reminderState.intervalId);
+
+      setReminderState({
+        intervalId: null,
+        status: 'complete',
+        remindAt: null,
+        remainingTime: null,
+      });
     }
-  }, [REMINDER_INTERVAL, isReminderDisabled]); // Reset when the interval changes
+  }, [reminderIntervalMinutes, dailySets, reminderState.status]);
 
   // Request notification permission on component mount
   useEffect(() => {
@@ -58,28 +102,6 @@ export function useSession(sets: number, todayExercise: Exercise, reminderInterv
       });
     }
   }, []);
-
-  // Countdown timer effect
-  useEffect(() => {
-    if (!nextReminderTime) return;
-
-    const timer = setInterval(() => {
-      const now = Date.now();
-      const remaining = Math.max(0, nextReminderTime - now);
-      setTimeRemaining(remaining);
-
-      if (remaining <= 0) {
-        setReminder(true);
-        setNextReminderTime(null);
-        clearInterval(timer);
-
-        // Show desktop notification
-        showDesktopNotification();
-      }
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [nextReminderTime]);
 
   const showDesktopNotification = () => {
     if ('Notification' in window && Notification.permission === 'granted') {
@@ -104,11 +126,14 @@ export function useSession(sets: number, todayExercise: Exercise, reminderInterv
   };
 
   const dismissReminder = () => {
-    setReminder(false);
     // Set next reminder only if not disabled
-    if (!isReminderDisabled && dailySets.sets.some(r => r === 0)) {
-      const reminderTime = Date.now() + REMINDER_INTERVAL;
-      setNextReminderTime(reminderTime);
+    if (reminderIntervalMinutes !== 0 && areThereMoreSetsToDo()) {
+      setReminderState(currentState => {
+        return {
+          ...currentState,
+          status: "running",
+        };
+      });
     }
   };
 
@@ -130,8 +155,6 @@ export function useSession(sets: number, todayExercise: Exercise, reminderInterv
       ...dailySets,
       sets: updatedSets
     });
-    setReminder(false);
-    setNextReminderTime(null);
   };
 
   // Remove a specific set by index
@@ -144,18 +167,11 @@ export function useSession(sets: number, todayExercise: Exercise, reminderInterv
       ...dailySets,
       sets: updated
     });
-
-    // If we now have incomplete sets and reminders are enabled, start the timer
-    if (!isReminderDisabled && updated.some(r => r === 0) && !reminder && !nextReminderTime) {
-      const reminderTime = Date.now() + REMINDER_INTERVAL;
-      setNextReminderTime(reminderTime);
-    }
   };
 
   return {
     dailySets,
-    reminder,
-    timeRemaining,
+    reminderState,
     dismissReminder,
     addSetWithReps,
     removeSet

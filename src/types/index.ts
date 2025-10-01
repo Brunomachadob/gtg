@@ -5,7 +5,14 @@ export type Exercise = typeof EXERCISES[number] | '';
 
 export type PageType = 'today' | 'stats' | 'about' | 'developer';
 
-export type ReminderState = 'running' | 'paused' | 'off' | 'complete';
+export type ReminderStatus = 'running' | 'alert' | 'off' | 'complete';
+
+export interface ReminderState {
+  status: ReminderStatus;
+  intervalId: number | null;
+  remindAt: number | null;
+  remainingTime: number | null;
+}
 
 export interface Config {
   days: Exercise[];

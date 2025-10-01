@@ -38,9 +38,8 @@ export function Today({ navigateTo }: TodayProps) {
     dailySets,
     addSetWithReps,
     removeSet,
-    reminder,
+    reminderState,
     dismissReminder,
-    timeRemaining,
   } = useSession(config.sets, todayExercise, config.reminderIntervalMinutes);
 
   // Get max reps data
@@ -342,7 +341,7 @@ export function Today({ navigateTo }: TodayProps) {
             {
               config.reminderIntervalMinutes === 0 ? (
                 <div className="progress-value">OFF</div>
-              ) : reminder ? (
+              ) : reminderState.status === 'alert' ? (
                 <div className="card-reminder-content">
                   <div className="reminder-title">Time's Up!</div>
                   <div className="reminder-message">Ready for your next set</div>
@@ -353,10 +352,10 @@ export function Today({ navigateTo }: TodayProps) {
                     Dismiss
                   </button>
                 </div>
-              ) : timeRemaining > 0 ? (
-                <div className="progress-value">{formatTime(timeRemaining)}</div>
+              ) : reminderState.remainingTime && reminderState.remainingTime > 0 ? (
+                <div className="progress-value">{formatTime(reminderState.remainingTime)}</div>
               ) : (
-                <div className="progress-value">Ready</div>
+                <div className="progress-value">Sets completed!</div>
               )
             }
           </Card>

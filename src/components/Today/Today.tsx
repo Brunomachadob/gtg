@@ -513,27 +513,29 @@ export function Today({ navigateTo }: TodayProps) {
           <div className="modal-content">
             <div className="modal-title">Configure Weekly Schedule</div>
 
-            {/* Schedule configuration UI here */}
-            <div className="schedule-config-grid">
-              {getDayNames().map((dayName, index) => (
-                <div key={index} className="schedule-config-item">
-                  <div className="schedule-day">{dayName}</div>
-                  <div className="schedule-exercise">
-                    <select
-                      value={scheduleConfig[index] || ''}
-                      onChange={e => handleScheduleChange(index, e.target.value)}
-                      className="exercise-select"
-                    >
-                      {!scheduleConfig[index] && (
-                        <option value="" disabled>Select Exercise</option>
-                      )}
-                      <option value="Pull Ups">Pull Ups</option>
-                      <option value="Dips">Dips</option>
-                      <option value="Rest">Rest</option>
-                    </select>
+            <div className="modal-body">
+              {/* Schedule configuration UI here */}
+              <div className="schedule-config-grid">
+                {getDayNames().map((dayName, index) => (
+                  <div key={index} className="schedule-config-item">
+                    <div className="schedule-day">{dayName}</div>
+                    <div className="schedule-exercise">
+                      <select
+                        value={scheduleConfig[index] || ''}
+                        onChange={e => handleScheduleChange(index, e.target.value)}
+                        className="exercise-select"
+                      >
+                        {!scheduleConfig[index] && (
+                          <option value="" disabled>Select Exercise</option>
+                        )}
+                        <option value="Pull Ups">Pull Ups</option>
+                        <option value="Dips">Dips</option>
+                        <option value="Rest">Rest</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
             <div className="modal-buttons">

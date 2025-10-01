@@ -339,16 +339,6 @@
     padding: 2rem 1.5rem;
   }
 
-  .card-header {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .card-icon {
-    margin-right: 0;
-    margin-bottom: 1rem;
-  }
-
   .instruction-header {
     align-items: flex-start;
   }

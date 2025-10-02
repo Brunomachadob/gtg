@@ -167,6 +167,69 @@
   text-align: center;
 }
 
+/* Enhanced progress value for multi-line content */
+.progress-value-multi {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.progress-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.progress-stat-label {
+  color: #e9ecef;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.progress-stat-value {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+/* Special styling for ratio displays (current/goal) */
+.progress-ratio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.progress-ratio-current {
+  color: #ffffff;
+}
+
+.progress-ratio-separator {
+  color: #6c757d;
+  font-weight: 400;
+}
+
+.progress-ratio-goal {
+  color: #adb5bd;
+}
+
+/* Enhanced single value display */
+.progress-value-single {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  padding: 0.25rem 0;
+}
+
 /* Sets Container - Main workout area */
 .sets-container {
   margin-bottom: 3rem;

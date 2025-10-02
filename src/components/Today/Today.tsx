@@ -241,7 +241,7 @@ export function Today({ navigateTo }: TodayProps) {
             icon={<Calendar size={24} />}
             leftIcon={<Edit3 size={16} />}
           >
-            <div className="progress-value">{todayExercise}</div>
+            <div className="progress-value-single">{todayExercise}</div>
           </Card>
 
 
@@ -253,11 +253,17 @@ export function Today({ navigateTo }: TodayProps) {
             icon={<Target size={24} />}
             leftIcon={<Edit3 size={16} />}
           >
-            <div className="progress-value">
-              Sets: {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
-            </div>
-            <div className="progress-value">
-              Reps: {totalReps}
+            <div className="progress-value-multi">
+              <div className="progress-stat">
+                <span className="progress-stat-label">Sets</span>
+                <span className="progress-stat-value">
+                  {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
+                </span>
+              </div>
+              <div className="progress-stat">
+                <span className="progress-stat-label">Reps</span>
+                <span className="progress-stat-value">{totalReps}</span>
+              </div>
             </div>
           </Card>
         </div>

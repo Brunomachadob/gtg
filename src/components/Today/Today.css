@@ -15,6 +15,10 @@
   margin-bottom: 2rem;
 }
 
+.exercise-stats-grid .reminder-dismiss-button {
+  flex: 0;
+}
+
 /* Exercise Stat Card Content Styling */
 .exercise-stat-card {
   padding: 2rem 1rem;
@@ -152,8 +156,7 @@
 }
 
 .sets-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 1rem;
   margin: 0.5rem;
 }
@@ -168,6 +171,8 @@
   border: 2px solid #8b5cf6;
   box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.2);
   font-weight: 700;
+  min-width: 5rem;
+  flex: 0;
 }
 
 .completed-set-card .set-number {
@@ -431,7 +436,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .today-page {
     padding: 1rem 0.5rem;
   }
@@ -441,7 +446,7 @@
   }
 
   .sets-grid {
-    grid-template-columns: repeat(4, 1fr);
+    flex-direction: column;
     gap: 0.75rem;
   }
 

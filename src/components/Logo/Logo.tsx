@@ -71,7 +71,7 @@ export const Logo: React.FC<LogoProps> = ({
       </g>
 
       {/* Text */}
-      <text x="70" y="25" fontFamily="Arial, sans-serif" fontSize="18" fontWeight="bold" fill="white">
+      <text x="70" y="25" fontFamily="Arial, sans-serif" fontSize="18" fontWeight="bold" fill="#333">
         Grease the
       </text>
       <text x="70" y="45" fontFamily="Arial, sans-serif" fontSize="18" fontWeight="bold" fill="#6366f1">

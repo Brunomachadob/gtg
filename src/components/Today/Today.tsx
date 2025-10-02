@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bed, Plus, Target, Clock, ChevronUp, ChevronDown, Edit3, Calendar, Info, X } from 'lucide-react';
+import { Bed, Plus, Clock, Edit3, Calendar, Info, Target, X } from 'lucide-react';
 import { Card } from '../Card/Card';
 import { Exercise, PageType} from '../../types';
 import { useSession } from '../../hooks/useSession';
@@ -56,9 +56,10 @@ export function Today({ navigateTo }: TodayProps) {
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const handleAddSet = () => {
+  const handleAddSet = (e: React.MouseEvent) => {
     // Prevent adding sets if no valid exercise is scheduled for today or if it's a rest day
     // Use type assertion to handle the case where todayExercise might be empty string
+    e.stopPropagation();
     const exercise = todayExercise as string;
     if (!exercise || exercise === '' || exercise === 'Rest') {
       return;
@@ -200,9 +201,12 @@ export function Today({ navigateTo }: TodayProps) {
 
   const alternateSetsGrid = isRestDay ? (
     <div className="empty-sets-message">
-      <Bed className="empty-icon" size={48} />
-      <p>Rest Day</p>
       <p className="empty-subtitle">Today is your rest day. Take time to recover and come back stronger tomorrow!</p>
+    </div>
+  ) : totalReps == 0 ? (
+    <div className="empty-sets-message">
+      <p>No sets completed yet today</p>
+      <p className="empty-subtitle">Tap the "Add Set" button above to get started</p>
     </div>
   ) : !todayExercise || (todayExercise as string) === '' ? (
     <div className="empty-sets-message">
@@ -230,181 +234,156 @@ export function Today({ navigateTo }: TodayProps) {
 
   return (
     <div className="today-page">
-      {/* Primary Header with Most Important Cards */}
-      <div className="today-header">
-        <div className="progress-cards primary">
-          {/* Today's Exercise - Most Important */}
-          <Card
-            color="blue"
-            title="Today"
-            onClick={handleUpdateSchedule}
-            icon={<Calendar size={24} />}
-            leftIcon={<Edit3 size={16} />}
-          >
-            <div className="progress-value-single">{todayExercise}</div>
-          </Card>
-
-
-          {/* Daily Progress - Second Most Important */}
-          <Card
-            color="orange"
-            title="Progress"
-            onClick={handleUpdateSets}
-            icon={<Target size={24} />}
-            leftIcon={<Edit3 size={16} />}
-          >
-            <div className="progress-value-multi">
-              <div className="progress-stat">
-                <span className="progress-stat-label">Sets</span>
-                <span className="progress-stat-value">
-                  {completedSets} / {config.sets}{hasReachedMinimum && completedSets > config.sets ? '+' : ''}
-                </span>
-              </div>
-              <div className="progress-stat">
-                <span className="progress-stat-label">Reps</span>
-                <span className="progress-stat-value">{totalReps}</span>
-              </div>
+      {/* Today Section */}
+      <div className="today-section">
+        <Card title="Today" onClick={handleUpdateSchedule} icon={Edit3} className="today-card exercise-stat-card">
+          <div className="today-exercise exercise-main-number">{todayExercise}</div>
+          <div className="exercise-details">
+            <div className="exercise-detail">
+              <div className="exercise-detail-label">Sets</div>
+              <div className="exercise-detail-value">{completedSets} / {config.sets}</div>
             </div>
-          </Card>
-        </div>
-      </div>
+            <div className="exercise-detail">
+              <div className="exercise-detail-label">Reps</div>
+              <div className="exercise-detail-value">{totalReps}</div>
+            </div>
+          </div>
+          {/* Add Set Button */}
+          {!isRestDay &&
+            <button
+              className="add-set-button"
+              onClick={handleAddSet}
+            >
+              <Plus size={20}/>
+              Add Set
+            </button>
+          }
 
-      {/* Sets Container - Main content area */}
-      <div className="sets-container">
-        <div className="sets-header">
-          <h3>Today's Sets</h3>
-        </div>
-
-        {/* Add Set Button - now a pill below the header, disabled on rest days */}
-        <button
-          className={`add-set-pill ${isRestDay ? 'disabled' : ''}`}
-          onClick={handleAddSet}
-          disabled={isRestDay}
-        >
-          <Plus size={20} />
-          <span>Add Set</span>
-        </button>
-
-        <div className="sets-grid">
-          {/* Show rest day message when it's a rest day */}
           {alternateSetsGrid ||  (
-            <>
+            <div className="sets-grid">
               {/* Show completed sets */}
-              {dailySets.sets.map((reps: number, i: number) => {
-                if (reps > 0) {
+              {
+                dailySets.sets.map((reps: number, i: number) => {
+                  if (reps === 0) return null;
+
                   return (
-                    <div key={i} className="completed-set-card">
-                      <div className="set-header">
-                        <div className="set-checkmark">✓</div>
-                        <div className="set-content">
-                          <div className="set-number">Set {i + 1}</div>
-                          <div className="set-reps">{reps} reps</div>
-                        </div>
-                      </div>
-                      <div className="set-remove-container">
-                        <button
-                          className="set-remove-button"
-                          onClick={() => removeSet(i)}
-                          title="Remove Set"
-                        >
-                          <X size={16} />
-                        </button>
-                      </div>
+                    <div key={i} className="completed-set-card" onClick={(e: React.MouseEvent) => {e.stopPropagation()}}>
+                      <div className="set-number">Set {i + 1}</div>
+                      <div className="set-reps">{reps} reps</div>
+                      <button
+                        className="set-remove-button"
+                        onClick={(e: React.MouseEvent) => {
+                          e.stopPropagation();
+                          removeSet(i);
+                        }}
+                        title="Remove Set"
+                      >
+                        <X size={16}/>
+                      </button>
                     </div>
                   );
-                }
-                return null;
-              })}
+              })
+              }
 
               {/* Empty state when no sets */}
-              {dailySets.sets.filter(reps => reps > 0).length === 0 && (
+              {totalReps === 0 && (
                 <div className="empty-sets-message">
                   <Target className="empty-icon" size={32} />
                   <p>No sets completed yet today</p>
                   <p className="empty-subtitle">Tap the "Add Set" button above to get started</p>
                 </div>
               )}
-            </>
+            </div>
           )}
-        </div>
+        </Card>
       </div>
 
-      {/* Secondary Controls - Below Main Content */}
-      <div className="secondary-controls">
-        <div className="section-header">
-          <h3>Settings</h3>
-        </div>
-
-        <div className="progress-cards secondary">
-          {/* Reminder Card */}
-          <Card
-            color="purple"
-            title="Reminder"
-            onClick={handleUpdateReminder}
-            icon={<Clock size={20} />}
-            leftIcon={<Edit3 size={16} />}
-          >
-            {
-              config.reminderIntervalMinutes === 0 ? (
-                <div className="progress-value">OFF</div>
-              ) : reminderState.status === 'alert' ? (
-                <div className="card-reminder-content">
-                  <div className="reminder-title">Time's Up!</div>
-                  <div className="reminder-message">Ready for your next set</div>
-                  <button className="dismiss-btn-card" onClick={(e) => {
-                    e.stopPropagation();
-                    dismissReminder();
-                  }}>
-                    Dismiss
-                  </button>
+      <div className="exercise-stats-grid">
+        {/* Timer Card */}
+        <Card
+          title="Timer"
+          onClick={() => handleUpdateReminder()}
+          icon={Edit3}
+          className="exercise-stat-card timer-card"
+        >
+          {
+            config.reminderIntervalMinutes === 0 ? (
+              <div className="timer-display">
+                OFF
+              </div>
+            ) : reminderState.status === 'alert' ? (
+              <div className="exercise-details">
+                <div className="exercise-detail">
+                  <div className="exercise-detail-value">Time's Up!</div>
+                  <div className="exercise-detail-label">Ready for your next set</div>
                 </div>
-              ) : reminderState.remainingTime && reminderState.remainingTime > 0 ? (
-                <div className="progress-value">{formatTime(reminderState.remainingTime)}</div>
-              ) : (
-                <div className="progress-value">Sets completed!</div>
-              )
-            }
-          </Card>
+                <button className="reminder-dismiss-button modal-button modal-button-secondary" onClick={(e) => {
+                  e.stopPropagation();
+                  dismissReminder();
+                }}>
+                  Dismiss
+                </button>
+              </div>
+            ) : reminderState.remainingTime && reminderState.remainingTime > 0 ? (
+              <div className="timer-display">{formatTime(reminderState.remainingTime)}</div>
+            ) : (
+              <div className="exercise-detail-label">All sets completed!</div>
+            )
+          }
+        </Card>
 
+        {/* Dips Card */}
+        <Card
+          title="Dips"
+          onClick={() => handleUpdateMaxReps('Dips')}
+          icon={Edit3}
+          className="exercise-stat-card"
+        >
+          <div className="exercise-main-number">{getExerciseData('Dips').currentMax}</div>
+          <div className="exercise-details">
+            <div className="exercise-detail">
+              <div className="exercise-detail-label">Max</div>
+              <div className="exercise-detail-value">{getExerciseData('Dips').currentMax}</div>
+            </div>
+            <div className="exercise-detail">
+              <div className="exercise-detail-label">Goal</div>
+              <div className="exercise-detail-value">{config.goals.dips}</div>
+            </div>
+          </div>
+        </Card>
 
-          {/* Pull Ups Max */}
-          <Card
-            color="red"
-            title="Pull Ups Max"
-            onClick={() => handleUpdateMaxReps('Pull Ups')}
-            icon={<ChevronUp size={20} />}
-            leftIcon={<Edit3 size={16} />}
-          >
-            <div className="progress-value">{getExerciseData('Pull Ups').currentMax} / {config.goals.pullUps}</div>
-          </Card>
-
-          {/* Dips Max */}
-          <Card
-            color="green"
-            title="Pull Ups Max"
-            onClick={() => handleUpdateMaxReps('Dips')}
-            icon={<ChevronUp size={20} />}
-            leftIcon={<Edit3 size={16} />}
-          >
-            <div className="progress-value">{getExerciseData('Dips').currentMax} / {config.goals.dips}</div>
-          </Card>
-        </div>
+        {/* Pull-ups Card */}
+        <Card
+          title="Pull-ups"
+          onClick={() => handleUpdateMaxReps('Pull Ups')}
+          icon={Edit3}
+          className="exercise-stat-card"
+        >
+          <div className="exercise-main-number">{getExerciseData('Pull Ups').currentMax}</div>
+          <div className="exercise-details">
+            <div className="exercise-detail">
+              <div className="exercise-detail-label">Max</div>
+              <div className="exercise-detail-value">{getExerciseData('Pull Ups').currentMax}</div>
+            </div>
+            <div className="exercise-detail">
+              <div className="exercise-detail-label">Goal</div>
+              <div className="exercise-detail-value">{config.goals.pullUps}</div>
+            </div>
+          </div>
+        </Card>
       </div>
 
-      {/* Modal overlay for reps input - shown on top when needed */}
       {showRepsInput && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-title">How many reps?</div>
-
             <div className="modal-body">
-                <NumberInput
-                    min={1}
-                    value={newSetReps}
-                    onChange={setNewSetReps}
-                />
+              <NumberInput
+                min={1}
+                value={newSetReps}
+                onChange={setNewSetReps}
+              />
             </div>
-
             <div className="modal-buttons">
               <button className="modal-button modal-button-primary" onClick={handleSubmitSet} disabled={newSetReps <= 0}>
                 Add Set
@@ -422,27 +401,24 @@ export function Today({ navigateTo }: TodayProps) {
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-title">Configure {showMaxRepsInput}</div>
-
             <div className="modal-body">
               <div className="input-group">
                 <div className="modal-input-label">Current Max Reps:</div>
-                  <NumberInput
-                      min={1}
-                      value={newMaxReps}
-                      onChange={setNewMaxReps}
-                  />
+                <NumberInput
+                  min={1}
+                  value={newMaxReps}
+                  onChange={setNewMaxReps}
+                />
               </div>
-
               <div className="input-group">
                 <div className="modal-input-label">Goal Reps:</div>
-                  <NumberInput
-                      min={1}
-                      value={newGoalReps}
-                      onChange={setNewGoalReps}
-                  />
+                <NumberInput
+                  min={1}
+                  value={newGoalReps}
+                  onChange={setNewGoalReps}
+                />
               </div>
             </div>
-
             <div className="modal-buttons">
               <button className="modal-button modal-button-primary" onClick={handleSubmitMaxReps} disabled={newGoalReps <= 0}>
                 Save Settings

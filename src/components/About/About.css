@@ -1,7 +1,11 @@
-/* About Component - Aggressive Fitness Theme */
+/* About Component - Clean Minimalist Theme */
 .about-page {
-  padding: 1rem 0;
-  color: #f8f9fa;
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #f5f5f5;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .about-header {
@@ -9,321 +13,141 @@
   margin-bottom: 3rem;
 }
 
-.about-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #0080ff 0%, #66b3ff 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
 .about-subtitle {
   font-size: 1.125rem;
-  color: #6c757d;
+  color: #666;
   font-weight: 500;
   line-height: 1.5;
-  margin: 0;
+  margin: 2rem 0 0 0;
 }
 
 /* Content Cards Grid */
 .about-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
 }
 
-.about-card {
-  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
-  border: 2px solid rgba(0, 128, 255, 0.3);
-  border-radius: 10px;
-  padding: 1rem;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 8px 25px -5px rgba(0, 128, 255, 0.3);
-}
-
-.about-card:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #0080ff 0%, #66b3ff 100%);
-}
-
-.about-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 35px -5px rgba(0, 128, 255, 0.4);
-  border-color: rgba(0, 128, 255, 0.5);
-}
-
-.about-card.power-card {
-  border-color: rgba(255, 51, 51, 0.3);
-  box-shadow: 0 8px 25px -5px rgba(255, 51, 51, 0.3);
-}
-
-.about-card.power-card:before {
-  background: linear-gradient(180deg, #ff3333 0%, #ff8080 100%);
-}
-
-.about-card.power-card:hover {
-  border-color: rgba(255, 51, 51, 0.5);
-  box-shadow: 0 12px 35px -5px rgba(255, 51, 51, 0.4);
-}
-
-.about-card.green-card {
-  border-color: rgba(40, 167, 69, 0.3);
-  box-shadow: 0 8px 25px -5px rgba(40, 167, 69, 0.3);
-}
-
-.about-card.green-card:before {
-  background: linear-gradient(180deg, #28a745 0%, #5cb85c 100%);
-}
-
-.about-card.green-card:hover {
-  border-color: rgba(40, 167, 69, 0.5);
-  box-shadow: 0 12px 35px -5px rgba(40, 167, 69, 0.4);
-}
-
-.about-card.purple-card {
-  border-color: rgba(139, 92, 246, 0.3);
-  box-shadow: 0 8px 25px -5px rgba(139, 92, 246, 0.3);
-}
-
-.about-card.purple-card:before {
-  background: linear-gradient(180deg, #8b5cf6 0%, #a78bfa 100%);
-}
-
-.about-card.purple-card:hover {
-  border-color: rgba(139, 92, 246, 0.5);
-  box-shadow: 0 12px 35px -5px rgba(139, 92, 246, 0.4);
-}
-
-.power-card .card-icon {
-  background: rgba(255, 51, 51, 0.2);
-}
-
-.green-card .card-icon {
-  background: rgba(40, 167, 69, 0.2);
-}
-
-.purple-card .card-icon {
-  background: rgba(139, 92, 246, 0.2);
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.card-content {
-  color: #e9ecef;
+/* Card Content Styling - content inside cards */
+.about-info-card .card-content,
+.about-how-card .card-content,
+.about-benefits-card .card-content,
+.about-tips-card .card-content {
+  color: #555;
   line-height: 1.6;
-  font-size: 1rem;
 }
 
-.card-content p {
+.about-info-card .card-content p,
+.about-how-card .card-content p,
+.about-benefits-card .card-content p,
+.about-tips-card .card-content p {
   margin-bottom: 1rem;
 }
 
-.card-content ul {
-  list-style: none;
-  padding: 0;
+.about-info-card .card-content p:last-child,
+.about-how-card .card-content p:last-child,
+.about-benefits-card .card-content p:last-child,
+.about-tips-card .card-content p:last-child {
+  margin-bottom: 0;
 }
 
-.card-content li {
-  position: relative;
-  padding-left: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.card-content li:before {
-  content: '▶';
-  position: absolute;
-  left: 0;
-  color: #0080ff;
+.about-info-card .card-content strong,
+.about-how-card .card-content strong,
+.about-benefits-card .card-content strong,
+.about-tips-card .card-content strong {
+  color: #333;
   font-weight: 600;
 }
 
-.power-card .card-content li:before {
-  color: #ff3333;
+.about-info-card .card-content em,
+.about-how-card .card-content em,
+.about-benefits-card .card-content em,
+.about-tips-card .card-content em {
+  color: #666;
+  font-style: italic;
 }
 
-.green-card .card-content li:before {
-  color: #28a745;
+.about-info-card .card-content ul,
+.about-how-card .card-content ul,
+.about-benefits-card .card-content ul,
+.about-tips-card .card-content ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
 }
 
-.purple-card .card-content li:before {
-  color: #8b5cf6;
+.about-info-card .card-content li,
+.about-how-card .card-content li,
+.about-benefits-card .card-content li,
+.about-tips-card .card-content li {
+  margin-bottom: 0.5rem;
+  color: #555;
 }
 
 /* How to Use Section */
 .how-to-use-section {
-  margin: 3rem 0;
+  margin-top: 4rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
 .section-title {
   font-size: 2rem;
   font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
 .section-subtitle {
-  font-size: 1rem;
-  color: #6c757d;
+  font-size: 1.125rem;
+  color: #666;
   font-weight: 500;
+  line-height: 1.5;
+  margin: 0;
 }
 
-/* Instruction Cards */
+/* Instructions Grid */
 .instructions-grid {
   display: grid;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
-.instruction-card {
-  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
-  border: 2px solid rgba(40, 167, 69, 0.3);
-  border-radius: 10px;
-  padding: 1.5rem;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 8px 25px -5px rgba(40, 167, 69, 0.3);
-  transition: all 0.3s ease;
-}
-
-.instruction-card:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #28a745 0%, #5cb85c 100%);
-}
-
-.instruction-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -5px rgba(40, 167, 69, 0.4);
-  border-color: rgba(40, 167, 69, 0.5);
-}
-
-.instruction-header {
+/* Instruction Card Styling */
+.instruction-card .card-content {
   display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
+  align-items: flex-start;
   gap: 1rem;
 }
 
 .instruction-number {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #28a745 0%, #5cb85c 100%);
+  width: 48px;
+  height: 48px;
+  background: #333;
+  color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  font-size: 1.25rem;
   font-weight: 700;
-  font-size: 1rem;
   flex-shrink: 0;
-  box-shadow: 0 4px 15px -3px rgba(40, 167, 69, 0.4);
 }
 
-.instruction-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0;
-}
-
-.instruction-content {
-  color: #e9ecef;
+.instruction-card .card-content p {
+  color: #555;
   line-height: 1.6;
   font-size: 0.95rem;
-  padding-left: 0;
-}
-
-/* CTA Section */
-.about-cta {
-  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
-  border: 2px solid rgba(139, 92, 246, 0.3);
-  border-radius: 10px;
-  padding: 2rem;
-  margin: 3rem 0;
-  box-shadow: 0 8px 25px -5px rgba(139, 92, 246, 0.3);
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.about-cta:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #8b5cf6 0%, #a78bfa 100%);
-}
-
-.about-cta:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 35px -5px rgba(139, 92, 246, 0.4);
-  border-color: rgba(139, 92, 246, 0.5);
-}
-
-.about-cta .card-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.about-cta .card-icon {
-  width: 48px;
-  height: 48px;
-  background: rgba(139, 92, 246, 0.2);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 1rem;
-  flex-shrink: 0;
-}
-
-.cta-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #ffffff;
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.cta-description {
-  color: #e9ecef;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-  line-height: 1.6;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .about-title {
-    font-size: 2rem;
+  .about-page {
+    padding: 1rem 0.5rem;
   }
 
   .about-content {
@@ -331,19 +155,33 @@
     gap: 1.5rem;
   }
 
-  .about-card {
-    padding: 1.5rem;
+  .instructions-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .about-cta {
-    padding: 2rem 1.5rem;
+  .section-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-page {
+    padding: 1rem 0.25rem;
   }
 
-  .instruction-header {
-    align-items: flex-start;
-  }
-
+  .about-content,
   .instructions-grid {
     gap: 1rem;
+  }
+
+  .instruction-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
+  }
+
+  .instruction-card .card-content {
+    gap: 0.75rem;
   }
 }

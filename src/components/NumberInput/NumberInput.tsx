@@ -1,5 +1,5 @@
 import React from 'react';
-import { Minus, Plus } from 'lucide-react';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 import './NumberInput.css';
 
 interface NumberInputProps {
@@ -8,21 +8,16 @@ interface NumberInputProps {
   min?: number;
   max?: number;
   step?: number;
-  placeholder?: string;
-  className?: string;
-  disabled?: boolean;
 }
 
-export function NumberInput({
-  value,
-  onChange,
-  min = 0,
-  max,
-  step = 1,
-  placeholder,
-  className = '',
-  disabled = false
-}: NumberInputProps) {
+export function NumberInput({ value, onChange, min = 0, max = 999, step = 1 }: NumberInputProps) {
+  const handleIncrement = () => {
+    const newValue = value + step;
+    if (newValue <= max) {
+      onChange(newValue);
+    }
+  };
+
   const handleDecrement = () => {
     const newValue = value - step;
     if (newValue >= min) {
@@ -30,56 +25,44 @@ export function NumberInput({
     }
   };
 
-  const handleIncrement = () => {
-    const newValue = value + step;
-    if (max === undefined || newValue <= max) {
-      onChange(newValue);
-    }
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value) || 0;
-    if (newValue >= min && (max === undefined || newValue <= max)) {
+    if (newValue >= min && newValue <= max) {
       onChange(newValue);
     }
   };
 
-  const canDecrement = !disabled && value > min;
-  const canIncrement = !disabled && (max === undefined || value < max);
-
   return (
-    <div className={`number-input ${className}`}>
-      <button
-        type="button"
-        className="number-input-button decrement"
-        onClick={handleDecrement}
-        disabled={!canDecrement}
-        aria-label="Decrease value"
-      >
-        <Minus size={18} />
-      </button>
+    <div className="number-input-container">
+      <div className="number-input-wrapper">
+        <button
+          className="number-input-button"
+          onClick={handleDecrement}
+          disabled={value <= min}
+          type="button"
+        >
+          <ChevronDown size={20} />
+        </button>
 
-      <input
-        type="number"
-        value={value}
-        onChange={handleInputChange}
-        min={min}
-        max={max}
-        step={step}
-        placeholder={placeholder}
-        className="number-input-field"
-        disabled={disabled}
-      />
+        <input
+          type="number"
+          className="number-input-field"
+          value={value}
+          onChange={handleInputChange}
+          min={min}
+          max={max}
+          step={step}
+        />
 
-      <button
-        type="button"
-        className="number-input-button increment"
-        onClick={handleIncrement}
-        disabled={!canIncrement}
-        aria-label="Increase value"
-      >
-        <Plus size={18} />
-      </button>
+        <button
+          className="number-input-button"
+          onClick={handleIncrement}
+          disabled={value >= max}
+          type="button"
+        >
+          <ChevronUp size={20} />
+        </button>
+      </div>
     </div>
   );
 }

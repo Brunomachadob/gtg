@@ -73,9 +73,8 @@ export function Statistics() {
       <div className="stats-summary">
         {/* Weekly Stats Card */}
         <Card
-          color="blue"
           title="This Week"
-          icon={<Calendar size={24} />}
+          icon={Calendar}
         >
           <div className="stat-value">{stats.total.weekly}</div>
           <div className="stat-unit">reps total</div>
@@ -93,9 +92,8 @@ export function Statistics() {
 
         {/* Monthly Stats Card */}
         <Card
-          color="green"
           title="This Month"
-          icon={<Calendar size={24} />}
+          icon={Calendar}
         >
           <div className="stat-value">{stats.total.monthly}</div>
           <div className="stat-unit">reps total</div>
@@ -113,9 +111,8 @@ export function Statistics() {
 
         {/* Current Streak Card */}
         <Card
-          color="red"
           title="Current Streak"
-          icon={<Flame size={24} />}
+          icon={Flame}
         >
           <div className="stat-value">{stats.total.streak}</div>
           <div className="stat-unit">reps total</div>
@@ -133,9 +130,8 @@ export function Statistics() {
 
         {/* Bonus Days Card */}
         <Card
-          color="purple"
           title="Bonus Days"
-          icon={<TrendingUp size={24} />}
+          icon={TrendingUp}
         >
           <div className="stat-value">{stats.total.bonusDays}</div>
           <div className="stat-unit">days exceeded minimum</div>
@@ -165,9 +161,8 @@ export function Statistics() {
       {/* Daily Progress Graph Section */}
       <div className="daily-progress-graph">
         <Card
-          color="orange"
           title="30-Day Progress"
-          icon={<BarChart3 size={24} />}
+          icon={BarChart3}
         >
           <svg
             viewBox={`0 0 ${chartWidth} ${chartHeight}`}

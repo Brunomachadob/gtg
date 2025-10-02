@@ -1,39 +1,53 @@
-import React from "react";
+import React from 'react';
+import { LucideIcon } from 'lucide-react';
 
 import './Card.css';
 
-export interface CardProps {
-  color: 'blue' | 'green' | 'red' | 'orange' | 'purple';
-  title: string
+interface CardProps {
+  children: React.ReactNode;
+  title?: string;
   onClick?: () => void;
-  icon: React.ReactNode;
-  leftIcon?: React.ReactNode;
-  children?: React.ReactNode;
+  className?: string;
+  clickable?: boolean;
+  icon?: LucideIcon;
+  iconSize?: number;
 }
 
-export function Card({ title, children, color, icon, leftIcon, onClick }: CardProps) {
+export function Card({
+  children,
+  title,
+  onClick,
+  className = '',
+  clickable = false,
+  icon: Icon,
+  iconSize = 16
+}: CardProps) {
+  const cardClasses = [
+    'card',
+    clickable || onClick ? 'card-clickable' : '',
+    className
+  ].filter(Boolean).join(' ');
 
   return (
-    <div className={`card card-${color}`} onClick={onClick}>
-      <div className="card-header">
-        <div className="card-header-left">
-          <div className="card-icon">
-            {icon}
-          </div>
-          <div className="card-header-title">{title}</div>
+    <div className={cardClasses} onClick={onClick}>
+      {title && (
+        <div className="card-header">
+          <h2 className="card-title">{title}</h2>
+          {Icon && (
+            <div className="card-header-icon">
+              <Icon size={iconSize} />
+            </div>
+          )}
         </div>
-        {
-          leftIcon &&
-          <div className="card-header-right">
-            <button className="card-icon">
-              {leftIcon}
-            </button>
-          </div>
-        }
-      </div>
+      )}
       <div className="card-content">
         {children}
       </div>
+      {(clickable || onClick) && Icon && !title && (
+        <div className="card-action-icon">
+          <Icon size={iconSize} />
+        </div>
+      )}
     </div>
   );
 }

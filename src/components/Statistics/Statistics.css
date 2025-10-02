@@ -1,7 +1,7 @@
 /* Statistics Component - Aggressive Fitness Theme */
 .statistics-page {
   padding: 1rem 0;
-  color: #f8f9fa;
+  color: #333;
 }
 
 /* Page Header */
@@ -16,7 +16,6 @@
 .stats-header h2 {
   font-size: 2rem;
   font-weight: 700;
-  color: #ffffff;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -33,7 +32,6 @@
 .stat-value {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #ffffff;
   line-height: 1;
   text-align: center;
 }
@@ -49,7 +47,7 @@
 
 .bonus-average {
   font-size: 0.875rem;
-  color: #a78bfa;
+  color: #8b5cf6;
   font-weight: 600;
   text-align: center;
 }
@@ -61,7 +59,7 @@
   gap: 0.5rem;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .exercise-stat {
@@ -72,12 +70,10 @@
 }
 
 .exercise-name {
-  color: #6c757d;
   font-weight: 500;
 }
 
 .exercise-value {
-  color: #ffffff;
   font-weight: 600;
 }
 
@@ -91,15 +87,6 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 2rem;
-}
-
-.graph-header h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 /* Chart Bars */
@@ -127,7 +114,7 @@
   gap: 2rem;
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .legend-item {
@@ -135,7 +122,6 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: #ffffff;
   font-weight: 500;
 }
 
@@ -159,7 +145,7 @@
 .tooltip {
   position: absolute;
   background: rgba(0, 0, 0, 0.9);
-  color: #ffffff;
+  color: white;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
   font-size: 0.875rem;

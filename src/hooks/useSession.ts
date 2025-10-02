@@ -159,6 +159,7 @@ export function useSession(sets: number, todayExercise: Exercise, reminderInterv
 
   // Remove a specific set by index
   const removeSet = (idx: number) => {
+
     if (idx < 0 || idx >= dailySets.sets.length || dailySets.sets[idx] === 0) return;
 
     const updated = [...dailySets.sets];

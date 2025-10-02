@@ -157,6 +157,11 @@ export function Statistics() {
         </Card>
       </div>
 
+      <div className="stats-header">
+        <BarChart3 className="text-purple-600" size={24} />
+        <h2>Progress over time</h2>
+      </div>
+
       {/* Daily Progress Graph Section */}
       <div className="daily-progress-graph">
         <Card

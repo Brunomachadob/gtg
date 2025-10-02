@@ -89,7 +89,7 @@
       <option name="presentableId" value="Default" />
       <updated>1759063359229</updated>
       <workItem from="1759063360378" duration="78087000" />
-      <workItem from="1759314485022" duration="21063000" />
+      <workItem from="1759314485022" duration="25279000" />
     </task>
     <servers />
   </component>
@@ -98,17 +98,5 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/Statistics/Statistics.tsx</url>
-          <line>170</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

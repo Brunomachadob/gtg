@@ -1,13 +1,14 @@
 import React from 'react';
-import { Info, Target, Clock, TrendingUp, Calendar, Zap, CheckCircle, Settings, BarChart3 } from 'lucide-react';
+import { Info, Target, TrendingUp, Zap } from 'lucide-react';
+import { Logo } from '../Logo';
 import './About.css';
 
 export function About() {
   return (
     <div className="about-page">
       {/* Page Header */}
+      <Logo variant={"full"} size={"medium"}></Logo>
       <div className="about-header">
-        <h1 className="about-title">Grease the Groove</h1>
         <p className="about-subtitle">
           Master your bodyweight exercises through frequent, submaximal practice
         </p>

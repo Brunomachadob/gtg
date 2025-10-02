@@ -182,7 +182,6 @@
   }
 
   .chart-legend {
-    flex-direction: column;
     gap: 1rem;
   }
 }

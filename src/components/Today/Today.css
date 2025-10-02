@@ -2,9 +2,8 @@
 .today-page {
   padding: 2rem 1rem;
   margin: 0 auto;
-  background: #f5f5f5;
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
 }
 
 /* Exercise Stats Grid */
@@ -43,19 +42,9 @@
   font-size: 4rem;
 }
 
-.exercise-stat-card .exercise-title {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 1rem;
-}
-
 .exercise-stat-card .exercise-main-number {
   font-size: 4rem;
   font-weight: 700;
-  color: #333;
   line-height: 1;
   text-align: center;
   margin-bottom: 1.5rem;
@@ -74,7 +63,7 @@
 
 .exercise-stat-card .exercise-detail-label {
   font-size: 0.75rem;
-  color: #999;
+  color: var(--text-primary-light);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 0.25rem;
@@ -83,7 +72,6 @@
 .exercise-stat-card .exercise-detail-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #333;
 }
 
 /* Today Section */
@@ -95,7 +83,6 @@
 .today-card .today-label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #666;
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
@@ -104,55 +91,13 @@
 .today-card .today-exercise {
   font-size: 2rem;
   font-weight: 700;
-  color: #333;
   margin-bottom: 1.5rem;
-}
-
-.today-card .today-sets-info {
-  font-size: 0.75rem;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.5rem;
 }
 
 .today-card .today-sets-count {
   font-size: 3rem;
   font-weight: 700;
-  color: #333;
   line-height: 1;
-}
-
-/* Expected Section */
-.expected-section {
-  margin-bottom: 3rem;
-}
-
-/* Expected Card Content Styling */
-.expected-card .expected-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #666;
-  margin-bottom: 0.5rem;
-}
-
-.expected-card .expected-exercise {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #333;
-  margin-bottom: 0.5rem;
-}
-
-.expected-card .expected-reps {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #333;
-  line-height: 1;
-}
-
-/* Sets Display */
-.sets-section {
-  margin-bottom: 3rem;
 }
 
 .sets-grid {
@@ -168,8 +113,8 @@
   border-radius: 12px;
   padding: 0.5rem;
   background: white;
-  border: 2px solid #8b5cf6;
-  box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.2);
+  border: 2px solid var(--primary-dark);
+  box-shadow: var(--primary-dark-box-shadow);
   font-weight: 700;
   min-width: 5rem;
   flex: 0;
@@ -177,7 +122,6 @@
 
 .completed-set-card .set-number {
   font-size: 1.5rem;
-  color: #333;
 }
 
 /* X icon for completed sets */
@@ -185,7 +129,6 @@
   position: absolute;
   top: 0.2rem;
   right: 0.2rem;
-  color: #333;
   background: white;
   cursor: pointer;
   border: none;
@@ -206,8 +149,8 @@
 .add-set-button {
   width: 100%;
   margin-top: 2rem;
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-  border: 2px solid #8b5cf6;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border: 2px solid var(--primary);
   border-radius: 50px;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -224,7 +167,7 @@
 }
 
 .add-set-button:hover {
-  box-shadow: 0 8px 25px -5px #6366f1;
+  box-shadow: var(--primary-dark-box-shadow);
 }
 
 .add-set-button:disabled {
@@ -236,7 +179,6 @@
   text-align: center;
   font-size: 3rem;
   font-weight: 700;
-  color: #333;
 }
 
 /* Bottom Navigation */
@@ -246,30 +188,16 @@
   margin-top: 3rem;
 }
 
-.nav-button {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  color: #666;
-  cursor: pointer;
-  padding: 1rem;
-}
-
-.nav-button.active {
-  color: #333;
-  font-weight: 600;
-}
-
 /* Empty sets messages */
 .empty-sets-message {
   text-align: center;
   padding: 2rem 1rem;
-  color: #666;
+  color: var(--text-primary-light);
 }
 
 .empty-subtitle {
   font-size: 0.875rem;
-  color: #999;
+  color: var(--text-primary-light);
 }
 
 .empty-sets-buttons-container {
@@ -278,26 +206,16 @@
   justify-content: center;
 }
 
-.schedule-setup-button,
-.learn-more-button {
+.schedule-setup-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 50px;
-  color: #333;
-  font-weight: 600;
-  cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .schedule-setup-button:hover,
 .learn-more-button:hover {
-  border-color: #333;
-  background: #333;
-  color: white;
+  box-shadow: var(--primary-dark-box-shadow);
 }
 
 /* Modal Styles */
@@ -316,7 +234,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--page-background);
   border-radius: 16px;
   padding: 2rem;
   display: flex;
@@ -331,7 +249,6 @@
 .modal-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #333;
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -351,24 +268,19 @@
 }
 
 .modal-button-primary {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  background: var(--primary-gradient-background);
   border: none;
   color: white;
 }
 
-.modal-button-primary:hover {
-  box-shadow: 0 8px 25px -5px #6366f1;
+.modal-button-primary:hover,
+.modal-button-secondary:hover {
+  box-shadow: var(--primary-dark-box-shadow);
 }
 
 .modal-button-secondary {
   background: white;
-  color: #333;
-  border: 2px solid #6366f1;
-}
-
-.modal-button-secondary:hover {
-  border-color: #8b5cf6;
-  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.15);
+  border: 2px solid var(--primary-dark);
 }
 
 /* Modal input styles */
@@ -383,7 +295,6 @@
 .modal-input-label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #666;
   margin-bottom: 0.5rem;
   display: block;
 }
@@ -396,7 +307,6 @@
 }
 
 .schedule-config-item {
-  background: #f5f5f5;
   border-radius: 12px;
   padding: 1rem;
   display: flex;
@@ -407,7 +317,6 @@
 
 .schedule-day {
   font-weight: 600;
-  color: #333;
   font-size: 0.875rem;
   min-width: 80px;
 }
@@ -418,10 +327,8 @@
 
 .exercise-select {
   width: 100%;
-  background: white;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
-  color: #333;
   padding: 0.5rem 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -430,12 +337,11 @@
 
 .exercise-select:focus {
   outline: none;
-  border-color: #333;
+  border-color: #666;
 }
 
 .exercise-select option {
   background: white;
-  color: #333;
 }
 
 /* Responsive adjustments */

@@ -74,7 +74,6 @@ export function Statistics() {
         {/* Weekly Stats Card */}
         <Card
           title="This Week"
-          icon={Calendar}
         >
           <div className="stat-value">{stats.total.weekly}</div>
           <div className="stat-unit">reps total</div>
@@ -93,7 +92,6 @@ export function Statistics() {
         {/* Monthly Stats Card */}
         <Card
           title="This Month"
-          icon={Calendar}
         >
           <div className="stat-value">{stats.total.monthly}</div>
           <div className="stat-unit">reps total</div>
@@ -112,7 +110,6 @@ export function Statistics() {
         {/* Current Streak Card */}
         <Card
           title="Current Streak"
-          icon={Flame}
         >
           <div className="stat-value">{stats.total.streak}</div>
           <div className="stat-unit">reps total</div>
@@ -131,7 +128,6 @@ export function Statistics() {
         {/* Bonus Days Card */}
         <Card
           title="Bonus Days"
-          icon={TrendingUp}
         >
           <div className="stat-value">{stats.total.bonusDays}</div>
           <div className="stat-unit">days exceeded minimum</div>
@@ -162,7 +158,6 @@ export function Statistics() {
       <div className="daily-progress-graph">
         <Card
           title="30-Day Progress"
-          icon={BarChart3}
         >
           <svg
             viewBox={`0 0 ${chartWidth} ${chartHeight}`}

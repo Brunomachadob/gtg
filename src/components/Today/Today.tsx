@@ -20,6 +20,7 @@ export function Today({ navigateTo }: TodayProps) {
   const todayIdx = DateService.getCurrentDate().getDay();
   const todayExercise = config.days[todayIdx];
   const isRestDay = todayExercise === 'Rest';
+  const isMissingTodayExercise = !todayExercise || (todayExercise as string) === '';
 
   const [showRepsInput, setShowRepsInput] = useState(false);
   const [newSetReps, setNewSetReps] = useState(0);
@@ -48,7 +49,6 @@ export function Today({ navigateTo }: TodayProps) {
   // Calculate completed sets
   const completedSets = dailySets.sets.filter((reps: number) => reps > 0).length;
   const totalReps = dailySets.sets.reduce((acc: number, reps: number) => acc + reps, 0);
-  const hasReachedMinimum = completedSets >= config.sets;
 
   const formatTime = (ms: number) => {
     const minutes = Math.floor(ms / (1000 * 60));
@@ -203,32 +203,31 @@ export function Today({ navigateTo }: TodayProps) {
     <div className="empty-sets-message">
       <p className="empty-subtitle">Today is your rest day. Take time to recover and come back stronger tomorrow!</p>
     </div>
-  ) : totalReps == 0 ? (
+  ) : isMissingTodayExercise ? (
     <div className="empty-sets-message">
-      <p>No sets completed yet today</p>
-      <p className="empty-subtitle">Tap the "Add Set" button above to get started</p>
-    </div>
-  ) : !todayExercise || (todayExercise as string) === '' ? (
-    <div className="empty-sets-message">
-      <Calendar className="empty-icon" size={48} />
       <p>Exercise Not Set</p>
       <p className="empty-subtitle">There's no exercise scheduled for today. Please set up your schedule to start exercising.</p>
       <div className="flex justify-center empty-sets-buttons-container">
         <button
-          className="schedule-setup-button"
+          className="schedule-setup-button modal-button modal-button-primary"
           onClick={handleUpdateSchedule}
         >
           <Calendar size={20} />
           Set Up Schedule
         </button>
         <button
-          className="learn-more-button"
+          className="schedule-setup-button modal-button modal-button-secondary"
           onClick={() => navigateTo('about')}
         >
           <Info size={20} />
           Learn More
         </button>
       </div>
+    </div>
+  ) : totalReps == 0 ? (
+    <div className="empty-sets-message">
+      <p>No sets completed yet today</p>
+      <p className="empty-subtitle">Tap the "Add Set" button above to get started</p>
     </div>
   ) : null;
 
@@ -249,7 +248,7 @@ export function Today({ navigateTo }: TodayProps) {
             </div>
           </div>
           {/* Add Set Button */}
-          {!isRestDay &&
+          {!isMissingTodayExercise && !isRestDay &&
             <button
               className="add-set-button"
               onClick={handleAddSet}
@@ -339,7 +338,6 @@ export function Today({ navigateTo }: TodayProps) {
           icon={Edit3}
           className="exercise-stat-card"
         >
-          <div className="exercise-main-number">{getExerciseData('Dips').currentMax}</div>
           <div className="exercise-details">
             <div className="exercise-detail">
               <div className="exercise-detail-label">Max</div>
@@ -359,7 +357,6 @@ export function Today({ navigateTo }: TodayProps) {
           icon={Edit3}
           className="exercise-stat-card"
         >
-          <div className="exercise-main-number">{getExerciseData('Pull Ups').currentMax}</div>
           <div className="exercise-details">
             <div className="exercise-detail">
               <div className="exercise-detail-label">Max</div>

@@ -1,16 +1,11 @@
 .developer-page {
   padding: 20px;
-  padding-top: 40px; /* Extra top padding for the fixed header */
   padding-bottom: 100px; /* Extra space for navigation */
-  background: #212529; /* Dark background like other pages */
   min-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   box-sizing: border-box;
-  color: #f8f9fa; /* Light text color */
-  /* Firefox scrollbar styling */
-  scrollbar-width: thin;
-  scrollbar-color: #495057 #343a40;
+  color: #333; /* Light text color */
 }
 
 /* Custom scrollbar styling for webkit browsers */
@@ -18,29 +13,11 @@
   width: 8px;
 }
 
-.developer-page::-webkit-scrollbar-track {
-  background: #343a40;
-  border-radius: 4px;
-}
-
-.developer-page::-webkit-scrollbar-thumb {
-  background: #495057;
-  border-radius: 4px;
-  transition: background 0.2s ease;
-}
-
-.developer-page::-webkit-scrollbar-thumb:hover {
-  background: #6c757d;
-}
-
 .developer-header {
   margin-bottom: 32px;
   padding: 24px;
-  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
   border-radius: 12px;
-  box-shadow: 0 8px 25px -5px rgba(0, 128, 255, 0.3);
-  border: 2px solid rgba(0, 128, 255, 0.3);
-  color: #f8f9fa;
+  color: #333;
 }
 
 .developer-header .flex {
@@ -61,7 +38,6 @@
 
 .developer-header h2 {
   margin: 0;
-  color: #f8f9fa;
   font-size: 1.5rem;
   font-weight: 700;
 }
@@ -79,7 +55,6 @@
 }
 
 .developer-description {
-  color: #d1d5db;
   margin: 12px 0 0 0;
   line-height: 1.6;
   font-size: 0.95rem;
@@ -194,16 +169,11 @@
 }
 
 .env-item {
-  padding: 12px 16px;
-  background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
-  border-radius: 8px;
-  border: 2px solid rgba(255, 128, 0, 0.3);
-  font-size: 0.9rem;
-  color: #f8f9fa;
+  font-size: 1rem;
 }
 
 .env-item strong {
-  color: #ffffff;
+  font-weight: 600;
   margin-right: 8px;
 }
 
@@ -218,10 +188,6 @@
   flex-direction: column;
   gap: 8px;
   padding: 16px;
-  background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
-  border-radius: 8px;
-  border: 2px solid rgba(255, 128, 0, 0.3);
-  color: #f8f9fa;
 }
 
 .date-info-item {
@@ -229,13 +195,12 @@
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
-  color: #f8f9fa;
 }
 
 .mock-indicator {
   background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
   padding: 2px 6px;
+  color: white;
   border-radius: 4px;
   font-size: 0.7rem;
   font-weight: 700;
@@ -255,24 +220,17 @@
   flex-direction: column;
   gap: 6px;
   font-weight: 600;
-  color: #f8f9fa;
   font-size: 0.9rem;
 }
 
 .date-input {
   padding: 10px 12px;
-  border: 2px solid rgba(0, 128, 255, 0.3);
   border-radius: 8px;
   font-size: 0.9rem;
-  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
-  color: #f8f9fa;
-  transition: all 0.2s ease;
 }
 
 .date-input:focus {
   outline: none;
-  border-color: #0080ff;
-  box-shadow: 0 0 0 3px rgba(0, 128, 255, 0.1);
 }
 
 .date-buttons {
@@ -313,90 +271,6 @@
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
-}
-
-/* Dark mode styles */
-@media (prefers-color-scheme: dark) {
-  .developer-page {
-    background: #111827;
-    color: #f9fafb;
-  }
-
-  .developer-header {
-    background: #1f2937;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .developer-header h2 {
-    color: #f9fafb;
-  }
-
-  .developer-description {
-    color: #d1d5db;
-  }
-
-  .developer-section {
-    background: #1f2937;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .developer-section h3 {
-    color: #f9fafb;
-    border-bottom-color: #374151;
-  }
-
-  .env-item {
-    background: #111827;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .env-item strong {
-    color: #f9fafb;
-  }
-
-  .current-date-info {
-    background: #111827;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .date-info-item {
-    color: #f9fafb;
-  }
-
-  .date-label {
-    color: #f9fafb;
-  }
-
-  .date-input {
-    background: #111827;
-    border-color: #374151;
-    color: #f9fafb;
-  }
-
-  .date-input:focus {
-    border-color: #3b82f6;
-    background: #1f2937;
-  }
-
-  /* Fix icon visibility in dark mode */
-  .developer-header svg,
-  .date-info-item svg,
-  .dev-button svg {
-    color: #f9fafb !important;
-  }
-
-  /* Ensure button text and icons are visible */
-  .dev-button {
-    color: white !important;
-  }
-
-  .dev-button svg {
-    color: white !important;
-  }
 }
 
 /* Responsive design */

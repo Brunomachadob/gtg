@@ -4,3 +4,4 @@ export { Statistics } from './Statistics/Statistics';
 export { About } from './About/About';
 export { Developer } from './Developer/Developer';
 export { Logo } from './Logo/Logo';
+export { Card } from './Card/Card';

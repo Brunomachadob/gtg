@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Code, RotateCcw, Trash2, Calendar, Clock } from 'lucide-react';
 import { DateService } from '../../services/DateService';
 import {StorageService} from "../../services/StorageService.ts";
+import { Card } from '../Card/Card';
 import {useRouter} from "../../hooks/useRouter.ts";
 import './Developer.css';
 
@@ -67,8 +68,7 @@ export function Developer() {
       </div>
 
       <div className="developer-sections">
-        <div className="developer-section">
-          <h3>Date & Time Control</h3>
+        <Card title="Date & Time">
           <div className="date-controls">
             <div className="current-date-info">
               <div className="date-info-item">
@@ -111,10 +111,9 @@ export function Developer() {
               </div>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="developer-section">
-          <h3>Session Management</h3>
+        <Card title="Session Management">
           <div className="developer-controls">
             <button
               className="dev-button reset-button"
@@ -125,10 +124,9 @@ export function Developer() {
               Reset Today's Sets
             </button>
           </div>
-        </div>
+        </Card>
 
-        <div className="developer-section">
-          <h3>Data Management</h3>
+        <Card title="Data Management">
           <div className="developer-controls">
             <button
               className="dev-button danger-button"
@@ -139,10 +137,9 @@ export function Developer() {
               Clear All Data
             </button>
           </div>
-        </div>
+        </Card>
 
-        <div className="developer-section">
-          <h3>Environment Info</h3>
+        <Card title="Environment Info">
           <div className="env-info">
             <div className="env-item">
               <strong>Mode:</strong> Development
@@ -154,7 +151,8 @@ export function Developer() {
               <strong>User Agent:</strong> {navigator.userAgent}
             </div>
           </div>
-        </div>
+        </Card>
+
       </div>
     </div>
   );
